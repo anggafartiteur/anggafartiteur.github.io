@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAI.EXE — PRESS START</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --black:   #000000;
+  --white:   #fcfcfc;
+  --bg:      #1a1a2e;
+  --panel:   #16213e;
+  --darker:  #0f0e17;
+  --green:   #00e676;
+  --yellow:  #ffd600;
+  --red:     #ff1744;
+  --blue:    #2979ff;
+  --cyan:    #00e5ff;
+  --purple:  #d500f9;
+  --orange:  #ff6d00;
+  --gray:    #546e7a;
+  --silver:  #90a4ae;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--darker);
+  color: var(--white);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  line-height: 1.8;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+}
+
+/* SCANLINES */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px,
+    rgba(0,0,0,0.22) 1px, rgba(0,0,0,0.22) 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===========================
+   TITLE SCREEN
+=========================== */
+#title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--darker);
+  position: relative;
+  overflow: hidden;
+  padding: 40px 20px;
+}
+
+#title-screen canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.title-content { position: relative; z-index: 1; text-align: center; }
+
+.logo-line1 {
+  font-size: clamp(14px, 3.5vw, 32px);
+  color: var(--yellow);
+  text-shadow: 4px 4px 0 #9a8200, -2px 0 0 var(--orange), 2px 0 0 var(--red);
+  display: block;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  animation: logoglitch 4s steps(1) infinite;
+}
+
+.logo-line2 {
+  font-size: clamp(7px, 1.2vw, 11px);
+  color: var(--cyan);
+  display: block;
+  letter-spacing: 6px;
+  text-shadow: 2px 2px 0 #006a7a;
+  margin-bottom: 40px;
+}
+
+@keyframes logoglitch {
+  0%,88%,100% { text-shadow: 4px 4px 0 #9a8200,-2px 0 0 var(--orange),2px 0 0 var(--red); transform: none; }
+  90% { text-shadow: -6px 4px 0 var(--red), 6px 4px 0 var(--cyan); transform: skewX(-3deg); }
+  93% { text-shadow: 4px 4px 0 #9a8200; transform: none; }
+}
+
+.hero-sprite-wrap {
+  margin: 0 auto 36px;
+  width: 80px; height: 80px;
+  animation: bobble 0.6s steps(2) infinite;
+}
+
+@keyframes bobble { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+.press-start-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--white);
+  letter-spacing: 2px;
+  animation: blink 1s step-end infinite;
+  cursor: pointer;
+  padding: 14px 28px;
+  border: 4px solid var(--white);
+  background: transparent;
+  display: inline-block;
+  transition: none;
+}
+
+.press-start-btn:hover {
+  background: var(--white);
+  color: var(--darker);
+  animation: none;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.title-hint { font-size: 6px; color: var(--gray); margin-top: 20px; letter-spacing: 1px; line-height: 2.2; }
+.title-copy  { font-size: 6px; color: var(--gray); margin-top: 40px; letter-spacing: 1px; }
+
+/* ===========================
+   GAME WORLD
+=========================== */
+#game-world { display: none; }
+#game-world.active { display: block; }
+
+/* ===========================
+   HUD
+=========================== */
+.hud {
+  background: var(--black);
+  border-bottom: 4px solid var(--yellow);
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+}
+
+.hud-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.hud-name { font-size: 7px; color: var(--yellow); }
+
+.hp-row { display: flex; align-items: center; gap: 6px; }
+.hp-label { font-size: 6px; color: var(--red); }
+.hp-bar { width: 72px; height: 10px; background: #111; border: 2px solid var(--white); overflow: hidden; }
+.hp-fill { width: 78%; height: 100%; background: repeating-linear-gradient(90deg, var(--green) 0 6px, #007a3a 6px 8px); }
+.hp-num  { font-size: 6px; color: var(--green); }
+
+.xp-row { display: flex; align-items: center; gap: 6px; }
+.xp-label { font-size: 6px; color: var(--cyan); }
+.xp-bar { width: 56px; height: 8px; background: #111; border: 2px solid var(--white); overflow: hidden; }
+.xp-fill { width: 65%; height: 100%; background: var(--cyan); }
+
+.hud-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.hud-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  padding: 6px 10px;
+  background: var(--black);
+  color: var(--silver);
+  border: 2px solid var(--gray);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.hud-btn:hover, .hud-btn.active {
+  background: var(--yellow);
+  color: var(--black);
+  border-color: var(--yellow);
+}
+
+.hud-gold { font-size: 6px; color: var(--yellow); white-space: nowrap; }
+
+/* ===========================
+   WORLD MAP HERO SECTION
+=========================== */
+#world {
+  padding: 40px 20px;
+  background: var(--bg);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+
+#world::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.tile-map {
+  display: grid;
+  grid-template-columns: repeat(16, 20px);
+  grid-template-rows: repeat(10, 20px);
+  border: 4px solid var(--white);
+  box-shadow: 6px 6px 0 var(--black);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.t           { width: 20px; height: 20px; }
+.t-g         { background: #2d5a1b; }
+.t-gg        { background: #3a7022; }
+.t-w         { background: #1565c0; }
+.t-ww        { background: #1976d2; }
+.t-m         { background: #5d4037; }
+.t-mm        { background: #795548; }
+.t-s         { background: #f9a825; }
+.t-r         { background: #616161; }
+.t-f         { background: #1b5e20; }
+.t-ff        { background: #256029; }
+.t-h         { background: #880e4f; }
+.t-player    { background: var(--yellow); position: relative; animation: map-pulse 0.8s steps(2) infinite; }
+.t-player::before { content:''; position:absolute; inset:5px; background:var(--red); }
+
+@keyframes map-pulse { 0%{opacity:1} 50%{opacity:0.5} }
+
+.map-label-row { font-size: 5px; color: var(--yellow); margin-top: 8px; letter-spacing: 1px; }
+
+.world-info { flex: 1; min-width: 280px; }
+
+/* DIALOG BOX */
+.dialog-box {
+  background: var(--black);
+  border: 4px solid var(--white);
+  box-shadow: 4px 4px 0 var(--gray);
+  padding: 18px 20px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.dialog-cursor {
+  position: absolute;
+  bottom: 10px; right: 14px;
+  width: 8px; height: 8px;
+  background: var(--white);
+  animation: blink 0.6s step-end infinite;
+}
+
+.dialog-portrait {
+  float: left;
+  width: 48px; height: 48px;
+  margin-right: 16px;
+  border: 2px solid var(--gray);
+}
+
+.dialog-speaker { font-size: 7px; color: var(--cyan); display: block; margin-bottom: 10px; }
+.dialog-text    { font-size: 7px; color: var(--white); line-height: 2.2; overflow: hidden; }
+
+.typewriter {
+  animation: type-in 3.5s steps(90, end) both;
+}
+@keyframes type-in { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0% 0 0)} }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.stat-item {
+  background: var(--black);
+  border: 2px solid var(--gray);
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label { font-size: 6px; color: var(--silver); }
+.stat-val   { font-size: 7px; color: var(--yellow); }
+.stat-val-green  { color: var(--green); animation: blink 1s step-end infinite; }
+
+/* ===========================
+   SECTION WRAPPER
+=========================== */
+.section-wrap { padding: 40px 20px; }
+.section-wrap:nth-child(even) { background: var(--panel); }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.section-icon {
+  width: 22px; height: 22px;
+  background: var(--yellow);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  flex-shrink: 0;
+}
+
+.section-title-text {
+  font-size: 9px;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--yellow);
+  padding-bottom: 6px;
+}
+
+/* ===========================
+   EQUIPMENT / SKILLS
+=========================== */
+.equip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.equip-slot {
+  background: var(--black);
+  border: 3px solid var(--gray);
+  padding: 14px;
+  position: relative;
+}
+
+.equip-slot:hover { border-color: var(--yellow); }
+
+.equip-slot::before {
+  content: attr(data-rarity);
+  position: absolute;
+  top: -10px; right: 8px;
+  background: var(--black);
+  font-size: 5px;
+  padding: 2px 6px;
+  letter-spacing: 1px;
+}
+
+.r-legendary::before { color: var(--yellow); border: 1px solid var(--yellow); }
+.r-epic::before      { color: var(--purple); border: 1px solid var(--purple); }
+.r-rare::before      { color: var(--cyan);   border: 1px solid var(--cyan); }
+.r-common::before    { color: var(--silver); border: 1px solid var(--silver); }
+
+.equip-name { font-size: 7px; color: var(--white); margin-bottom: 10px; }
+
+.bar-header { display:flex; justify-content:space-between; margin-bottom:4px; }
+.bar-key    { font-size:5px; color:var(--silver); }
+.bar-val    { font-size:5px; color:var(--white); }
+
+.bar-track { height:8px; background:#111; border:2px solid #333; overflow:hidden; margin-bottom:6px; }
+.bar-fill  { height:100%; animation: bfill 1.5s ease both; }
+@keyframes bfill { from{width:0!important} }
+
+.bf-legend  { background:var(--yellow); }
+.bf-epic    { background:var(--purple); }
+.bf-rare    { background:var(--cyan); }
+.bf-common  { background:var(--silver); }
+
+.equip-note { font-size:5px; color:var(--gray); }
+
+/* ===========================
+   INVENTORY / PROJECTS
+=========================== */
+.inventory {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 18px;
+}
+
+.item-card {
+  background: var(--black);
+  border: 3px solid var(--gray);
+  cursor: pointer;
+  position: relative;
+  transition: none;
+}
+
+.item-card:hover {
+  border-color: var(--white);
+  transform: translate(-3px,-3px);
+  box-shadow: 3px 3px 0 var(--yellow);
+}
+
+.item-top {
+  padding: 14px;
+  border-bottom: 2px solid #1a1a1a;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.item-icon-box {
+  width: 48px; height: 48px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.item-meta { flex: 1; }
+.item-name { font-size: 7px; color: var(--white); margin-bottom: 6px; line-height: 1.7; }
+.item-type { font-size: 5px; color: var(--purple); margin-bottom: 8px; }
+
+.badge-row { display:flex; gap:6px; flex-wrap:wrap; }
+
+.badge {
+  font-size: 5px;
+  padding: 2px 5px;
+  border: 1px solid;
+}
+
+.b-green  { color:var(--green);  border-color:var(--green); }
+.b-yellow { color:var(--yellow); border-color:var(--yellow); }
+.b-cyan   { color:var(--cyan);   border-color:var(--cyan); }
+.b-purple { color:var(--purple); border-color:var(--purple); }
+.b-red    { color:var(--red);    border-color:var(--red); }
+.b-orange { color:var(--orange); border-color:var(--orange); }
+
+.item-desc {
+  padding: 12px 14px;
+  font-size: 6px;
+  color: var(--silver);
+  line-height: 2.2;
+}
+
+.item-actions {
+  padding: 10px 14px;
+  border-top: 2px solid #1a1a1a;
+  display: flex;
+  gap: 10px;
+}
+
+.item-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  padding: 6px 10px;
+  background: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.ibtn-g { color:var(--green);  border-color:var(--green); }
+.ibtn-g:hover { background:var(--green); color:var(--black); }
+.ibtn-c { color:var(--cyan);   border-color:var(--cyan); }
+.ibtn-c:hover { background:var(--cyan); color:var(--black); }
+
+/* ===========================
+   QUEST LOG
+=========================== */
+.quest-log { max-width: 760px; }
+
+.quest-item {
+  background: var(--black);
+  border: 3px solid var(--gray);
+  margin-bottom: 14px;
+}
+
+.quest-item.active    { border-color: var(--yellow); }
+.quest-item.completed { border-color: var(--green); }
+
+.quest-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.q-status {
+  font-size: 5px;
+  padding: 3px 8px;
+}
+
+.q-active   { background:var(--yellow); color:var(--black); animation:blink 1s step-end infinite; }
+.q-complete { background:var(--green);  color:var(--black); }
+
+.q-title { font-size: 7px; color: var(--white); flex: 1; }
+.q-date  { font-size: 5px; color: var(--gray); margin-left: auto; white-space: nowrap; }
+
+.quest-body { padding: 14px; }
+.q-company { font-size: 6px; color: var(--cyan); margin-bottom: 8px; }
+.q-desc    { font-size: 6px; color: var(--silver); line-height: 2.2; margin-bottom: 12px; }
+
+.q-rewards { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.q-rlabel  { font-size:5px; color:var(--yellow); }
+
+/* ===========================
+   SAVE / CONTACT
+=========================== */
+#contact-section {
+  background: var(--darker);
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 18px,
+    rgba(255,214,0,0.04) 18px, rgba(255,214,0,0.04) 20px
+  );
+  pointer-events: none;
+}
+
+.save-box {
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--black);
+  border: 4px solid var(--yellow);
+  box-shadow: 0 0 0 4px var(--black), 8px 8px 0 var(--yellow);
+  padding: 36px 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.save-title    { font-size: 11px; color: var(--yellow); margin-bottom: 8px; letter-spacing: 2px; }
+.save-subtitle { font-size: 6px; color: var(--gray); margin-bottom: 28px; letter-spacing: 1px; }
+
+.save-slot {
+  background: #0a0a0a;
+  border: 2px solid #2a2a2a;
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.save-slot:hover { border-color: var(--yellow); background: #1a1800; }
+
+.ss-label { font-size: 6px; color: var(--silver); }
+.ss-val   { font-size: 6px; color: var(--cyan); }
+.ss-open  { color: var(--green); }
+
+.save-email {
+  display: block;
+  font-size: 8px;
+  color: var(--green);
+  text-decoration: none;
+  padding: 12px;
+  border: 2px solid var(--green);
+  margin: 20px 0 24px;
+  letter-spacing: 1px;
+}
+
+.save-email:hover { background: var(--green); color: var(--black); }
+
+.social-row { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+
+.soc-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  padding: 9px 12px;
+  background: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.soc-btn:hover { filter: invert(1); }
+.soc-gh { color:var(--white);  border-color:var(--white); }
+.soc-li { color:var(--cyan);   border-color:var(--cyan); }
+.soc-tw { color:var(--purple); border-color:var(--purple); }
+
+/* ===========================
+   FOOTER
+=========================== */
+footer {
+  background: var(--black);
+  border-top: 4px solid var(--yellow);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.f-text   { font-size: 6px; color: var(--gray); letter-spacing: 1px; }
+.f-credit { font-size: 6px; color: var(--yellow); }
+
+/* ===========================
+   TOASTS
+=========================== */
+.notif-stack {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.notif {
+  background: var(--black);
+  border: 3px solid var(--green);
+  padding: 8px 14px;
+  font-size: 6px;
+  color: var(--green);
+  letter-spacing: 1px;
+  animation: nin 0.2s steps(3) both, nout 0.3s steps(3) 3s forwards;
+}
+
+@keyframes nin  { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
+@keyframes nout { from{opacity:1} to{opacity:0} }
+
+/* ===========================
+   SCREEN WIPE
+=========================== */
+.screen-wipe {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 9997;
+  pointer-events: none;
+  animation: swipe 0.7s steps(8) forwards;
+}
+
+@keyframes swipe { from{clip-path:inset(0)} to{clip-path:inset(0 0 0 100%)} }
+
+/* ===========================
+   FADE UP OBSERVER
+=========================== */
+.fu { opacity:0; transform:translateY(12px); transition: opacity .35s, transform .35s; }
+.fu.vis { opacity:1; transform:none; }
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width:640px) {
+  .tile-map { grid-template-columns:repeat(16,16px); grid-template-rows:repeat(10,16px); }
+  .t { width:16px; height:16px; }
+  .hud-nav .hud-btn { font-size:5px; padding:4px 6px; }
+  .logo-line1 { font-size:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     TITLE SCREEN
+============================= -->
+<div id="title-screen">
+  <canvas id="starfield"></canvas>
+  <div class="title-content">
+
+    <span class="logo-line1">KAI NAKAMURA</span>
+    <span class="logo-line2">PORTFOLIO RPG  v2.6</span>
+
+    <!-- 8-bit character sprite -->
+    <div class="hero-sprite-wrap">
+      <svg width="80" height="80" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"
+           style="image-rendering:pixelated;width:80px;height:80px;display:block">
+        <rect x="3" y="0" width="4" height="1" fill="#3e2000"/>
+        <rect x="2" y="1" width="6" height="1" fill="#3e2000"/>
+        <rect x="2" y="2" width="6" height="2" fill="#f5c89a"/>
+        <rect x="3" y="3" width="1" height="1" fill="#1a1a2e"/>
+        <rect x="6" y="3" width="1" height="1" fill="#1a1a2e"/>
+        <rect x="4" y="4" width="2" height="1" fill="#e07070"/>
+        <rect x="2" y="5" width="6" height="3" fill="#2979ff"/>
+        <rect x="1" y="5" width="1" height="2" fill="#2979ff"/>
+        <rect x="9" y="5" width="1" height="2" fill="#2979ff"/>
+        <rect x="3" y="6" width="4" height="2" fill="#00e5ff"/>
+        <rect x="3" y="6" width="4" height="1" fill="#1a1a2e"/>
+        <rect x="3" y="8" width="2" height="2" fill="#1a237e"/>
+        <rect x="6" y="8" width="2" height="2" fill="#1a237e"/>
+        <rect x="2" y="9" width="3" height="1" fill="#3e2000"/>
+        <rect x="6" y="9" width="3" height="1" fill="#3e2000"/>
+      </svg>
+    </div>
+
+    <div class="press-start-btn" id="start-btn" onclick="startGame()">PRESS START</div>
+
+    <div class="title-hint">
+      USE ARROW KEYS TO NAVIGATE<br>
+      [A] TO SELECT  [B] TO BACK
+    </div>
+
+    <p class="title-copy">(C) 2026 KAI NAKAMURA STUDIOS. ALL RIGHTS RESERVED.</p>
+  </div>
+</div>
+
+<!-- ============================
+     GAME WORLD
+============================= -->
+<div id="game-world">
+
+  <!-- HUD BAR -->
+  <div class="hud">
+    <div class="hud-left">
+      <span class="hud-name">KAI  LVL.5</span>
+      <div class="hp-row">
+        <span class="hp-label">HP</span>
+        <div class="hp-bar"><div class="hp-fill"></div></div>
+        <span class="hp-num">78/100</span>
+      </div>
+      <div class="xp-row">
+        <span class="xp-label">XP</span>
+        <div class="xp-bar"><div class="xp-fill"></div></div>
+      </div>
+    </div>
+    <nav class="hud-nav">
+      <a href="#world"            class="hud-btn active">MAP</a>
+      <a href="#skills"           class="hud-btn">SKILLS</a>
+      <a href="#projects"         class="hud-btn">ITEMS</a>
+      <a href="#quests"           class="hud-btn">QUESTS</a>
+      <a href="#contact-section"  class="hud-btn">SAVE</a>
+    </nav>
+    <span class="hud-gold">GOLD: 9,240</span>
+  </div>
+
+  <!-- WORLD / HERO -->
+  <div id="world">
+
+    <div class="fu">
+      <div class="map-label-row" style="margin-bottom:8px;">WORLD MAP — INTERNET REALM</div>
+      <div class="tile-map">
+        <!-- Row 1 -->
+        <div class="t t-w"></div><div class="t t-ww"></div><div class="t t-w"></div><div class="t t-w"></div><div class="t t-s"></div><div class="t t-s"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-f"></div><div class="t t-ff"></div><div class="t t-f"></div><div class="t t-mm"></div><div class="t t-m"></div><div class="t t-m"></div>
+        <!-- Row 2 -->
+        <div class="t t-ww"></div><div class="t t-w"></div><div class="t t-w"></div><div class="t t-s"></div><div class="t t-s"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-f"></div><div class="t t-ff"></div><div class="t t-f"></div><div class="t t-mm"></div><div class="t t-m"></div><div class="t t-m"></div><div class="t t-m"></div>
+        <!-- Row 3 -->
+        <div class="t t-w"></div><div class="t t-s"></div><div class="t t-s"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-ff"></div><div class="t t-mm"></div><div class="t t-m"></div><div class="t t-m"></div><div class="t t-m"></div>
+        <!-- Row 4 -->
+        <div class="t t-s"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-h"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-f"></div><div class="t t-mm"></div><div class="t t-m"></div><div class="t t-m"></div>
+        <!-- Row 5 — PLAYER -->
+        <div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-player" id="map-player"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-f"></div><div class="t t-mm"></div><div class="t t-m"></div>
+        <!-- Row 6 -->
+        <div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-ff"></div><div class="t t-f"></div><div class="t t-mm"></div>
+        <!-- Row 7 -->
+        <div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div><div class="t t-ff"></div><div class="t t-f"></div>
+        <!-- Row 8 -->
+        <div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-h"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-f"></div><div class="t t-ff"></div>
+        <!-- Row 9 -->
+        <div class="t t-ww"></div><div class="t t-w"></div><div class="t t-s"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-r"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-f"></div>
+        <!-- Row 10 -->
+        <div class="t t-w"></div><div class="t t-ww"></div><div class="t t-w"></div><div class="t t-s"></div><div class="t t-s"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-gg"></div><div class="t t-g"></div><div class="t t-g"></div><div class="t t-g"></div>
+      </div>
+      <div class="map-label-row">YOU ARE HERE: <span style="color:var(--yellow)">AXIOM LABS DUNGEON</span></div>
+    </div>
+
+    <div class="world-info fu">
+      <div class="dialog-box">
+        <svg class="dialog-portrait" width="48" height="48" viewBox="0 0 6 6"
+             style="image-rendering:pixelated;display:block">
+          <rect width="6" height="6" fill="#1a1a2e"/>
+          <rect x="1" y="0" width="4" height="1" fill="#3e2000"/>
+          <rect x="1" y="1" width="4" height="2" fill="#f5c89a"/>
+          <rect x="1" y="2" width="1" height="1" fill="#1a1a2e"/>
+          <rect x="4" y="2" width="1" height="1" fill="#1a1a2e"/>
+          <rect x="2" y="3" width="2" height="1" fill="#e07070"/>
+          <rect x="1" y="4" width="4" height="2" fill="#2979ff"/>
+        </svg>
+        <div class="dialog-text">
+          <span class="dialog-speaker">KAI NAKAMURA:</span>
+          <span class="typewriter">Greetings, traveler. I am a fullstack developer with 5 years of quest experience. I build scalable web apps and slay bugs for a living.</span>
+        </div>
+        <div class="dialog-cursor"></div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-item"><span class="stat-label">CLASS</span><span class="stat-val">FULLSTACK</span></div>
+        <div class="stat-item"><span class="stat-label">LEVEL</span><span class="stat-val">LVL 5</span></div>
+        <div class="stat-item"><span class="stat-label">LOCATION</span><span class="stat-val">TOKYO, JP</span></div>
+        <div class="stat-item"><span class="stat-label">STATUS</span><span class="stat-val stat-val-green">OPEN</span></div>
+        <div class="stat-item"><span class="stat-label">QUESTS</span><span class="stat-val">38 DONE</span></div>
+        <div class="stat-item"><span class="stat-label">GH STARS</span><span class="stat-val">12K</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================
+       SKILLS — EQUIPMENT
+  ============================= -->
+  <div id="skills" class="section-wrap">
+    <div class="section-header fu">
+      <div class="section-icon">S</div>
+      <div class="section-title-text">EQUIPMENT / SKILLS</div>
+    </div>
+    <div class="equip-grid">
+
+      <div class="equip-slot r-legendary" data-rarity="LEGENDARY">
+        <div class="equip-name">REACT / NEXT.JS</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">95</span></div>
+        <div class="bar-track"><div class="bar-fill bf-legend" style="width:95%"></div></div>
+        <div class="equip-note">EQUIPPED — MAIN HAND</div>
+      </div>
+
+      <div class="equip-slot r-legendary" data-rarity="LEGENDARY">
+        <div class="equip-name">TYPESCRIPT</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">92</span></div>
+        <div class="bar-track"><div class="bar-fill bf-legend" style="width:92%"></div></div>
+        <div class="equip-note">EQUIPPED — OFF HAND</div>
+      </div>
+
+      <div class="equip-slot r-epic" data-rarity="EPIC">
+        <div class="equip-name">NODE.JS / EXPRESS</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">88</span></div>
+        <div class="bar-track"><div class="bar-fill bf-epic" style="width:88%"></div></div>
+        <div class="equip-note">EQUIPPED — ARMOR</div>
+      </div>
+
+      <div class="equip-slot r-epic" data-rarity="EPIC">
+        <div class="equip-name">POSTGRESQL / REDIS</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">83</span></div>
+        <div class="bar-track"><div class="bar-fill bf-epic" style="width:83%"></div></div>
+        <div class="equip-note">EQUIPPED — RELIC</div>
+      </div>
+
+      <div class="equip-slot r-rare" data-rarity="RARE">
+        <div class="equip-name">DOCKER / AWS</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">76</span></div>
+        <div class="bar-track"><div class="bar-fill bf-rare" style="width:76%"></div></div>
+        <div class="equip-note">EQUIPPED — BOOTS</div>
+      </div>
+
+      <div class="equip-slot r-rare" data-rarity="RARE">
+        <div class="equip-name">GRAPHQL / REST</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">80</span></div>
+        <div class="bar-track"><div class="bar-fill bf-rare" style="width:80%"></div></div>
+        <div class="equip-note">EQUIPPED — ACCESSORY</div>
+      </div>
+
+      <div class="equip-slot r-common" data-rarity="COMMON">
+        <div class="equip-name">CSS / TAILWIND</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">91</span></div>
+        <div class="bar-track"><div class="bar-fill bf-common" style="width:91%"></div></div>
+        <div class="equip-note">EQUIPPED — HELM</div>
+      </div>
+
+      <div class="equip-slot r-common" data-rarity="LEARNING">
+        <div class="equip-name">RUST</div>
+        <div class="bar-header"><span class="bar-key">POWER</span><span class="bar-val">38</span></div>
+        <div class="bar-track"><div class="bar-fill bf-common" style="width:38%"></div></div>
+        <div class="equip-note">UNEQUIPPED — STILL CRAFTING</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================
+       PROJECTS — INVENTORY
+  ============================= -->
+  <div id="projects" class="section-wrap">
+    <div class="section-header fu">
+      <div class="section-icon">I</div>
+      <div class="section-title-text">ITEM INVENTORY / PROJECTS</div>
+    </div>
+    <div class="inventory">
+
+      <div class="item-card fu" onclick="lootItem('DEVFLOW DASHBOARD')">
+        <div class="item-top">
+          <svg class="item-icon-box" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#061810"/>
+            <rect x="0" y="2" width="6" height="2" fill="#00e676" opacity="0.85"/>
+            <rect x="2" y="0" width="2" height="6" fill="#00e676" opacity="0.85"/>
+            <rect x="0" y="0" width="2" height="2" fill="#00e5ff" opacity="0.5"/>
+            <rect x="4" y="4" width="2" height="2" fill="#00e5ff" opacity="0.5"/>
+          </svg>
+          <div class="item-meta">
+            <div class="item-name">DEVFLOW CI/CD DASHBOARD</div>
+            <div class="item-type">LEGENDARY ARTIFACT</div>
+            <div class="badge-row">
+              <span class="badge b-green">LIVE</span>
+              <span class="badge b-yellow">FEATURED</span>
+              <span class="badge b-cyan">NEXT.JS</span>
+              <span class="badge b-purple">WEBSOCKET</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-desc">Real-time deploy monitoring with GitHub Actions. Live log streaming, rollback controls, team notifications. Reduced deploy errors 70%.</div>
+        <div class="item-actions">
+          <a href="#" class="item-btn ibtn-g">USE [DEMO]</a>
+          <a href="#" class="item-btn ibtn-c">INSPECT [GH]</a>
+        </div>
+      </div>
+
+      <div class="item-card fu" onclick="lootItem('TYPESAFE-ENV')">
+        <div class="item-top">
+          <svg class="item-icon-box" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#120020"/>
+            <rect x="1" y="1" width="4" height="4" fill="none" stroke="#d500f9" stroke-width="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#d500f9" opacity="0.6"/>
+            <rect x="0" y="0" width="1" height="1" fill="#d500f9"/>
+            <rect x="5" y="5" width="1" height="1" fill="#d500f9"/>
+          </svg>
+          <div class="item-meta">
+            <div class="item-name">TYPESAFE-ENV</div>
+            <div class="item-type">EPIC TOME  (OSS)</div>
+            <div class="badge-row">
+              <span class="badge b-purple">2.1K STARS</span>
+              <span class="badge b-yellow">TYPESCRIPT</span>
+              <span class="badge b-cyan">NPM</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-desc">Zero-runtime env validation for Node.js. Generates TS types from .env schemas automatically. A staple in the community.</div>
+        <div class="item-actions">
+          <a href="#" class="item-btn ibtn-g">USE [NPM]</a>
+          <a href="#" class="item-btn ibtn-c">INSPECT [GH]</a>
+        </div>
+      </div>
+
+      <div class="item-card fu" onclick="lootItem('CHARTKIT')">
+        <div class="item-top">
+          <svg class="item-icon-box" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#001408"/>
+            <rect x="0" y="5" width="6" height="1" fill="#00e676" opacity="0.35"/>
+            <rect x="0" y="4" width="5" height="1" fill="#00e676" opacity="0.55"/>
+            <rect x="0" y="3" width="4" height="1" fill="#00e676" opacity="0.75"/>
+            <rect x="0" y="2" width="2" height="1" fill="#00e676" opacity="0.9"/>
+            <rect x="0" y="1" width="1" height="1" fill="#00e676"/>
+          </svg>
+          <div class="item-meta">
+            <div class="item-name">CHARTKIT VIZ LIBRARY</div>
+            <div class="item-type">RARE SCROLL  (OSS)</div>
+            <div class="badge-row">
+              <span class="badge b-cyan">REACT</span>
+              <span class="badge b-green">A11Y</span>
+              <span class="badge b-orange">CANVAS API</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-desc">Headless charting for React. 12 types, full accessibility, zero D3. Composable API, pixel-perfect output.</div>
+        <div class="item-actions">
+          <a href="#" class="item-btn ibtn-g">USE [DOCS]</a>
+          <a href="#" class="item-btn ibtn-c">INSPECT [GH]</a>
+        </div>
+      </div>
+
+      <div class="item-card fu" onclick="lootItem('INKLOG')">
+        <div class="item-top">
+          <svg class="item-icon-box" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#140e00"/>
+            <rect x="2" y="0" width="2" height="1" fill="#ffd600"/>
+            <rect x="1" y="1" width="4" height="3" fill="#ffd600" opacity="0.25"/>
+            <rect x="1" y="2" width="2" height="1" fill="#ffd600"/>
+            <rect x="3" y="3" width="2" height="1" fill="#ffd600"/>
+            <rect x="2" y="5" width="2" height="1" fill="#ff6d00"/>
+          </svg>
+          <div class="item-meta">
+            <div class="item-name">INKLOG BLOG ENGINE</div>
+            <div class="item-type">RARE BLUEPRINT  (WIP)</div>
+            <div class="badge-row">
+              <span class="badge b-red">WIP</span>
+              <span class="badge b-yellow">REMIX</span>
+              <span class="badge b-green">MDX</span>
+              <span class="badge b-cyan">SQLITE</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-desc">MDX-powered offline-first blog with Obsidian graph view and full-text search. Currently in the crafting chamber.</div>
+        <div class="item-actions">
+          <a href="#" class="item-btn ibtn-g">USE [PREVIEW]</a>
+          <a href="#" class="item-btn ibtn-c">INSPECT [GH]</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================
+       QUEST LOG — EXPERIENCE
+  ============================= -->
+  <div id="quests" class="section-wrap">
+    <div class="section-header fu">
+      <div class="section-icon">Q</div>
+      <div class="section-title-text">QUEST LOG / EXPERIENCE</div>
+    </div>
+
+    <div class="quest-log">
+
+      <div class="quest-item active fu">
+        <div class="quest-header">
+          <span class="q-status q-active">IN PROGRESS</span>
+          <span class="q-title">THE AXIOM DUNGEON ARC</span>
+          <span class="q-date">2022 — PRESENT</span>
+        </div>
+        <div class="quest-body">
+          <div class="q-company">AXIOM LABS — SENIOR FRONTEND ENGINEER</div>
+          <div class="q-desc">Led the great Dashboard Rebuild of 2023. Slew the 4.2s LCP dragon, reducing it to 0.9s. Bundle weight down 60%. Mentored 3 apprentice developers and brought TypeScript to all systems.</div>
+          <div class="q-rewards">
+            <span class="q-rlabel">REWARDS:</span>
+            <span class="badge b-cyan">React</span>
+            <span class="badge b-yellow">TypeScript</span>
+            <span class="badge b-purple">GraphQL</span>
+            <span class="badge b-green">+2400 XP</span>
+            <span class="badge b-yellow">+3200 GOLD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quest-item completed fu">
+        <div class="quest-header">
+          <span class="q-status q-complete">COMPLETE</span>
+          <span class="q-title">THE NEON AGENCY CAMPAIGN</span>
+          <span class="q-date">2020 — 2022</span>
+        </div>
+        <div class="quest-body">
+          <div class="q-company">NEON DIGITAL AGENCY — FULLSTACK DEVELOPER</div>
+          <div class="q-desc">Completed 11 client quests and 2 SaaS MVP expeditions. Built a reusable CMS fortress on Contentful, deployed across 8 campaigns. First to bring Playwright testing into the realm.</div>
+          <div class="q-rewards">
+            <span class="q-rlabel">REWARDS:</span>
+            <span class="badge b-cyan">Next.js</span>
+            <span class="badge b-green">Node.js</span>
+            <span class="badge b-yellow">Contentful</span>
+            <span class="badge b-green">+1800 XP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quest-item completed fu">
+        <div class="quest-header">
+          <span class="q-status q-complete">COMPLETE</span>
+          <span class="q-title">THE SOFTWAVE ORIGIN STORY</span>
+          <span class="q-date">2019 — 2020</span>
+        </div>
+        <div class="quest-body">
+          <div class="q-company">SOFTWAVE STARTUP — JUNIOR DEVELOPER</div>
+          <div class="q-desc">First real dungeon. Extended a legacy Laravel + Vue fortress. Migrated the payment tunnel to Stripe, cutting errors by 40%. This is where the adventure truly began.</div>
+          <div class="q-rewards">
+            <span class="q-rlabel">REWARDS:</span>
+            <span class="badge b-purple">Vue.js</span>
+            <span class="badge b-orange">Laravel</span>
+            <span class="badge b-cyan">MySQL</span>
+            <span class="badge b-green">+900 XP</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================
+       SAVE / CONTACT
+  ============================= -->
+  <div id="contact-section" class="section-wrap">
+    <div class="save-box fu">
+      <div class="save-title">SAVE POINT</div>
+      <div class="save-subtitle">// CONTACT THE DEVELOPER</div>
+
+      <div class="save-slot"><span class="ss-label">SLOT 1 — FULL-TIME</span><span class="ss-val">AVAILABLE</span></div>
+      <div class="save-slot"><span class="ss-label">SLOT 2 — FREELANCE</span><span class="ss-val">AVAILABLE</span></div>
+      <div class="save-slot"><span class="ss-label">SLOT 3 — COLLAB</span><span class="ss-val ss-open">OPEN</span></div>
+
+      <a href="mailto:kai@pixel.dev" class="save-email">kai@pixel.dev</a>
+
+      <div class="social-row">
+        <a href="#" class="soc-btn soc-gh">GITHUB</a>
+        <a href="#" class="soc-btn soc-li">LINKEDIN</a>
+        <a href="#" class="soc-btn soc-tw">TWITTER</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="f-text">(C) 2026 KAI NAKAMURA STUDIOS</span>
+    <span class="f-credit">CRAFTED WITH BLOOD, MANA + COFFEE</span>
+    <span class="f-text">PRESS START TO PLAY AGAIN</span>
+  </footer>
+
+</div>
+
+<div class="notif-stack" id="notif-stack"></div>
+
+<script>
+/* STARFIELD */
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const stars = Array.from({length:130}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  size: Math.floor(Math.random()*2)+1,
+  speed: Math.random()*0.25+0.05,
+  phase: Math.random()*Math.PI*2
+}));
+
+let frame = 0;
+(function tick() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  frame++;
+  stars.forEach(s => {
+    s.phase += 0.015;
+    const a = (Math.sin(s.phase)+1)/2 * 0.8 + 0.15;
+    ctx.fillStyle = `rgba(252,252,252,${a})`;
+    ctx.fillRect(Math.floor(s.x), Math.floor(s.y), s.size, s.size);
+    s.y += s.speed;
+    if (s.y > canvas.height) { s.y = 0; s.x = Math.random()*canvas.width; }
+  });
+  requestAnimationFrame(tick);
+})();
+
+/* START */
+function startGame() {
+  const ts = document.getElementById('title-screen');
+  const gw = document.getElementById('game-world');
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:#000;z-index:9996;pointer-events:none;';
+  document.body.appendChild(overlay);
+  let n = 0;
+  const iv = setInterval(() => {
+    overlay.style.opacity = n%2===0?'1':'0';
+    if(++n>8){ clearInterval(iv); ts.style.display='none'; gw.classList.add('active');
+      overlay.remove();
+      const w = document.createElement('div'); w.className='screen-wipe'; document.body.appendChild(w);
+      setTimeout(()=>w.remove(),800);
+      notif('GAME LOADED — WELCOME, HERO!');
+      setTimeout(()=>notif('HP: 78/100  LVL: 5'),1200);
+      setTimeout(()=>notif('+150 XP — NEW VISITOR BONUS!'),2500);
+    }
+  }, 75);
+}
+
+document.addEventListener('keydown', e => {
+  if((e.key==='Enter'||e.key===' ') && document.getElementById('title-screen').style.display!=='none') startGame();
+});
+
+/* NOTIF */
+function notif(msg) {
+  const s = document.getElementById('notif-stack');
+  const el = document.createElement('div'); el.className='notif'; el.textContent='> '+msg;
+  s.appendChild(el); setTimeout(()=>el.remove(),3600);
+}
+
+/* ITEM LOOT */
+function lootItem(name) { notif('ITEM SELECTED: '+name); }
+
+/* SCROLL FADE */
+const obs = new IntersectionObserver(es => {
+  es.forEach((e,i) => {
+    if(e.isIntersecting) {
+      e.target.style.transitionDelay=(i*0.05)+'s';
+      e.target.classList.add('vis');
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+/* HUD ACTIVE */
+const hudBtns = document.querySelectorAll('.hud-btn');
+const secObs = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if(e.isIntersecting) {
+      const id = e.target.id;
+      hudBtns.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.4});
+['world','skills','projects','quests','contact-section'].forEach(id => {
+  const el = document.getElementById(id); if(el) secObs.observe(el);
+});
+
+/* WALKING PLAYER */
+const player = document.getElementById('map-player');
+if(player) {
+  let col=8, row=5;
+  const map = player.parentElement;
+  const dirs=[{dc:1,dr:0},{dc:-1,dr:0},{dc:0,dr:1},{dc:0,dr:-1}];
+  setInterval(()=>{
+    if(Math.random()>0.5){
+      const d=dirs[Math.floor(Math.random()*4)];
+      col=Math.max(1,Math.min(16,col+d.dc));
+      row=Math.max(1,Math.min(10,row+d.dr));
+      player.style.gridColumn=col;
+      player.style.gridRow=row;
+    }
+  },1400);
+}
+</script>
+</body>
+</html>
