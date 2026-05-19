@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGGA.EXE — PRESS START</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --black:  #000000;
+  --white:  #fcfcfc;
+  --bg:     #1a1a2e;
+  --panel:  #16213e;
+  --dark:   #0f0e17;
+  --green:  #00e676;
+  --yellow: #ffd600;
+  --red:    #ff1744;
+  --blue:   #2979ff;
+  --cyan:   #00e5ff;
+  --purple: #d500f9;
+  --orange: #ff6d00;
+  --gray:   #546e7a;
+  --silver: #90a4ae;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--white);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  line-height: 1.8;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+  cursor: url("https://cdn.jsdelivr.net/gh/rajnandan1/brutopia@latest/dist/assets/compiled/css/../../img/primogem.png") 4 4, auto;
+}
+
+/* scanlines */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, rgba(0,0,0,0) 0, rgba(0,0,0,0) 1px,
+    rgba(0,0,0,0.2) 1px, rgba(0,0,0,0.2) 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== TITLE SCREEN ===== */
+#title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#title-screen canvas { position: absolute; inset: 0; z-index: 0; }
+
+.tc { position: relative; z-index: 1; }
+
+.logo1 {
+  font-size: clamp(14px, 3.5vw, 30px);
+  color: var(--yellow);
+  text-shadow: 4px 4px 0 #9a8200, -2px 0 0 var(--orange), 2px 0 0 var(--red);
+  display: block;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  animation: glitch 5s steps(1) infinite;
+}
+
+.logo2 {
+  font-size: clamp(6px, 1.1vw, 10px);
+  color: var(--cyan);
+  display: block;
+  letter-spacing: 5px;
+  text-shadow: 2px 2px 0 #005f6b;
+  margin-bottom: 36px;
+}
+
+@keyframes glitch {
+  0%,88%,100%{text-shadow:4px 4px 0 #9a8200,-2px 0 0 var(--orange),2px 0 0 var(--red);transform:none}
+  90%{text-shadow:-6px 4px 0 var(--red),6px 4px 0 var(--cyan);transform:skewX(-2deg)}
+  93%{text-shadow:4px 4px 0 #9a8200;transform:none}
+}
+
+.sprite-wrap { width:80px;height:80px;margin:0 auto 32px;animation:bobble 0.6s steps(2) infinite; }
+@keyframes bobble{0%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.ps-btn {
+  font-family:'Press Start 2P',monospace;
+  font-size:10px;
+  color:var(--white);
+  letter-spacing:2px;
+  padding:14px 28px;
+  border:4px solid var(--white);
+  background:transparent;
+  cursor:pointer;
+  display:inline-block;
+  animation:blink 1s step-end infinite;
+}
+.ps-btn:hover{background:var(--white);color:var(--dark);animation:none;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.t-hint{font-size:6px;color:var(--gray);margin-top:18px;letter-spacing:1px;line-height:2.4;}
+.t-copy{font-size:6px;color:var(--gray);margin-top:36px;letter-spacing:1px;}
+
+/* ===== GAME WORLD ===== */
+#game-world{display:none;}
+#game-world.active{display:block;}
+
+/* ===== HUD ===== */
+.hud {
+  background:var(--black);
+  border-bottom:4px solid var(--yellow);
+  padding:8px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  position:sticky;top:0;z-index:100;
+  flex-wrap:wrap;
+}
+
+.hud-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hud-name{font-size:7px;color:var(--yellow);}
+
+.hprow{display:flex;align-items:center;gap:5px;}
+.hpl{font-size:6px;color:var(--red);}
+.hpbar{width:70px;height:10px;background:#111;border:2px solid var(--white);overflow:hidden;}
+.hpfill{width:82%;height:100%;background:repeating-linear-gradient(90deg,var(--green) 0 6px,#007a3a 6px 8px);}
+.hpnum{font-size:6px;color:var(--green);}
+
+.xprow{display:flex;align-items:center;gap:5px;}
+.xpl{font-size:6px;color:var(--cyan);}
+.xpbar{width:54px;height:8px;background:#111;border:2px solid var(--white);overflow:hidden;}
+.xpfill{width:70%;height:100%;background:var(--cyan);}
+
+.hud-nav{display:flex;gap:4px;flex-wrap:wrap;}
+.hbtn {
+  font-family:'Press Start 2P',monospace;
+  font-size:6px;padding:6px 9px;
+  background:var(--black);color:var(--silver);
+  border:2px solid var(--gray);
+  cursor:pointer;text-decoration:none;letter-spacing:1px;
+}
+.hbtn:hover,.hbtn.active{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
+.hud-gold{font-size:6px;color:var(--yellow);white-space:nowrap;}
+
+/* ===== WORLD ===== */
+#world {
+  padding:36px 20px;
+  background:var(--bg);
+  min-height:70vh;
+  display:flex;
+  align-items:center;
+  gap:36px;
+  flex-wrap:wrap;
+  position:relative;
+  overflow:hidden;
+}
+
+#world::before {
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:20px 20px;
+  pointer-events:none;
+}
+
+/* tile map */
+.tile-map {
+  display:grid;
+  grid-template-columns:repeat(16,20px);
+  grid-template-rows:repeat(10,20px);
+  border:4px solid var(--white);
+  box-shadow:6px 6px 0 var(--black);
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.t{width:20px;height:20px;}
+.tg {background:#2d5a1b;}.tgg{background:#3a7022;}
+.tw {background:#1565c0;}.tww{background:#1976d2;}
+.tm {background:#5d4037;}.tmm{background:#795548;}
+.ts {background:#f9a825;}
+.tr {background:#616161;}
+.tf {background:#1b5e20;}.tff{background:#256029;}
+.th {background:#880e4f;}
+.tp {background:var(--yellow);position:relative;animation:mpulse .8s steps(2) infinite;}
+.tp::before{content:'';position:absolute;inset:5px;background:var(--red);}
+@keyframes mpulse{0%{opacity:1}50%{opacity:.5}}
+
+.map-note{font-size:5px;color:var(--yellow);margin-top:8px;letter-spacing:1px;}
+
+/* DIALOG */
+.world-info{flex:1;min-width:280px;}
+
+.dbox {
+  background:var(--black);
+  border:4px solid var(--white);
+  box-shadow:4px 4px 0 var(--gray);
+  padding:18px 20px;
+  position:relative;
+  margin-bottom:18px;
+}
+
+.dcursor{
+  position:absolute;bottom:10px;right:14px;
+  width:8px;height:8px;background:var(--white);
+  animation:blink .6s step-end infinite;
+}
+
+.dportrait{float:left;width:48px;height:48px;margin-right:14px;border:2px solid var(--gray);}
+.dspeaker{font-size:7px;color:var(--cyan);display:block;margin-bottom:10px;}
+.dtext{font-size:7px;color:var(--white);line-height:2.2;}
+
+.typewriter{animation:typein 4s steps(110,end) both;}
+@keyframes typein{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
+
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.sitem{background:var(--black);border:2px solid var(--gray);padding:9px 11px;display:flex;justify-content:space-between;align-items:center;}
+.slabel{font-size:6px;color:var(--silver);}
+.sval  {font-size:7px;color:var(--yellow);}
+.sval-g{color:var(--green);animation:blink 1s step-end infinite;}
+
+/* contact links in world */
+.clinks{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.clink{
+  font-family:'Press Start 2P',monospace;
+  font-size:6px;padding:8px 12px;
+  text-decoration:none;letter-spacing:1px;
+  border:2px solid;display:flex;align-items:center;gap:8px;
+  width:fit-content;
+}
+.cl-li {color:var(--cyan);  border-color:var(--cyan);}
+.cl-wa {color:var(--green); border-color:var(--green);}
+.cl-em {color:var(--red);   border-color:var(--red);}
+.cl-cv {color:var(--blue);  border-color:var(--blue);}
+.clink:hover{filter:invert(1);}
+
+/* ===== SECTION ===== */
+.swrap{padding:36px 20px;}
+.swrap:nth-child(even){background:var(--panel);}
+
+.shdr{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.sico{width:22px;height:22px;background:var(--yellow);color:var(--black);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;}
+.stxt{font-size:9px;color:var(--yellow);letter-spacing:2px;border-bottom:2px solid var(--yellow);padding-bottom:6px;}
+
+/* ===== SKILLS ===== */
+.egrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+
+.eslot{background:var(--black);border:3px solid var(--gray);padding:13px;position:relative;}
+.eslot:hover{border-color:var(--yellow);}
+
+.eslot::before{
+  content:attr(data-r);position:absolute;top:-10px;right:8px;
+  background:var(--black);font-size:5px;padding:2px 6px;letter-spacing:1px;
+}
+.rl::before{color:var(--yellow);border:1px solid var(--yellow);}
+.re::before{color:var(--purple);border:1px solid var(--purple);}
+.rr::before{color:var(--cyan);  border:1px solid var(--cyan);}
+.rc::before{color:var(--silver);border:1px solid var(--silver);}
+
+.ename{font-size:7px;color:var(--white);margin-bottom:9px;}
+
+.bh{display:flex;justify-content:space-between;margin-bottom:3px;}
+.bk{font-size:5px;color:var(--silver);}
+.bv{font-size:5px;color:var(--white);}
+
+.btrack{height:8px;background:#111;border:2px solid #333;overflow:hidden;margin-bottom:6px;}
+.bfill {height:100%;animation:bfill 1.6s ease both;}
+@keyframes bfill{from{width:0!important}}
+
+.bfl{background:var(--yellow);}
+.bfe{background:var(--purple);}
+.bfr{background:var(--cyan);}
+.bfc{background:var(--silver);}
+
+.enote{font-size:5px;color:var(--gray);}
+
+/* ===== PROJECTS / INVENTORY ===== */
+.inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;}
+
+.icard{background:var(--black);border:3px solid var(--gray);cursor:pointer;position:relative;}
+.icard:hover{border-color:var(--white);transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--yellow);}
+
+.itop{padding:14px;border-bottom:2px solid #1a1a1a;display:flex;gap:12px;align-items:flex-start;}
+.iico{width:48px;height:48px;flex-shrink:0;image-rendering:pixelated;}
+.imeta{flex:1;}
+.iname{font-size:7px;color:var(--white);margin-bottom:6px;line-height:1.8;}
+.itype{font-size:5px;color:var(--purple);margin-bottom:8px;}
+
+.brow{display:flex;gap:5px;flex-wrap:wrap;}
+.bdg{font-size:5px;padding:2px 5px;border:1px solid;}
+.bg {color:var(--green); border-color:var(--green);}
+.by {color:var(--yellow);border-color:var(--yellow);}
+.bc {color:var(--cyan);  border-color:var(--cyan);}
+.bp {color:var(--purple);border-color:var(--purple);}
+.br {color:var(--red);   border-color:var(--red);}
+.bo {color:var(--orange);border-color:var(--orange);}
+
+.idesc{padding:11px 13px;font-size:6px;color:var(--silver);line-height:2.2;}
+
+.ifoot{padding:9px 13px;border-top:2px solid #1a1a1a;display:flex;gap:8px;align-items:center;}
+.iyear{font-size:5px;color:var(--gray);}
+.ibtn{
+  font-family:'Press Start 2P',monospace;font-size:5px;
+  padding:6px 10px;background:var(--black);border:2px solid;
+  cursor:pointer;text-decoration:none;letter-spacing:1px;margin-left:auto;
+}
+.ibg{color:var(--green);border-color:var(--green);}
+.ibg:hover{background:var(--green);color:var(--black);}
+
+/* ===== OTHER / ENTHUSIASMS ===== */
+.egrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+
+.ecard{background:var(--black);border:3px solid var(--gray);overflow:hidden;}
+.ecard:hover{border-color:var(--cyan);}
+
+.eimg{
+  width:100%;height:160px;
+  background:var(--panel);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;border-bottom:2px solid #1a1a1a;
+  image-rendering:pixelated;
+}
+
+.ebody{padding:14px;}
+.etitle{font-size:8px;color:var(--cyan);margin-bottom:10px;}
+.edesc{font-size:6px;color:var(--silver);line-height:2.2;}
+
+/* ===== SAVE / CONTACT ===== */
+#contact-section{background:var(--dark);padding:56px 20px;text-align:center;position:relative;overflow:hidden;}
+#contact-section::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 18px,rgba(255,214,0,.04) 18px,rgba(255,214,0,.04) 20px);
+  pointer-events:none;
+}
+
+.sbox{
+  max-width:460px;margin:0 auto;
+  background:var(--black);
+  border:4px solid var(--yellow);
+  box-shadow:0 0 0 4px var(--black),8px 8px 0 var(--yellow);
+  padding:34px 26px;
+  position:relative;z-index:1;
+}
+
+.stitle{font-size:11px;color:var(--yellow);margin-bottom:8px;letter-spacing:2px;}
+.ssub  {font-size:6px;color:var(--gray);margin-bottom:26px;letter-spacing:1px;}
+
+.sslot{background:#0a0a0a;border:2px solid #2a2a2a;padding:10px 13px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.sslot:hover{border-color:var(--yellow);background:#1a1800;}
+.ssl{font-size:6px;color:var(--silver);}
+.ssv{font-size:6px;color:var(--cyan);}
+
+.clinks2{display:flex;flex-direction:column;gap:8px;margin-top:20px;}
+.clink2{
+  font-family:'Press Start 2P',monospace;font-size:6px;padding:9px 14px;
+  text-decoration:none;letter-spacing:1px;border:2px solid;
+  display:flex;align-items:center;gap:8px;width:100%;
+}
+.clink2:hover{filter:invert(1);}
+.cl2-li{color:var(--cyan);  border-color:var(--cyan);}
+.cl2-wa{color:var(--green); border-color:var(--green);}
+.cl2-em{color:var(--red);   border-color:var(--red);}
+.cl2-cv{color:var(--blue);  border-color:var(--blue);}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--black);border-top:4px solid var(--yellow);
+  padding:13px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+}
+.ftxt{font-size:6px;color:var(--gray);letter-spacing:1px;}
+.fcred{font-size:6px;color:var(--yellow);}
+
+/* ===== TOASTS ===== */
+.ns{position:fixed;bottom:18px;right:18px;z-index:9998;display:flex;flex-direction:column;gap:7px;pointer-events:none;}
+.notif{background:var(--black);border:3px solid var(--green);padding:7px 13px;font-size:6px;color:var(--green);letter-spacing:1px;animation:nin .2s steps(3) both,nout .3s steps(3) 3s forwards;}
+@keyframes nin {from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes nout{from{opacity:1}to{opacity:0}}
+
+/* ===== SCREEN WIPE ===== */
+.swipe{position:fixed;inset:0;background:var(--black);z-index:9997;pointer-events:none;animation:swp .7s steps(8) forwards;}
+@keyframes swp{from{clip-path:inset(0)}to{clip-path:inset(0 0 0 100%)}}
+
+/* ===== FADE IN ===== */
+.fu{opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s;}
+.fu.vis{opacity:1;transform:none;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .tile-map{grid-template-columns:repeat(16,16px);grid-template-rows:repeat(10,16px);}
+  .t{width:16px;height:16px;}
+  .hbtn{font-size:5px;padding:4px 6px;}
+  .logo1{font-size:16px;}
+  .hud-gold{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== TITLE SCREEN ====== -->
+<div id="title-screen">
+  <canvas id="starfield"></canvas>
+  <div class="tc">
+    <span class="logo1">ANGGA FARTITEUR</span>
+    <span class="logo2">FULL-STACK DEV  RPG  v8.0</span>
+
+    <!-- 8-bit dev sprite -->
+    <div class="sprite-wrap">
+      <svg width="80" height="80" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"
+           style="image-rendering:pixelated;width:80px;height:80px;display:block">
+        <rect x="3" y="0" width="4" height="1" fill="#3e2000"/>
+        <rect x="2" y="1" width="6" height="1" fill="#3e2000"/>
+        <rect x="2" y="2" width="6" height="2" fill="#c8916a"/>
+        <rect x="3" y="3" width="1" height="1" fill="#1a1a2e"/>
+        <rect x="6" y="3" width="1" height="1" fill="#1a1a2e"/>
+        <rect x="4" y="4" width="2" height="1" fill="#c05050"/>
+        <rect x="2" y="5" width="6" height="3" fill="#2979ff"/>
+        <rect x="1" y="5" width="1" height="2" fill="#2979ff"/>
+        <rect x="9" y="5" width="1" height="2" fill="#2979ff"/>
+        <rect x="3" y="6" width="4" height="2" fill="#00e5ff"/>
+        <rect x="3" y="6" width="4" height="1" fill="#1a1a2e"/>
+        <rect x="3" y="8" width="2" height="2" fill="#1a237e"/>
+        <rect x="6" y="8" width="2" height="2" fill="#1a237e"/>
+        <rect x="2" y="9" width="3" height="1" fill="#3e2000"/>
+        <rect x="6" y="9" width="3" height="1" fill="#3e2000"/>
+      </svg>
+    </div>
+
+    <div class="ps-btn" onclick="startGame()">PRESS START</div>
+    <div class="t-hint">[ ENTER ] OR CLICK TO START</div>
+    <p class="t-copy">(C) 2026 ANGGA FARTITEUR SETIAWAN. ALL RIGHTS RESERVED.</p>
+  </div>
+</div>
+
+<!-- ====== GAME WORLD ====== -->
+<div id="game-world">
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-left">
+      <span class="hud-name">ANGGA  LVL.8</span>
+      <div class="hprow">
+        <span class="hpl">HP</span>
+        <div class="hpbar"><div class="hpfill"></div></div>
+        <span class="hpnum">82/100</span>
+      </div>
+      <div class="xprow">
+        <span class="xpl">XP</span>
+        <div class="xpbar"><div class="xpfill"></div></div>
+      </div>
+    </div>
+    <nav class="hud-nav">
+      <a href="#world"           class="hbtn active">MAP</a>
+      <a href="#skills"          class="hbtn">SKILLS</a>
+      <a href="#projects"        class="hbtn">ITEMS</a>
+      <a href="#other"           class="hbtn">OTHER</a>
+      <a href="#contact-section" class="hbtn">SAVE</a>
+    </nav>
+    <span class="hud-gold">GOLD: 88,000</span>
+  </div>
+
+  <!-- WORLD MAP + HERO -->
+  <div id="world">
+
+    <div class="fu">
+      <div class="map-note" style="margin-bottom:8px;">WORLD MAP — INTERNET REALM</div>
+      <div class="tile-map">
+        <div class="t tw"></div><div class="t tww"></div><div class="t tw"></div><div class="t tw"></div><div class="t ts"></div><div class="t ts"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tf"></div><div class="t tff"></div><div class="t tf"></div><div class="t tmm"></div><div class="t tm"></div><div class="t tm"></div>
+        <div class="t tww"></div><div class="t tw"></div><div class="t tw"></div><div class="t ts"></div><div class="t ts"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tf"></div><div class="t tff"></div><div class="t tf"></div><div class="t tmm"></div><div class="t tm"></div><div class="t tm"></div><div class="t tm"></div>
+        <div class="t tw"></div><div class="t ts"></div><div class="t ts"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tr"></div><div class="t tr"></div><div class="t tr"></div><div class="t tg"></div><div class="t tf"></div><div class="t tff"></div><div class="t tmm"></div><div class="t tm"></div><div class="t tm"></div><div class="t tm"></div>
+        <div class="t ts"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tr"></div><div class="t th"></div><div class="t tr"></div><div class="t tr"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tf"></div><div class="t tmm"></div><div class="t tm"></div><div class="t tm"></div>
+        <div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tr"></div><div class="t tr"></div><div class="t tr"></div><div class="tp t" id="map-player"></div><div class="t tr"></div><div class="t tr"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tf"></div><div class="t tmm"></div><div class="t tm"></div>
+        <div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tr"></div><div class="t tr"></div><div class="t tr"></div><div class="t tr"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tff"></div><div class="t tf"></div><div class="t tmm"></div>
+        <div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tr"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div><div class="t tff"></div><div class="t tf"></div>
+        <div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tr"></div><div class="t tg"></div><div class="t th"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tf"></div><div class="t tff"></div>
+        <div class="t tww"></div><div class="t tw"></div><div class="t ts"></div><div class="t tg"></div><div class="t tg"></div><div class="t tr"></div><div class="t tr"></div><div class="t tr"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tf"></div>
+        <div class="t tw"></div><div class="t tww"></div><div class="t tw"></div><div class="t ts"></div><div class="t ts"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tgg"></div><div class="t tg"></div><div class="t tg"></div><div class="t tg"></div>
+      </div>
+      <div class="map-note">YOU ARE HERE: <span style="color:var(--yellow)">ARIFINDO DUNGEON, TANGERANG</span></div>
+    </div>
+
+    <div class="world-info fu">
+      <div class="dbox">
+        <!-- inline portrait sprite -->
+        <svg class="dportrait" width="48" height="48" viewBox="0 0 6 6"
+             style="image-rendering:pixelated;display:block">
+          <rect width="6" height="6" fill="#1a1a2e"/>
+          <rect x="1" y="0" width="4" height="1" fill="#3e2000"/>
+          <rect x="1" y="1" width="4" height="2" fill="#c8916a"/>
+          <rect x="1" y="2" width="1" height="1" fill="#1a1a2e"/>
+          <rect x="4" y="2" width="1" height="1" fill="#1a1a2e"/>
+          <rect x="2" y="3" width="2" height="1" fill="#c05050"/>
+          <rect x="1" y="4" width="4" height="2" fill="#2979ff"/>
+        </svg>
+        <div class="dtext">
+          <span class="dspeaker">ANGGA FARTITEUR SETIAWAN:</span>
+          <span class="typewriter">Greetings! Full-stack dev with 8 years of quest XP. I craft sites that fuse functionality and aesthetics — POS systems, company profiles, HRIS, payment apps. Also a full-time traveler.</span>
+        </div>
+        <div class="dcursor"></div>
+      </div>
+
+      <div class="sgrid">
+        <div class="sitem"><span class="slabel">CLASS</span>   <span class="sval">FULL-STACK</span></div>
+        <div class="sitem"><span class="slabel">LEVEL</span>   <span class="sval">8 YRS XP</span></div>
+        <div class="sitem"><span class="slabel">GUILD</span>   <span class="sval">ARIFINDO</span></div>
+        <div class="sitem"><span class="slabel">STATUS</span>  <span class="sval sval-g">OPEN</span></div>
+        <div class="sitem"><span class="slabel">PROJECTS</span><span class="sval">7+</span></div>
+        <div class="sitem"><span class="slabel">LOCATION</span><span class="sval">TANGERANG</span></div>
+      </div>
+
+      <div class="clinks">
+        <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="clink cl-li">[ LI ] LINKEDIN</a>
+        <a href="https://wa.link/ow0tvz" target="_blank" class="clink cl-wa">[ WA ] SAY HELLO!</a>
+        <a href="mailto:anggafartiteur@gmail.com" target="_blank" class="clink cl-em">[ EM ] SEND EMAIL</a>
+        <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" class="clink cl-cv">[ CV ] CURRICULUM VITAE</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== SKILLS ====== -->
+  <div id="skills" class="swrap">
+    <div class="shdr fu">
+      <div class="sico">S</div>
+      <div class="stxt">EQUIPMENT / SKILLS</div>
+    </div>
+    <div class="egrid">
+
+      <div class="eslot rl fu" data-r="LEGENDARY">
+        <div class="ename">PHP / LARAVEL</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">95</span></div>
+        <div class="btrack"><div class="bfill bfl" style="width:95%"></div></div>
+        <div class="enote">EQUIPPED — MAIN HAND</div>
+      </div>
+
+      <div class="eslot rl fu" data-r="LEGENDARY">
+        <div class="ename">JAVASCRIPT / JS</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">92</span></div>
+        <div class="btrack"><div class="bfill bfl" style="width:92%"></div></div>
+        <div class="enote">EQUIPPED — OFF HAND</div>
+      </div>
+
+      <div class="eslot re fu" data-r="EPIC">
+        <div class="ename">MYSQL / DATABASE</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">88</span></div>
+        <div class="btrack"><div class="bfill bfe" style="width:88%"></div></div>
+        <div class="enote">EQUIPPED — RELIC</div>
+      </div>
+
+      <div class="eslot re fu" data-r="EPIC">
+        <div class="ename">HTML / CSS</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">94</span></div>
+        <div class="btrack"><div class="bfill bfe" style="width:94%"></div></div>
+        <div class="enote">EQUIPPED — ARMOR</div>
+      </div>
+
+      <div class="eslot rr fu" data-r="RARE">
+        <div class="ename">BOOTSTRAP / UI</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">90</span></div>
+        <div class="btrack"><div class="bfill bfr" style="width:90%"></div></div>
+        <div class="enote">EQUIPPED — HELM</div>
+      </div>
+
+      <div class="eslot rr fu" data-r="RARE">
+        <div class="ename">ANDROID / PWA</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">75</span></div>
+        <div class="btrack"><div class="bfill bfr" style="width:75%"></div></div>
+        <div class="enote">EQUIPPED — BOOTS</div>
+      </div>
+
+      <div class="eslot rc fu" data-r="COMMON">
+        <div class="ename">DESIGN / FIGMA</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">80</span></div>
+        <div class="btrack"><div class="bfill bfc" style="width:80%"></div></div>
+        <div class="enote">EQUIPPED — ACCESSORY</div>
+      </div>
+
+      <div class="eslot rc fu" data-r="COMMON">
+        <div class="ename">PHOTOGRAPHY</div>
+        <div class="bh"><span class="bk">POWER</span><span class="bv">85</span></div>
+        <div class="btrack"><div class="bfill bfc" style="width:85%"></div></div>
+        <div class="enote">SIDE QUEST SKILL</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== PROJECTS / INVENTORY ====== -->
+  <div id="projects" class="swrap">
+    <div class="shdr fu">
+      <div class="sico">I</div>
+      <div class="stxt">ITEM INVENTORY / PORTFOLIO</div>
+    </div>
+    <div class="inv">
+
+      <!-- Psikotes -->
+      <div class="icard fu" onclick="loot('PSIKOTES ONLINE ARIFINDO')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#0a1520"/>
+            <rect x="1" y="1" width="4" height="1" fill="#00e5ff"/>
+            <rect x="1" y="2" width="3" height="1" fill="#00e5ff" opacity=".6"/>
+            <rect x="1" y="3" width="4" height="1" fill="#00e5ff"/>
+            <rect x="1" y="4" width="2" height="1" fill="#00e5ff" opacity=".6"/>
+            <rect x="4" y="0" width="2" height="2" fill="#ffd600"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">PSIKOTES ONLINE ARIFINDO</div>
+            <div class="itype">EPIC ARTIFACT</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2024</span>
+              <span class="bdg bc">HR TECH</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Sistem psikotes online untuk mempercepat rekrutmen PT Arifindo. Meningkatkan efisiensi waktu, penilaian objektif, dan mengurangi kertas.</div>
+        <div class="ifoot">
+          <span class="iyear">2024</span>
+          <a href="https://psikotes.arifindo.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- HRIS -->
+      <div class="icard fu" onclick="loot('HRIS ARIFINDO')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#1a0a20"/>
+            <rect x="2" y="0" width="2" height="2" fill="#d500f9" opacity=".8"/>
+            <rect x="0" y="2" width="6" height="1" fill="#d500f9" opacity=".5"/>
+            <rect x="1" y="3" width="4" height="1" fill="#d500f9"/>
+            <rect x="2" y="4" width="2" height="2" fill="#d500f9" opacity=".6"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">HRIS ARIFINDO</div>
+            <div class="itype">LEGENDARY SYSTEM</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2024</span>
+              <span class="bdg bp">HRIS</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Aplikasi komprehensif untuk kelola SDM: data karyawan, pelamar karier, hasil psikotes, dan sistem absensi terintegrasi.</div>
+        <div class="ifoot">
+          <span class="iyear">2024</span>
+          <a href="https://hris.arifindo.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- Career -->
+      <div class="icard fu" onclick="loot('CAREER ARIFINDO')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#001a0a"/>
+            <rect x="0" y="5" width="6" height="1" fill="#00e676" opacity=".4"/>
+            <rect x="0" y="4" width="5" height="1" fill="#00e676" opacity=".6"/>
+            <rect x="0" y="3" width="3" height="1" fill="#00e676" opacity=".8"/>
+            <rect x="0" y="2" width="2" height="1" fill="#00e676"/>
+            <rect x="0" y="1" width="1" height="1" fill="#00e676"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">CAREER ARIFINDO</div>
+            <div class="itype">RARE PORTAL</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2024</span>
+              <span class="bdg bc">RECRUITMENT</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Portal rekrutmen resmi PT Arifindo. Mendukung employer branding dan mengelola seleksi kandidat secara efisien dan terstruktur.</div>
+        <div class="ifoot">
+          <span class="iyear">2024</span>
+          <a href="https://career.arifindo.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- Absensi -->
+      <div class="icard fu" onclick="loot('ABSENSI ARIFINDO')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#0a1010"/>
+            <rect x="1" y="1" width="4" height="4" fill="none" stroke="#00e5ff" stroke-width="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00e5ff" opacity=".5"/>
+            <rect x="0" y="0" width="1" height="1" fill="#00e5ff"/>
+            <rect x="5" y="5" width="1" height="1" fill="#00e5ff"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">ABSENSI ARIFINDO</div>
+            <div class="itype">EPIC PWA TOOL</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2025</span>
+              <span class="bdg bc">PWA</span>
+              <span class="bdg bo">MOBILE</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Aplikasi absensi berbasis PWA, support Android dan iOS. Terintegrasi dengan HRIS untuk kelola kepegawaian secara menyeluruh.</div>
+        <div class="ifoot">
+          <span class="iyear">2025</span>
+          <a href="https://absensi.arifindo.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="icard fu" onclick="loot('PAYMENT DARU ESTATES')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#1a1000"/>
+            <rect x="1" y="2" width="4" height="2" fill="#ffd600" opacity=".8"/>
+            <rect x="0" y="1" width="6" height="1" fill="#ffd600" opacity=".4"/>
+            <rect x="0" y="4" width="6" height="1" fill="#ffd600" opacity=".4"/>
+            <rect x="1" y="3" width="1" height="1" fill="#ffd600"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">PAYMENT DARU ESTATES</div>
+            <div class="itype">RARE FINANCE APP</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2022</span>
+              <span class="bdg bp">FINTECH</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Aplikasi manajemen transaksi untuk memantau seluruh transaksi konsumen perumahan subsidi Daru Estate Tangerang.</div>
+        <div class="ifoot">
+          <span class="iyear">2022</span>
+          <a href="https://staging.arifindo.com/" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- Daru Estates -->
+      <div class="icard fu" onclick="loot('DARU ESTATES WEBSITE')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#100008"/>
+            <rect x="2" y="0" width="2" height="3" fill="#ff1744" opacity=".8"/>
+            <rect x="0" y="3" width="6" height="3" fill="#ff1744" opacity=".3"/>
+            <rect x="1" y="4" width="4" height="2" fill="#ff1744" opacity=".6"/>
+            <rect x="2" y="5" width="2" height="1" fill="#ff1744"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">DARU ESTATES</div>
+            <div class="itype">RARE COMPANY PROFILE</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2023</span>
+              <span class="bdg br">PROPERTY</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Company profile perumahan subsidi terbesar di Tangerang, dikembangkan oleh PT Arifindo Adiputra Ariaguna.</div>
+        <div class="ifoot">
+          <span class="iyear">2023</span>
+          <a href="https://daruestates.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+      <!-- Folio POS -->
+      <div class="icard fu" onclick="loot('FOLIO POS')">
+        <div class="itop">
+          <svg class="iico" width="48" height="48" viewBox="0 0 6 6" style="image-rendering:pixelated;width:48px;height:48px">
+            <rect width="6" height="6" fill="#001418"/>
+            <rect x="0" y="2" width="6" height="2" fill="#00e5ff" opacity=".85"/>
+            <rect x="2" y="0" width="2" height="6" fill="#00e5ff" opacity=".85"/>
+            <rect x="0" y="0" width="2" height="2" fill="#ffd600" opacity=".5"/>
+            <rect x="4" y="4" width="2" height="2" fill="#ffd600" opacity=".5"/>
+          </svg>
+          <div class="imeta">
+            <div class="iname">FOLIO POS</div>
+            <div class="itype">LEGENDARY POS SYSTEM</div>
+            <div class="brow">
+              <span class="bdg bg">LIVE</span>
+              <span class="bdg by">2018</span>
+              <span class="bdg bc">ANDROID</span>
+              <span class="bdg bo">MULTI-STORE</span>
+            </div>
+          </div>
+        </div>
+        <div class="idesc">Aplikasi kasir Android dan web, online dan offline. Cocok untuk toko retail, restoran, salon — satu toko atau multi-toko.</div>
+        <div class="ifoot">
+          <span class="iyear">2018</span>
+          <a href="https://foliopos.com" target="_blank" class="ibtn ibg">OPEN [LINK]</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== OTHER / ENTHUSIASMS ====== -->
+  <div id="other" class="swrap">
+    <div class="shdr fu">
+      <div class="sico">O</div>
+      <div class="stxt">THE ENTHUSIASM / OTHER</div>
+    </div>
+    <div class="egrid2">
+
+      <div class="ecard fu">
+        <div class="eimg" style="background:linear-gradient(135deg,#1a0a0a,#2a1010);">
+          <svg width="60" height="60" viewBox="0 0 8 8" style="image-rendering:pixelated">
+            <rect x="3" y="0" width="2" height="1" fill="#ffd600"/>
+            <rect x="2" y="1" width="4" height="1" fill="#ffd600"/>
+            <rect x="1" y="2" width="6" height="4" fill="#ffd600" opacity=".3"/>
+            <rect x="2" y="2" width="4" height="1" fill="#ffd600"/>
+            <rect x="1" y="3" width="1" height="3" fill="#ffd600" opacity=".7"/>
+            <rect x="6" y="3" width="1" height="3" fill="#ffd600" opacity=".7"/>
+            <rect x="2" y="5" width="4" height="1" fill="#ffd600" opacity=".9"/>
+            <rect x="3" y="6" width="2" height="2" fill="#ff6d00"/>
+          </svg>
+        </div>
+        <div class="ebody">
+          <div class="etitle">PHOTOGRAPHY</div>
+          <div class="edesc">Photography is not just a hobby — it's a passion for capturing precious moments. Weddings, birthdays, prewed sessions. Also a part-time profession: events and special occasions immortalized through the lens.</div>
+        </div>
+      </div>
+
+      <div class="ecard fu">
+        <div class="eimg" style="background:linear-gradient(135deg,#0a0a1a,#1a0a2a);">
+          <svg width="60" height="60" viewBox="0 0 8 8" style="image-rendering:pixelated">
+            <rect x="3" y="0" width="2" height="2" fill="#d500f9"/>
+            <rect x="1" y="2" width="6" height="1" fill="#d500f9" opacity=".7"/>
+            <rect x="0" y="3" width="8" height="2" fill="#d500f9" opacity=".3"/>
+            <rect x="2" y="3" width="4" height="2" fill="#d500f9" opacity=".6"/>
+            <rect x="3" y="5" width="2" height="3" fill="#d500f9" opacity=".8"/>
+          </svg>
+        </div>
+        <div class="ebody">
+          <div class="etitle">#WKTK FASHION BRAND</div>
+          <div class="edesc">Creating a fashion brand inspired by anime and Japanese aesthetics. Designing clothing and accessories that merge cultural appreciation with modern streetwear. A fusion of art, creativity, and entrepreneurship. Check: <a href="https://www.tokopedia.com/wakuteka" target="_blank" style="color:var(--cyan)">tokopedia/wakuteka</a></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== SAVE / CONTACT ====== -->
+  <div id="contact-section" class="swrap">
+    <div class="sbox fu">
+      <div class="stitle">SAVE POINT</div>
+      <div class="ssub">// REACH THE DEVELOPER</div>
+
+      <div class="sslot"><span class="ssl">SLOT 1 — FULL-TIME</span>    <span class="ssv">OPEN</span></div>
+      <div class="sslot"><span class="ssl">SLOT 2 — FREELANCE</span>   <span class="ssv">OPEN</span></div>
+      <div class="sslot"><span class="ssl">SLOT 3 — COLLABORATION</span><span class="ssv" style="color:var(--green)">READY</span></div>
+
+      <div class="clinks2">
+        <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="clink2 cl2-li">[ LI ] LINKEDIN — ANGGA FARTITEUR SETIAWAN</a>
+        <a href="https://wa.link/ow0tvz" target="_blank" class="clink2 cl2-wa">[ WA ] WHATSAPP — SAY HELLO!</a>
+        <a href="mailto:anggafartiteur@gmail.com" target="_blank" class="clink2 cl2-em">[ EM ] anggafartiteur@gmail.com</a>
+        <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" class="clink2 cl2-cv">[ CV ] DOWNLOAD CURRICULUM VITAE</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="ftxt">(C) 2026 ANGGA FARTITEUR SETIAWAN</span>
+    <span class="fcred">CHEERS TO THIS WONDERFUL WORLD — <a href="https://www.tokopedia.com/wakuteka" target="_blank" style="color:var(--yellow);text-decoration:none;">#WKTK</a></span>
+    <span class="ftxt">TANGERANG, ID</span>
+  </footer>
+
+</div>
+
+<div class="ns" id="notif-stack"></div>
+
+<script>
+/* STARFIELD */
+const cv = document.getElementById('starfield');
+const cx = cv.getContext('2d');
+function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+rsz(); window.addEventListener('resize',rsz);
+
+const stars=Array.from({length:140},()=>({
+  x:Math.random()*window.innerWidth,
+  y:Math.random()*window.innerHeight,
+  s:Math.floor(Math.random()*2)+1,
+  sp:Math.random()*.22+.04,
+  p:Math.random()*Math.PI*2
+}));
+
+(function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  stars.forEach(s=>{
+    s.p+=.014;
+    const a=(Math.sin(s.p)+1)/2*.8+.15;
+    cx.fillStyle=`rgba(252,252,252,${a})`;
+    cx.fillRect(Math.floor(s.x),Math.floor(s.y),s.s,s.s);
+    s.y+=s.sp;
+    if(s.y>cv.height){s.y=0;s.x=Math.random()*cv.width;}
+  });
+  requestAnimationFrame(tick);
+})();
+
+/* START */
+function startGame(){
+  const ts=document.getElementById('title-screen');
+  const gw=document.getElementById('game-world');
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:#000;z-index:9996;pointer-events:none;';
+  document.body.appendChild(ov);
+  let n=0;
+  const iv=setInterval(()=>{
+    ov.style.opacity=n%2===0?'1':'0';
+    if(++n>8){
+      clearInterval(iv);
+      ts.style.display='none';
+      gw.classList.add('active');
+      ov.remove();
+      const w=document.createElement('div');w.className='swipe';document.body.appendChild(w);
+      setTimeout(()=>w.remove(),800);
+      notif('GAME LOADED — WELCOME, TRAVELER!');
+      setTimeout(()=>notif('ANGGA  LVL.8  HP:82/100'),1200);
+      setTimeout(()=>notif('+150 XP — VISITOR BONUS UNLOCKED'),2500);
+    }
+  },75);
+}
+
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&document.getElementById('title-screen').style.display!=='none') startGame();
+});
+
+/* NOTIF */
+function notif(msg){
+  const s=document.getElementById('notif-stack');
+  const el=document.createElement('div');el.className='notif';el.textContent='> '+msg;
+  s.appendChild(el);setTimeout(()=>el.remove(),3600);
+}
+
+/* LOOT */
+function loot(name){notif('ITEM SELECTED: '+name);}
+
+/* SCROLL FADE */
+const obs=new IntersectionObserver(es=>{
+  es.forEach((e,i)=>{
+    if(e.isIntersecting){
+      e.target.style.transitionDelay=(i*.05)+'s';
+      e.target.classList.add('vis');
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+/* HUD ACTIVE */
+const hbs=document.querySelectorAll('.hbtn');
+const sobs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      hbs.forEach(b=>b.classList.toggle('active',b.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{threshold:.35});
+['world','skills','projects','other','contact-section'].forEach(id=>{
+  const el=document.getElementById(id);if(el)sobs.observe(el);
+});
+
+/* WALKING PLAYER */
+const pl=document.getElementById('map-player');
+if(pl){
+  let col=8,row=5;
+  const dirs=[{dc:1,dr:0},{dc:-1,dr:0},{dc:0,dr:1},{dc:0,dr:-1}];
+  setInterval(()=>{
+    if(Math.random()>.5){
+      const d=dirs[Math.floor(Math.random()*4)];
+      col=Math.max(1,Math.min(16,col+d.dc));
+      row=Math.max(1,Math.min(10,row+d.dr));
+      pl.style.gridColumn=col;
+      pl.style.gridRow=row;
+    }
+  },1400);
+}
+</script>
+</body>
+</html>
