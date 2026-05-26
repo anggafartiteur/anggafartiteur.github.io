@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Angga Times — Developer & Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   THE ANGGA TIMES — BROADSHEET STYLESHEET
+   Inspired by New York Times print edition
+   ============================================ */
+
+:root {
+  --ink:        #111111;
+  --ink-light:  #333333;
+  --ink-muted:  #666666;
+  --ink-faint:  #999999;
+  --paper:      #faf8f3;
+  --paper-warm: #f5f0e8;
+  --rule:       #111111;
+  --rule-light: #cccccc;
+  --rule-mid:   #888888;
+  --red:        #b82222;
+  --column-gap: 24px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #d8d0c0;
+  color: var(--ink);
+  font-family: 'Source Serif 4', 'Libre Baskerville', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* PAPER TEXTURE */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.6;
+}
+
+/* ============================================
+   NEWSPAPER WRAPPER
+   ============================================ */
+.newspaper {
+  max-width: 1080px;
+  margin: 20px auto;
+  background: var(--paper);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* ============================================
+   EDITION RIBBON (very top)
+   ============================================ */
+.edition-ribbon {
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ribbon-section { display: flex; align-items: center; gap: 16px; }
+.ribbon-sep { color: #666; }
+
+/* ============================================
+   MASTHEAD
+   ============================================ */
+.masthead {
+  padding: 16px 20px 0;
+  border-bottom: 3px double var(--ink);
+  text-align: center;
+  position: relative;
+}
+
+.masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.masthead-meta {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10.5px;
+  color: var(--ink-light);
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.masthead-meta-right { text-align: right; }
+
+.newspaper-name {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(42px, 7vw, 88px);
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -1px;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.masthead-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--ink-light);
+  letter-spacing: 0.12em;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 5px 0 4px;
+  margin-bottom: 0;
+}
+
+/* ============================================
+   SECTION NAV
+   ============================================ */
+.section-nav {
+  display: flex;
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.section-nav-item {
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 7px 14px 6px;
+  border-right: 1px solid var(--rule-light);
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.section-nav-item:first-child { padding-left: 0; }
+.section-nav-item:hover { background: var(--paper-warm); }
+.section-nav-item.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ============================================
+   BREAKING NEWS TICKER
+   ============================================ */
+.ticker-bar {
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 28px;
+}
+
+.ticker-label {
+  background: var(--red);
+  color: white;
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.ticker-inner {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  animation: ticker 28s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ============================================
+   PAGE BODY
+   ============================================ */
+.page-body {
+  padding: 0 20px;
+}
+
+/* ============================================
+   RULES & UTILITIES
+   ============================================ */
+.rule-thick  { border: none; border-top: 3px solid var(--ink); margin: 0; }
+.rule-double { border: none; border-top: 3px double var(--ink); margin: 12px 0; }
+.rule-thin   { border: none; border-top: 1px solid var(--rule); margin: 0; }
+.rule-mid    { border: none; border-top: 2px solid var(--ink); margin: 0; }
+.spacer-sm   { height: 12px; }
+.spacer-md   { height: 20px; }
+
+.section-label {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.section-label-red {
+  color: var(--red);
+}
+
+/* ============================================
+   FRONT PAGE — TABS
+   ============================================ */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ============================================
+   COLUMN GRID
+   ============================================ */
+.cols-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0 var(--column-gap);
+  border-top: 1px solid var(--rule);
+}
+
+.cols-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 var(--column-gap);
+}
+
+.cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 var(--column-gap);
+}
+
+.cols-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--column-gap);
+}
+
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+
+.col-rule {
+  border-right: 1px solid var(--rule-light);
+  padding-right: var(--column-gap);
+}
+
+/* ============================================
+   ARTICLE COMPONENTS
+   ============================================ */
+
+/* Headline styles */
+.hed-xl {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.hed-lg {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.hed-md {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 2.2vw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.hed-sm {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.hed-italic {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Deck / subheadline */
+.deck {
+  font-family: 'Source Serif 4', serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-light);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Byline */
+.byline {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.byline b { color: var(--ink); font-weight: 700; }
+
+/* Dateline */
+.dateline {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  border-top: 1px solid var(--rule-light);
+  padding-top: 4px;
+}
+
+/* Body copy */
+.body-copy {
+  font-family: 'Source Serif 4', serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-light);
+}
+
+.body-copy p { margin-bottom: 10px; }
+.body-copy p:last-child { margin-bottom: 0; }
+
+/* Drop cap */
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 58px;
+  font-weight: 900;
+  float: left;
+  line-height: 0.82;
+  margin-right: 6px;
+  margin-top: 4px;
+  color: var(--ink);
+}
+
+/* Pull quote */
+.pull-quote {
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 14px 16px;
+  margin: 16px 0;
+  position: relative;
+}
+
+.pull-quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.pull-quote-attr {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Photo placeholder */
+.photo-box {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 4px,
+    rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 5px
+  );
+}
+
+.photo-caption {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  font-style: italic;
+  line-height: 1.4;
+  border-top: 1px solid var(--rule-light);
+  padding-top: 4px;
+  margin-bottom: 12px;
+}
+
+/* Continues on label */
+.continues {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  font-style: italic;
+  color: var(--ink-faint);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Article border */
+.article-col {
+  padding: 14px 0;
+  border-right: 1px solid var(--rule-light);
+  padding-right: 20px;
+}
+
+.article-col:last-child { border-right: none; padding-right: 0; }
+.article-col + .article-col { padding-left: 4px; }
+
+/* ============================================
+   SPECIAL COMPONENTS
+   ============================================ */
+
+/* Index / "Above the fold" feature box */
+.feature-box {
+  border: 2px solid var(--ink);
+  padding: 16px;
+  margin: 14px 0;
+  background: var(--paper-warm);
+}
+
+.feature-box-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* Contact card — styled as classified ad */
+.classified {
+  border: 1px solid var(--ink);
+  padding: 12px;
+  margin-bottom: 10px;
+  background: var(--paper);
+}
+
+.classified-header {
+  font-family: 'Source Serif 4', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 5px;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.classified-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.classified-key {
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  flex-shrink: 0;
+  min-width: 56px;
+}
+
+.classified-val { color: var(--ink-light); font-style: italic; }
+.classified-val a { color: var(--ink); text-decoration: underline; }
+.classified-val a:hover { color: var(--red); }
+
+/* Skill table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+}
+
+.data-table th {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 5px 8px 4px 0;
+  border-bottom: 2px solid var(--ink);
+  color: var(--ink);
+}
+
+.data-table td {
+  padding: 5px 8px 5px 0;
+  border-bottom: 1px solid var(--rule-light);
+  color: var(--ink-light);
+  vertical-align: middle;
+}
+
+.data-table tr:hover td { background: var(--paper-warm); }
+
+.proficiency-bar {
+  width: 100px;
+  height: 6px;
+  background: var(--rule-light);
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.proficiency-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--ink);
+  animation: barfill 1.4s ease both;
+}
+
+@keyframes barfill { from { width: 0 !important; } }
+
+/* Portfolio project as news story */
+.story-card {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.story-card:last-child { border-bottom: none; }
+
+.story-kicker {
+  font-family: 'Source Serif 4', serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 3px;
+}
+
+/* Index box (right rail) */
+.index-box {
+  border-top: 3px solid var(--ink);
+  padding: 10px 0;
+}
+
+.index-box-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.index-item {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--rule-light);
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.index-item:hover .index-item-title { text-decoration: underline; }
+.index-item-pg { font-size: 10px; color: var(--ink-faint); white-space: nowrap; }
+.index-item-title { color: var(--ink-light); flex: 1; line-height: 1.3; }
+
+/* AD BOX */
+.ad-box {
+  border: 1px solid var(--rule);
+  text-align: center;
+  padding: 16px 12px;
+  background: var(--paper-warm);
+  margin: 14px 0;
+}
+
+.ad-box-label {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+  font-family: 'Source Serif 4', serif;
+}
+
+.ad-box-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.ad-box-sub {
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.newspaper-footer {
+  border-top: 3px double var(--ink);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--paper-warm);
+}
+
+.footer-col { flex: 1; min-width: 160px; }
+
+.footer-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 4px;
+}
+
+.footer-text {
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+
+.footer-text a { color: var(--ink); }
+
+.footer-center { text-align: center; }
+
+.footer-masthead-sm {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 28px;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ============================================
+   FADE IN
+   ============================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 760px) {
+  .cols-6, .cols-4, .cols-3, .cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .col-span-2, .col-span-3, .col-span-4 { grid-column: span 1; }
+  .article-col { border-right: none; padding-right: 0; border-bottom: 1px solid var(--rule-light); }
+  .article-col:last-child { border-bottom: none; }
+  .section-nav { overflow-x: auto; flex-wrap: nowrap; }
+  .newspaper { margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="newspaper">
+
+  <!-- EDITION RIBBON -->
+  <div class="edition-ribbon">
+    <div class="ribbon-section">
+      <span>VOL. CLXXIV &nbsp;...&nbsp; No. 60,420</span>
+      <span class="ribbon-sep">|</span>
+      <span id="today-date">Monday, May 26, 2026</span>
+    </div>
+    <div class="ribbon-section">
+      <span>JAKARTA, INDONESIA</span>
+      <span class="ribbon-sep">|</span>
+      <span>DIGITAL EDITION — LATE CITY FINAL</span>
+    </div>
+  </div>
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <div class="masthead-meta">
+        Full-Stack Web Developer<br>
+        Eight Years in the Field<br>
+        Tangerang, Indonesia
+      </div>
+      <div>
+        <span class="newspaper-name">The Angga Times</span>
+      </div>
+      <div class="masthead-meta masthead-meta-right">
+        anggafartiteur@gmail.com<br>
+        linkedin: angga-fartiteur-setiawan<br>
+        wa.link/ow0tvz
+      </div>
+    </div>
+    <div class="masthead-tagline">
+      "All The Code That's Fit to Ship" &nbsp;·&nbsp; Covering Property, HR Tech, POS Systems &amp; Beyond &nbsp;·&nbsp; Est. 2018
+    </div>
+  </div>
+
+  <!-- SECTION NAV -->
+  <nav class="section-nav">
+    <a class="section-nav-item active" onclick="showTab('front')">Front Page</a>
+    <a class="section-nav-item" onclick="showTab('portfolio')">Portfolio</a>
+    <a class="section-nav-item" onclick="showTab('skills')">Skills &amp; Experience</a>
+    <a class="section-nav-item" onclick="showTab('other')">The Enthusiast</a>
+    <a class="section-nav-item" onclick="showTab('contact')">Classifieds</a>
+  </nav>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-label">Breaking</div>
+    <div class="ticker-content">
+      <span class="ticker-inner">
+        Absensi Arifindo PWA launches with Android &amp; iOS support, 2025 &nbsp;·&nbsp;
+        HRIS Arifindo now managing complete HR lifecycle from recruitment to attendance &nbsp;·&nbsp;
+        Psikotes Online reduces recruitment paperwork by significant margin &nbsp;·&nbsp;
+        Folio POS reaches multi-store milestone since 2018 launch &nbsp;·&nbsp;
+        Developer also sighted pursuing photography and running #WKTK fashion brand &nbsp;·&nbsp;
+        Full-time traveler status confirmed — laptop spotted in multiple countries
+      </span>
+    </div>
+  </div>
+
+  <!-- PAGE BODY -->
+  <div class="page-body">
+
+    <!-- ==========================================
+         FRONT PAGE TAB
+    ========================================== -->
+    <div class="tab-panel active" id="tab-front">
+      <div class="spacer-sm"></div>
+
+      <!-- MAIN GRID: 6 columns -->
+      <div class="cols-6" style="align-items:start">
+
+        <!-- LEFT: portrait + bio — 2 cols -->
+        <div class="article-col col-span-2 fade-in">
+          <span class="section-label section-label-red">Profile</span>
+          <hr class="rule-mid">
+          <div class="spacer-sm"></div>
+
+          <div class="photo-box" style="height:220px;">👨‍💻</div>
+          <div class="photo-caption">Angga Fartiteur Setiawan at his workstation. Eight years building the web, one commit at a time. &nbsp;Photograph courtesy of the subject.</div>
+
+          <div class="classified" style="margin-top:4px">
+            <div class="classified-header">At a Glance</div>
+            <div class="classified-item"><span class="classified-key">Name</span><span class="classified-val">Angga Fartiteur Setiawan</span></div>
+            <div class="classified-item"><span class="classified-key">Title</span><span class="classified-val">Full-Stack Web Developer</span></div>
+            <div class="classified-item"><span class="classified-key">Years</span><span class="classified-val">8 years experience</span></div>
+            <div class="classified-item"><span class="classified-key">Base</span><span class="classified-val">Tangerang, Indonesia</span></div>
+            <div class="classified-item"><span class="classified-key">Status</span><span class="classified-val" style="color:var(--red);font-weight:700">Available for hire</span></div>
+          </div>
+        </div>
+
+        <!-- CENTER: lead story — 2 cols -->
+        <div class="article-col col-span-2 fade-in" style="transition-delay:.1s">
+          <span class="section-label">Developer Profile</span>
+          <hr class="rule-thick">
+          <div class="spacer-sm"></div>
+
+          <div class="hed-xl">Full-Stack Developer With 8 Years of Experience Seeks Next Challenge</div>
+          <div class="deck">Builder of HR systems, POS platforms, and property portals says the best code is code that solves real problems for real people.</div>
+          <div class="byline">By <b>The Angga Times</b> Staff Reporter</div>
+          <div class="dateline">Tangerang, Monday</div>
+
+          <div class="body-copy drop-cap">
+            <p>Angga Fartiteur Setiawan, a full-stack web developer based in Tangerang, has spent the better part of a decade crafting digital tools that sit at the intersection of functionality and visual design — a discipline he describes as both an engineering challenge and an artistic pursuit.</p>
+            <p>Mr. Setiawan, who began his career building point-of-sale software in 2018, has since expanded his repertoire to include human resource information systems, recruitment portals, attendance management applications, and company profile websites for the property sector.</p>
+            <p>"I have a passion for design," Mr. Setiawan said in a recent interview. "Any developer can make something work. I want to make something that people actually enjoy using."</p>
+          </div>
+
+          <div class="pull-quote">
+            <div class="pull-quote-text">"Fast-forward to today, and I've had the privilege of building software for a property company, a start-up, and a finance consulting firm."</div>
+            <div class="pull-quote-attr">— Angga Fartiteur Setiawan, Developer</div>
+          </div>
+
+          <div class="body-copy">
+            <p>His most recent project, a Progressive Web Application for employee attendance management, launched in 2025 and is available on both Android and iOS — a technical feat that demonstrates his growing fluency in mobile-first development.</p>
+          </div>
+
+          <div class="continues">Continued on Page A4 ›</div>
+        </div>
+
+        <!-- RIGHT: sidebar — 2 cols -->
+        <div class="col-span-2 fade-in" style="transition-delay:.2s;padding-top:14px;">
+
+          <div class="index-box">
+            <div class="index-box-title">Also in This Edition</div>
+            <div class="index-item" onclick="showTab('portfolio')">
+              <span class="index-item-pg">B1</span>
+              <span class="index-item-title">Seven Projects, Seven Solutions: A Review of the Developer's Complete Portfolio</span>
+            </div>
+            <div class="index-item" onclick="showTab('skills')">
+              <span class="index-item-pg">C1</span>
+              <span class="index-item-title">PHP, Laravel, and the Art of the Full Stack: An Analysis of Core Competencies</span>
+            </div>
+            <div class="index-item" onclick="showTab('other')">
+              <span class="index-item-pg">D1</span>
+              <span class="index-item-title">Through the Lens and Across Borders: How One Developer Balances Code, Camera, and Couture</span>
+            </div>
+            <div class="index-item" onclick="showTab('contact')">
+              <span class="index-item-pg">E1</span>
+              <span class="index-item-title">Classifieds: Open Positions, Collaboration Opportunities, Contact Information</span>
+            </div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="ad-box">
+            <div class="ad-box-label">Advertisement</div>
+            <div class="ad-box-main">#WKTK Fashion</div>
+            <div class="ad-box-sub">Anime-inspired streetwear.<br>Japanese aesthetics. Indonesian soul.<br><br><a href="https://www.tokopedia.com/wakuteka" target="_blank" style="color:var(--ink);font-size:11px">tokopedia.com/wakuteka</a></div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <!-- Secondary story -->
+          <div style="border-top:3px solid var(--ink);padding-top:10px">
+            <span class="section-label">Technology</span>
+            <div class="hed-md">New PWA Attendance App Bridges Android and iOS Divide</div>
+            <div class="byline">By Staff Reporter</div>
+            <div class="body-copy" style="font-size:12.5px">
+              <p>The developer's latest release, Absensi Arifindo, has been described by colleagues as one of the most technically ambitious projects of his career, requiring simultaneous optimization for both major mobile operating systems without a native codebase.</p>
+            </div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div style="border-top:1px solid var(--rule-light);padding-top:10px">
+            <span class="section-label">Arts &amp; Leisure</span>
+            <div class="hed-sm hed-italic">Photographer, Fashion Designer, Traveler: The Many Faces of Angga Fartiteur Setiawan</div>
+            <div class="body-copy" style="font-size:12px">
+              <p>Beyond the terminal window, Mr. Setiawan pursues photography — weddings, birthdays, prewed sessions — and runs an anime-inspired fashion label. He is, by his own description, a full-time traveler.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECOND ROW: three stories -->
+      <hr class="rule-double" style="margin-top:16px">
+      <div class="cols-3" style="padding-top:14px;align-items:start;">
+
+        <div class="article-col fade-in" style="transition-delay:.3s">
+          <span class="section-label section-label-red">HR Technology</span>
+          <div class="hed-md">Arifindo's Integrated HR Suite Sets New Standard for SME Workforce Management</div>
+          <div class="byline">By Our Technology Correspondent</div>
+          <div class="body-copy" style="font-size:13px">
+            <p>The HRIS platform built for PT Arifindo Adiputra Ariaguna now encompasses the full employee lifecycle — from online psychological testing during recruitment, through career portal applications, to daily attendance tracking via mobile PWA.</p>
+            <p>Industry observers note that few developers manage to deliver an ecosystem of this coherence at the small-to-medium enterprise scale.</p>
+          </div>
+        </div>
+
+        <div class="article-col fade-in" style="transition-delay:.35s">
+          <span class="section-label">Property</span>
+          <div class="hed-md">Daru Estates Digital Presence Reflects Boom in Tangerang Subsidised Housing</div>
+          <div class="byline">By Our Property Correspondent</div>
+          <div class="body-copy" style="font-size:13px">
+            <p>The company profile site for Daru Estates — described as the largest subsidised housing development in the Tangerang area — and its accompanying payment management application together represent a significant body of work in the property technology sector.</p>
+            <p>The payment system, launched in 2022, monitors all consumer transactions for the Daru Estate project with precision.</p>
+          </div>
+        </div>
+
+        <div class="article-col fade-in" style="transition-delay:.4s">
+          <span class="section-label">Retail Technology</span>
+          <div class="hed-md">Folio POS: The Application That Started It All, Still Running Eight Years On</div>
+          <div class="byline">By Our Retail Technology Desk</div>
+          <div class="body-copy" style="font-size:13px">
+            <p>Folio, a point-of-sale application for Android and web supporting both online and offline modes, was Mr. Setiawan's first major commercial product. Launched in 2018 for retail stores, restaurants, and salons, it remains operational across single and multi-store configurations.</p>
+            <p>The longevity of the platform speaks to the engineering decisions made nearly a decade ago.</p>
+          </div>
+          <div class="continues">foliopos.com ›</div>
+        </div>
+
+      </div>
+
+      <div class="spacer-md"></div>
+    </div>
+
+    <!-- ==========================================
+         PORTFOLIO TAB
+    ========================================== -->
+    <div class="tab-panel" id="tab-portfolio">
+      <div class="spacer-sm"></div>
+
+      <div class="cols-2" style="align-items:start;padding-top:14px">
+
+        <!-- Left: project stories -->
+        <div class="article-col fade-in">
+          <span class="section-label section-label-red">Portfolio — Section B</span>
+          <hr class="rule-thick">
+          <div class="spacer-sm"></div>
+
+          <div class="hed-lg">Seven Projects That Define a Career in Full-Stack Development</div>
+          <div class="deck">From a POS system in 2018 to a PWA attendance app in 2025, the developer's portfolio spans sectors and technologies with uncommon breadth.</div>
+          <div class="byline">By <b>The Angga Times</b> Portfolio Desk</div>
+          <div class="spacer-sm"></div>
+          <hr class="rule-thin">
+
+          <!-- Story cards -->
+          <div class="story-card">
+            <div class="story-kicker">HR Technology · 2024</div>
+            <div class="hed-md">Psikotes Online Arifindo</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>An online psychological testing platform developed to streamline the recruitment process at PT Arifindo Adiputra Ariaguna. The system improves assessment objectivity and significantly reduces paper consumption in the hiring pipeline.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://psikotes.arifindo.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">psikotes.arifindo.com ↗</a></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Enterprise Software · 2024</div>
+            <div class="hed-md">HRIS Arifindo</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>A comprehensive human resource information system managing employee data, career applicant pipelines sourced from the recruitment portal, psychological test results, and the daily attendance system — all within a single integrated platform.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://hris.arifindo.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">hris.arifindo.com ↗</a></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Recruitment Portal · 2024</div>
+            <div class="hed-md">Career Arifindo</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>The official recruitment portal for PT Arifindo, designed to simplify candidate search and selection while simultaneously supporting employer branding objectives and managing the full recruitment lifecycle in a structured and efficient manner.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://career.arifindo.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">career.arifindo.com ↗</a></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Mobile / PWA · 2025</div>
+            <div class="hed-md">Absensi Arifindo</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>A web-based attendance and staff management application built on Progressive Web App technology, delivering native-like experiences on both Android and iOS devices. Integrated with the broader HRIS ecosystem for seamless data flow.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://absensi.arifindo.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">absensi.arifindo.com ↗</a></div>
+          </div>
+
+        </div>
+
+        <!-- Right: more stories + ad -->
+        <div class="fade-in" style="padding-top:14px;transition-delay:.15s">
+          <hr class="rule-thick">
+          <div class="spacer-sm"></div>
+
+          <div class="story-card">
+            <div class="story-kicker">Property Technology · 2022</div>
+            <div class="hed-md">Sistem Payment Daru Estates</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>A transaction management application engineered to monitor all consumer transactions for the Daru Estate subsidised housing development in Tangerang with precision and reliability. A critical financial operations tool for the property developer.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://staging.arifindo.com/" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">staging.arifindo.com ↗</a></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Company Profile · 2023</div>
+            <div class="hed-md">Daru Estates Website</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>The company profile website for what is described as Tangerang's largest subsidised housing development. The site, developed for PT Arifindo Adiputra Ariaguna, serves as the primary public-facing digital presence for the Daru brand.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://daruestates.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">daruestates.com ↗</a></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Retail Technology · 2018</div>
+            <div class="hed-md">Folio POS</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>A point-of-sale application for Android and web, operating in both online and offline modes. Designed for retail stores, restaurants, and salons, it supports single-store and multi-store configurations and represents the developer's first major commercial product — one that has endured for eight years.</p>
+            </div>
+            <div style="margin-top:8px"><a href="https://foliopos.com" target="_blank" style="font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink);letter-spacing:.06em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink)">foliopos.com ↗</a></div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="pull-quote">
+            <div class="pull-quote-text">"I've had experience developing point-of-sale applications, company profiles, and payment management applications."</div>
+            <div class="pull-quote-attr">— Angga Fartiteur Setiawan</div>
+          </div>
+
+        </div>
+      </div>
+      <div class="spacer-md"></div>
+    </div>
+
+    <!-- ==========================================
+         SKILLS TAB
+    ========================================== -->
+    <div class="tab-panel" id="tab-skills">
+      <div class="spacer-sm"></div>
+      <div class="cols-2" style="padding-top:14px;align-items:start">
+
+        <div class="article-col fade-in">
+          <span class="section-label section-label-red">Skills &amp; Experience — Section C</span>
+          <hr class="rule-thick">
+          <div class="spacer-sm"></div>
+
+          <div class="hed-lg">PHP, Laravel, and Eight Years of Full-Stack Mastery</div>
+          <div class="deck">An analysis of the developer's technical capabilities, from server-side programming and database architecture to front-end frameworks and mobile deployment.</div>
+          <div class="byline">By Our Technology Analyst</div>
+          <div class="spacer-sm"></div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Technology</th>
+                <th>Proficiency</th>
+                <th>Category</th>
+                <th>Years</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>PHP / Laravel</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:95%"></div></div></td>
+                <td>Backend</td>
+                <td>8 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>HTML / CSS</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:94%"></div></div></td>
+                <td>Frontend</td>
+                <td>8 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>JavaScript</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:90%"></div></div></td>
+                <td>Frontend</td>
+                <td>7 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>MySQL</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:88%"></div></div></td>
+                <td>Database</td>
+                <td>8 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>Bootstrap</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:92%"></div></div></td>
+                <td>UI Framework</td>
+                <td>6 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>PWA / Mobile</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:75%"></div></div></td>
+                <td>Mobile</td>
+                <td>3 yrs</td>
+              </tr>
+              <tr>
+                <td><strong>UI/UX Design</strong></td>
+                <td><div class="proficiency-bar"><div class="proficiency-fill" style="width:82%"></div></div></td>
+                <td>Design</td>
+                <td>8 yrs</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="spacer-md"></div>
+
+          <div class="hed-md">Career Timeline</div>
+          <div class="spacer-sm"></div>
+
+          <div class="story-card">
+            <div class="story-kicker">Current Position · 2022 — Present</div>
+            <div class="hed-sm">Senior Developer, PT Arifindo Adiputra Ariaguna</div>
+            <div class="body-copy" style="font-size:13px"><p>Leading development of the integrated HR ecosystem — HRIS, Career Portal, Psikotes Online, and Absensi PWA — that now powers the company's entire human resource operation.</p></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Previous · 2020 — 2022</div>
+            <div class="hed-sm">Developer, Property Sector</div>
+            <div class="body-copy" style="font-size:13px"><p>Built the Daru Estates company profile and the payment management system for the Tangerang subsidised housing market.</p></div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-kicker">Founding Work · 2018</div>
+            <div class="hed-sm">Creator, Folio POS</div>
+            <div class="body-copy" style="font-size:13px"><p>Designed and launched the Folio point-of-sale platform — Android and web, online and offline — that has remained in active commercial use for eight years.</p></div>
+          </div>
+
+        </div>
+
+        <div class="fade-in" style="padding-top:14px;transition-delay:.15s">
+          <hr class="rule-thick">
+          <div class="spacer-sm"></div>
+
+          <div class="feature-box">
+            <div class="feature-box-title">Summary of Qualifications</div>
+            <div class="body-copy" style="font-size:13px">
+              <p>Mr. Setiawan is a full-stack web developer with demonstrated expertise across the complete software development lifecycle. His work spans backend server architecture, relational database design, front-end interface engineering, and mobile-first progressive web application development.</p>
+              <p style="margin-top:10px">He has delivered solutions for the property, retail, human resources, and startup sectors, with a consistent emphasis on combining technical rigour with considered visual design.</p>
+            </div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="pull-quote">
+            <div class="pull-quote-text">"I'm a full-stack web developer with a passion for design, capable of crafting visually stunning websites that seamlessly combine functionality and aesthetics."</div>
+            <div class="pull-quote-attr">— Developer's own summary</div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="hed-md">What Sets This Developer Apart</div>
+          <div class="body-copy" style="font-size:13px;margin-top:8px">
+            <p>Unlike many developers who specialise narrowly in either front-end presentation or back-end architecture, Mr. Setiawan's portfolio demonstrates genuine fluency across both disciplines, with the design sensibility of someone who has spent equal time studying what a site looks like as how it functions.</p>
+            <p>The breadth of his project history — spanning POS systems, HR platforms, property websites, and attendance applications — further indicates an adaptability that is uncommon at this level of technical proficiency.</p>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="ad-box">
+            <div class="ad-box-label">Professional Notice</div>
+            <div class="ad-box-main">Currently Available</div>
+            <div class="ad-box-sub">
+              Open to full-time, freelance,<br>and collaborative engagements.<br><br>
+              <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" style="color:var(--ink);font-size:11px;font-weight:700">Download Curriculum Vitae ↗</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="spacer-md"></div>
+    </div>
+
+    <!-- ==========================================
+         OTHER / ENTHUSIAST TAB
+    ========================================== -->
+    <div class="tab-panel" id="tab-other">
+      <div class="spacer-sm"></div>
+      <div style="padding-top:14px">
+        <span class="section-label section-label-red">Arts, Leisure &amp; Culture — Section D</span>
+        <hr class="rule-thick">
+        <div class="spacer-sm"></div>
+        <div class="hed-xl" style="text-align:center;max-width:700px;margin:0 auto 10px">The Enthusiast: Through the Lens, Across Borders, and Into the Wardrobe</div>
+        <div class="deck" style="text-align:center;max-width:600px;margin:0 auto 16px">When the terminal closes, a photographer, fashion designer, and full-time traveler emerges.</div>
+        <div class="byline" style="text-align:center;margin-bottom:16px">By Our Arts &amp; Culture Correspondent</div>
+        <hr class="rule-thin">
+        <div class="spacer-sm"></div>
+      </div>
+
+      <div class="cols-2" style="align-items:start">
+        <div class="article-col fade-in">
+          <div class="photo-box" style="height:180px;">📷</div>
+          <div class="photo-caption">Mr. Setiawan at work behind the lens. Wedding and prewed photography are among his specialities.</div>
+
+          <div class="hed-md">Photography: Capturing Life's Unrepeatable Moments</div>
+          <div class="body-copy">
+            <p>Photography is not merely a hobby for Mr. Setiawan — it is, by his own description, a passion that allows him to capture the essence of life's most precious moments. Whether at a joyous wedding celebration, a vibrant birthday gathering, or the enchanting moments of a prewed session, he finds immense satisfaction in immortalising these occasions through his lens.</p>
+            <p>What is perhaps more remarkable is that he has transformed this passion into a complementary income stream, offering event photography services alongside his development work. The discipline, he notes, has sharpened his visual sensibility — a quality that is evident in the considered aesthetics of his software interfaces.</p>
+          </div>
+
+          <div class="pull-quote" style="margin-top:16px">
+            <div class="pull-quote-text">"I find immense satisfaction in immortalising these special occasions through my lens."</div>
+            <div class="pull-quote-attr">— On his photography practice</div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:.15s">
+          <div class="photo-box" style="height:180px;">👕</div>
+          <div class="photo-caption">#WKTK collection. Available at tokopedia.com/wakuteka.</div>
+
+          <div class="hed-md">#WKTK: Where Anime Aesthetics Meet Indonesian Entrepreneurship</div>
+          <div class="body-copy">
+            <p>The fashion label #WKTK — available through Tokopedia at the handle <em>wakuteka</em> — is not a side project so much as a second vocation. Mr. Setiawan designs clothing and accessories that pay homage to iconic anime characters and infuse traditional Japanese visual aesthetics into wearable form.</p>
+            <p>The venture, he explains, is the perfect fusion of art, cultural appreciation, and entrepreneurship — a trio that also describes his approach to software development.</p>
+          </div>
+
+          <div class="spacer-sm"></div>
+          <div class="hed-md" style="margin-top:16px">The Full-Time Traveler</div>
+          <div class="body-copy">
+            <p>Perhaps the most striking detail in Mr. Setiawan's self-description is the final line: <em>I'm also a full-time traveler.</em> The laptop, it appears, is not anchored to any single desk. The combination of remote-compatible development work, event photography, and an e-commerce fashion brand provides the infrastructure for a life lived across geographies.</p>
+            <p>It is an existence that his website, in its understated way, presents as entirely natural — the logical conclusion of building tools that work from anywhere, for anyone.</p>
+          </div>
+
+          <div class="spacer-sm"></div>
+          <div style="border-top:1px solid var(--rule-light);padding-top:10px;font-family:'Source Serif 4',serif;font-size:11px;color:var(--ink-muted);font-style:italic">
+            Cheers to this wonderful world today — <a href="https://www.tokopedia.com/wakuteka" target="_blank" style="color:var(--ink)">#wktk</a>
+          </div>
+        </div>
+      </div>
+      <div class="spacer-md"></div>
+    </div>
+
+    <!-- ==========================================
+         CONTACT / CLASSIFIEDS TAB
+    ========================================== -->
+    <div class="tab-panel" id="tab-contact">
+      <div class="spacer-sm"></div>
+      <div style="padding-top:14px">
+        <span class="section-label section-label-red">Classifieds &amp; Notices — Section E</span>
+        <hr class="rule-thick">
+        <div class="spacer-sm"></div>
+        <div class="hed-lg" style="text-align:center">Professional Notices &amp; Contact Information</div>
+        <div class="deck" style="text-align:center;margin-bottom:16px">All enquiries, engagements, and collaboration proposals welcomed.</div>
+        <hr class="rule-thin">
+        <div class="spacer-sm"></div>
+      </div>
+
+      <div class="cols-3" style="align-items:start">
+
+        <div class="article-col fade-in">
+          <div class="classified">
+            <div class="classified-header">Employment Available</div>
+            <div class="hed-sm" style="margin-bottom:10px">Full-Stack Web Developer — Available for Engagement</div>
+            <div class="body-copy" style="font-size:12.5px;margin-bottom:12px">
+              <p>Experienced developer with 8 years across backend, frontend, database, and mobile disciplines. Comfortable working with property, HR, retail, and startup sectors. Design sensibility included at no additional charge.</p>
+            </div>
+            <div class="classified-item"><span class="classified-key">Type</span><span class="classified-val">Full-time / Freelance / Collab</span></div>
+            <div class="classified-item"><span class="classified-key">Notice</span><span class="classified-val" style="color:var(--red);font-weight:700">Currently available</span></div>
+          </div>
+        </div>
+
+        <div class="article-col fade-in" style="transition-delay:.1s">
+          <div class="classified">
+            <div class="classified-header">Contact Directory</div>
+            <div class="classified-item" style="margin-bottom:10px">
+              <span class="classified-key">LinkedIn</span>
+              <span class="classified-val"><a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank">angga-fartiteur-setiawan</a></span>
+            </div>
+            <div class="classified-item" style="margin-bottom:10px">
+              <span class="classified-key">WhatsApp</span>
+              <span class="classified-val"><a href="https://wa.link/ow0tvz" target="_blank">wa.link/ow0tvz</a></span>
+            </div>
+            <div class="classified-item" style="margin-bottom:10px">
+              <span class="classified-key">Email</span>
+              <span class="classified-val"><a href="mailto:anggafartiteur@gmail.com">anggafartiteur@gmail.com</a></span>
+            </div>
+            <div class="classified-item">
+              <span class="classified-key">CV</span>
+              <span class="classified-val"><a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank">Download PDF ↗</a></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in" style="transition-delay:.2s">
+          <div class="classified">
+            <div class="classified-header">Commercial Notice</div>
+            <div class="ad-box-main" style="font-size:14px;margin-bottom:6px">#WKTK Fashion Brand</div>
+            <div class="body-copy" style="font-size:12px;margin-bottom:10px">
+              <p>Anime-inspired clothing and accessories. Japanese aesthetics, Indonesian craftsmanship. Now available on Tokopedia.</p>
+            </div>
+            <div class="classified-item">
+              <span class="classified-key">Shop</span>
+              <span class="classified-val"><a href="https://www.tokopedia.com/wakuteka" target="_blank">tokopedia.com/wakuteka</a></span>
+            </div>
+          </div>
+
+          <div class="spacer-sm"></div>
+
+          <div class="classified">
+            <div class="classified-header">Photography Services</div>
+            <div class="body-copy" style="font-size:12px;margin-bottom:8px">
+              <p>Event photography including weddings, birthday parties, and prewed sessions. Part-time professional availability. Enquire via WhatsApp or email.</p>
+            </div>
+            <div class="classified-item">
+              <span class="classified-key">Contact</span>
+              <span class="classified-val"><a href="https://wa.link/ow0tvz" target="_blank">WhatsApp</a></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="spacer-md"></div>
+    </div>
+
+  </div><!-- end page-body -->
+
+  <!-- FOOTER -->
+  <div class="newspaper-footer">
+    <div class="footer-col">
+      <div class="footer-title">The Angga Times</div>
+      <div class="footer-text">
+        Published by Angga Fartiteur Setiawan.<br>
+        All rights reserved, 2026.<br>
+        Tangerang, Indonesia.
+      </div>
+    </div>
+    <div class="footer-col footer-center">
+      <span class="footer-masthead-sm">The Angga Times</span>
+      <div class="footer-text">
+        "All The Code That's Fit to Ship"<br>
+        <em>Cheers to this wonderful world today —
+        <a href="https://www.tokopedia.com/wakuteka" target="_blank">#wktk</a></em>
+      </div>
+    </div>
+    <div class="footer-col" style="text-align:right">
+      <div class="footer-title">Contact</div>
+      <div class="footer-text">
+        <a href="mailto:anggafartiteur@gmail.com">anggafartiteur@gmail.com</a><br>
+        <a href="https://wa.link/ow0tvz" target="_blank">WhatsApp</a><br>
+        <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .newspaper -->
+
+<script>
+/* DATE */
+const d = new Date();
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+document.getElementById('today-date').textContent =
+  days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+/* TAB SWITCHING */
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.section-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const idx = ['front','portfolio','skills','other','contact'].indexOf(name);
+  document.querySelectorAll('.section-nav-item')[idx]?.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // re-trigger fade-ins
+  document.querySelectorAll('#tab-' + name + ' .fade-in').forEach((el, i) => {
+    el.classList.remove('visible');
+    setTimeout(() => el.classList.add('visible'), 80 + i * 60);
+  });
+}
+
+/* FADE IN ON SCROLL */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+/* Initial front page fade */
+setTimeout(() => {
+  document.querySelectorAll('#tab-front .fade-in').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 80);
+  });
+}, 100);
+</script>
+</body>
+</html>
