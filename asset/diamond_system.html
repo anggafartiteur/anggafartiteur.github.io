@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diamond System — Pool Kicking Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
+  :root {
+    --felt: #1a5c38;
+    --felt-light: #206b42;
+    --rail: #5c3a1e;
+    --rail-dark: #3d2510;
+    --diamond: #f0c040;
+    --diamond-active: #ff6b35;
+    --cue: #f5e6c8;
+    --object: #e63946;
+    --path1: #00d4ff;
+    --path2: #ff9f1c;
+    --path3: #a8ff78;
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0c040;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Code Pro', monospace;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: var(--accent);
+    text-align: center;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 780px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    cursor: crosshair;
+  }
+
+  /* SIDE PANEL */
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+
+  .formula-box {
+    background: #0d1117;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .formula-box .big {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .formula-box .small {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .step {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+
+  .step-num {
+    background: var(--accent);
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .step-text strong { color: var(--text); }
+
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  select, input[type=range] {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.78rem;
+    padding: 6px 8px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  select:focus { border-color: var(--accent); }
+
+  input[type=range] {
+    padding: 4px 0;
+    accent-color: var(--accent);
+  }
+
+  .range-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .calc-result {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.72rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .calc-result .highlight { color: var(--accent); font-weight: 600; }
+  .calc-result .hit { color: var(--path1); font-weight: 600; }
+  .calc-result .warn { color: #ff6b35; }
+
+  .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-line {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.7rem;
+    padding: 7px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+
+  button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+  }
+
+  .note {
+    font-size: 0.68rem;
+    color: #ff6b35;
+    line-height: 1.5;
+    padding: 8px;
+    background: rgba(255,107,53,0.08);
+    border-left: 2px solid #ff6b35;
+    border-radius: 0 4px 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>The Diamond System</h1>
+<p class="subtitle">Interactive Pool Kicking Academy — Learn Rail Navigation</p>
+
+<div class="layout">
+  <div class="table-wrap">
+    <canvas id="table" width="720" height="420"></canvas>
+  </div>
+
+  <div class="panel">
+
+    <div class="card">
+      <div class="card-title">The Formula</div>
+      <div class="formula-box">
+        <div class="big">RAIL 1 + RAIL 3 = CB POS</div>
+        <div class="small">First Rail Hit + Third Rail Land = Cue Ball Start</div>
+      </div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Find your <strong>cue ball position</strong> (1–5 across the table)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Decide <strong>which diamond to target</strong> on the third rail</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Subtract</strong> target from position to get first rail hit point</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Aim <strong>through</strong> that diamond with <strong>running English</strong></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Calculator</div>
+      <div class="controls">
+        <div>
+          <label>Cue Ball Position</label>
+          <input type="range" id="cbPos" min="1" max="5" step="0.5" value="5">
+          <div class="range-row"><span>1</span><span id="cbPosVal">5</span><span>5</span></div>
+        </div>
+        <div>
+          <label>Target Diamond (3rd Rail)</label>
+          <input type="range" id="target" min="1" max="4" step="0.5" value="2">
+          <div class="range-row"><span>1</span><span id="targetVal">2</span><span>4</span></div>
+        </div>
+        <div>
+          <label>Table Cloth Condition</label>
+          <select id="cloth">
+            <option value="0">New / True tracking</option>
+            <option value="-0.5" selected>Normal / Slightly worn</option>
+            <option value="-1">Worn — tracks 1 short</option>
+            <option value="-2">Very worn — tracks 2 short</option>
+          </select>
+        </div>
+        <div class="calc-result" id="calcResult"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Examples</div>
+      <div class="btn-row">
+        <button onclick="loadExample(5,3,2)" id="ex1">5 = 3+2</button>
+        <button onclick="loadExample(4,2,2)" id="ex2">4 = 2+2</button>
+        <button onclick="loadExample(3,1.5,1.5)" id="ex3">3 = 1.5+1.5</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Legend</div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f5e6c8; border:2px solid #aaa;"></div>
+          Cue Ball
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#e63946;"></div>
+          Object Ball / Target
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f0c040;"></div>
+          Diamond marker
+        </div>
+        <div class="legend-item">
+          <div class="legend-line" style="background:#00d4ff;"></div>
+          Cue ball path (leg 1)
+        </div>
+        <div class="legend-item">
+          <div class="legend-line" style="background:#ff9f1c;"></div>
+          Cue ball path (leg 2)
+        </div>
+        <div class="legend-item">
+          <div class="legend-line" style="background:#a8ff78;"></div>
+          Cue ball path (leg 3 / result)
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      Always test the table first. Worn cloth tracks short — adjust your first-rail hit point accordingly.
+    </div>
+
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('table');
+const ctx = canvas.getContext('2d');
+
+// Table geometry (pixels)
+const R = 28; // rail width
+const W = canvas.width;
+const H = canvas.height;
+const FX = R;       // felt left
+const FY = R;       // felt top
+const FW = W - 2*R; // felt width
+const FH = H - 2*R; // felt height
+
+// Diamond positions
+// Long rail: 8 segments => 7 diamonds (positions 1-7 from left corner)
+// Short rail: 4 segments => 3 diamonds
+
+function longX(n) { return FX + (n/8)*FW; }  // n = 0..8
+function shortY(n) { return FY + (n/4)*FH; }  // n = 0..4
+
+// Ball position (1-5) maps to x across the top of the table
+// 1=left corner, 5=right corner (mirrored from short side perspective)
+// In the system: position 5 = far right corner pocket side
+// We'll place cue ball on the bottom short rail side
+// and shoot up to the top long rail, across, and back
+
+// Coordinate system:
+// Cue ball starts near BOTTOM of table, along bottom long rail
+// position 5 = bottom-right corner = (FX+FW, FY+FH)
+// position 1 = bottom-left corner  = (FX, FY+FH)
+// The cue ball position number maps to diamonds along the bottom long rail
+
+// For the diamond system as described:
+// CB position 5 => corner pocket (bottom right)
+// CB position 1 => far up the bottom rail
+
+function cbX(pos) {
+  // pos 1 = left area, pos 5 = right corner
+  return FX + ((pos-1)/4)*FW;
+}
+
+// First rail = top long rail (the rail the ball hits first)
+// Diamond 1 = leftmost, Diamond 7 = rightmost (but we use 1-8 scale)
+// In the formula: hit diamond 3 on first rail (out of 8 positions along top rail)
+function firstRailX(d) {
+  return FX + (d/8)*FW;
+}
+
+// Third rail = bottom long rail (same as start side but other end)
+// Diamond 2 on third rail
+function thirdRailX(d) {
+  return FX + (d/8)*FW;
+}
+
+// --- State ---
+let state = {
+  cbPos: 5,
+  targetDiamond: 2,
+  clothOffset: -0.5,
+};
+
+function computeHit() {
+  const raw = state.cbPos - state.targetDiamond;
+  const adjusted = raw + state.clothOffset;
+  return { raw, adjusted };
+}
+
+function updateCalc() {
+  const { raw, adjusted } = computeHit();
+  const cbPosSlider = parseFloat(document.getElementById('cbPos').value);
+  const targetSlider = parseFloat(document.getElementById('target').value);
+  document.getElementById('cbPosVal').textContent = cbPosSlider;
+  document.getElementById('targetVal').textContent = targetSlider;
+
+  let html = '';
+  html += `CB Position: <span class="highlight">${state.cbPos}</span><br>`;
+  html += `3rd Rail Target: <span class="highlight">${state.targetDiamond}</span><br>`;
+  html += `Raw hit point: <span class="highlight">${state.cbPos} − ${state.targetDiamond} = ${raw}</span><br>`;
+
+  if (state.clothOffset !== 0) {
+    html += `Cloth adj: <span class="warn">${state.clothOffset > 0 ? '+' : ''}${state.clothOffset}</span><br>`;
+    html += `Adjusted hit: <span class="hit">${adjusted.toFixed(1)} on 1st rail</span>`;
+  } else {
+    html += `Hit point: <span class="hit">${raw} on 1st rail</span>`;
+  }
+
+  if (adjusted <= 0 || adjusted > 8) {
+    html += `<br><span class="warn">Warning: hit point out of range</span>`;
+  }
+
+  document.getElementById('calcResult').innerHTML = html;
+  draw();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // --- Rail background ---
+  ctx.fillStyle = '#3d2510';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, W, H, 12);
+  ctx.fill();
+
+  // --- Felt ---
+  ctx.fillStyle = '#1a5c38';
+  ctx.fillRect(FX, FY, FW, FH);
+
+  // Felt texture lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let x = FX; x < FX+FW; x += 14) {
+    ctx.beginPath(); ctx.moveTo(x, FY); ctx.lineTo(x, FY+FH); ctx.stroke();
+  }
+
+  // --- Draw ball path ---
+  const { raw, adjusted } = computeHit();
+  const hitD = adjusted;
+  const cbx = cbX(state.cbPos);
+  const cby = FY + FH;  // bottom rail
+  const firstRailHitX = firstRailX(hitD);
+  const firstRailHitY = FY;  // top rail
+  const thirdRailHitX = thirdRailX(state.targetDiamond);
+  const thirdRailHitY = FY + FH;  // back to bottom rail
+  const targetX = thirdRailHitX;
+  const targetY = FY + FH - 8;
+
+  // Leg 1: cue ball to top rail
+  if (hitD > 0 && hitD <= 8) {
+    ctx.save();
+    ctx.shadowColor = '#00d4ff';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#00d4ff';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(cbx, cby - 14);
+    ctx.lineTo(firstRailHitX, firstRailHitY + 4);
+    ctx.stroke();
+    ctx.restore();
+
+    // Leg 2: top rail to third rail (short rail in between assumed)
+    // For simplicity we go directly to the bottom hit point (3-rail path simplification)
+    ctx.save();
+    ctx.shadowColor = '#ff9f1c';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#ff9f1c';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(firstRailHitX, firstRailHitY + 4);
+    // Bounce off short rail (right side) approximately
+    const shortRailX = FX + FW;
+    const shortRailY = FY + FH * 0.5; // midpoint approximation
+    ctx.lineTo(thirdRailHitX, thirdRailHitY - 4);
+    ctx.stroke();
+    ctx.restore();
+
+    // Arrow at end
+    ctx.save();
+    ctx.shadowColor = '#a8ff78';
+    ctx.shadowBlur = 10;
+    ctx.strokeStyle = '#a8ff78';
+    ctx.fillStyle = '#a8ff78';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    // small arrow pointing down
+    const ax = thirdRailHitX;
+    const ay = thirdRailHitY - 4;
+    ctx.beginPath();
+    ctx.moveTo(ax - 6, ay - 14);
+    ctx.lineTo(ax, ay);
+    ctx.lineTo(ax + 6, ay - 14);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // --- Pockets ---
+  const pocketR = 13;
+  const pockets = [
+    [FX, FY], [FX + FW/2, FY - 5], [FX+FW, FY],
+    [FX, FY+FH], [FX + FW/2, FY+FH+5], [FX+FW, FY+FH]
+  ];
+  pockets.forEach(([px, py]) => {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.beginPath();
+    ctx.arc(px, py, pocketR, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#2a1a08';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // --- Diamonds ---
+  // Top rail (first rail)
+  for (let i = 1; i <= 7; i++) {
+    const dx = FX + (i/8)*FW;
+    const dy = FY - R/2;
+    const isHit = Math.abs(i - hitD) < 0.3;
+    drawDiamond(ctx, dx, dy, isHit ? 8 : 5, isHit ? '#ff6b35' : '#f0c040');
+    if (i <= 4) {
+      ctx.fillStyle = isHit ? '#ff6b35' : '#aaa';
+      ctx.font = isHit ? 'bold 11px Source Code Pro' : '10px Source Code Pro';
+      ctx.textAlign = 'center';
+      ctx.fillText(i, dx, FY - R + 2);
+    }
+  }
+
+  // Bottom rail (third rail)
+  for (let i = 1; i <= 7; i++) {
+    const dx = FX + (i/8)*FW;
+    const dy = FY + FH + R/2;
+    const isTarget = Math.abs(i - state.targetDiamond) < 0.3;
+    const isCBPos = Math.abs(i*0.5 - state.cbPos*0.25) < 0.1; // rough
+    drawDiamond(ctx, dx, dy, isTarget ? 8 : 5, isTarget ? '#e63946' : '#f0c040');
+    if (i <= 4) {
+      ctx.fillStyle = isTarget ? '#e63946' : '#aaa';
+      ctx.font = isTarget ? 'bold 11px Source Code Pro' : '10px Source Code Pro';
+      ctx.textAlign = 'center';
+      ctx.fillText(i, dx, FY + FH + R - 4);
+    }
+  }
+
+  // Ball position numbers along top edge (above table)
+  for (let p = 1; p <= 5; p++) {
+    const px = cbX(p);
+    ctx.fillStyle = '#888';
+    ctx.font = '10px Source Code Pro';
+    ctx.textAlign = 'center';
+    ctx.fillText('P'+p, px, FY - R - 6);
+  }
+
+  // Left and right short rail diamonds
+  for (let i = 1; i <= 3; i++) {
+    const dy = FY + (i/4)*FH;
+    // Left
+    drawDiamond(ctx, FX - R/2, dy, 5, '#f0c040');
+    // Right
+    drawDiamond(ctx, FX + FW + R/2, dy, 5, '#f0c040');
+  }
+
+  // --- Cue Ball ---
+  ctx.save();
+  ctx.shadowColor = 'rgba(245,230,200,0.8)';
+  ctx.shadowBlur = 16;
+  ctx.beginPath();
+  ctx.arc(cbx, cby - 14, 13, 0, Math.PI*2);
+  ctx.fillStyle = '#f5e6c8';
+  ctx.fill();
+  ctx.strokeStyle = '#ccc';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.fillStyle = '#333';
+  ctx.font = 'bold 9px Source Code Pro';
+  ctx.textAlign = 'center';
+  ctx.fillText('CB', cbx, cby - 10);
+
+  // CB position label
+  ctx.fillStyle = '#00d4ff';
+  ctx.font = 'bold 10px Source Code Pro';
+  ctx.fillText('P' + state.cbPos, cbx, cby + 14);
+
+  // --- Object ball at target ---
+  if (hitD > 0 && hitD <= 8) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(230,57,70,0.8)';
+    ctx.shadowBlur = 14;
+    ctx.beginPath();
+    ctx.arc(targetX, targetY, 12, 0, Math.PI*2);
+    ctx.fillStyle = '#e63946';
+    ctx.fill();
+    ctx.strokeStyle = '#ff8888';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 8px Source Code Pro';
+    ctx.textAlign = 'center';
+    ctx.fillText('OB', targetX, targetY + 3);
+  }
+
+  // --- Hit point marker on first rail ---
+  if (hitD > 0 && hitD <= 8) {
+    const hx = firstRailX(hitD);
+    ctx.save();
+    ctx.shadowColor = '#ff6b35';
+    ctx.shadowBlur = 14;
+    ctx.fillStyle = '#ff6b35';
+    ctx.beginPath();
+    ctx.arc(hx, FY - 2, 7, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = '#ff6b35';
+    ctx.font = 'bold 9px Source Code Pro';
+    ctx.textAlign = 'center';
+    ctx.fillText('HIT', hx, FY - 18);
+  }
+
+  // --- Labels ---
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.font = '10px Source Code Pro';
+  ctx.textAlign = 'left';
+  ctx.fillText('1st Rail (aim here)', FX + 4, FY + 14);
+  ctx.textAlign = 'right';
+  ctx.fillText('3rd Rail (target)', FX + FW - 4, FY + FH - 8);
+}
+
+function drawDiamond(ctx, x, y, size, color) {
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 6;
+  ctx.beginPath();
+  ctx.moveTo(x, y - size);
+  ctx.lineTo(x + size*0.6, y);
+  ctx.lineTo(x, y + size);
+  ctx.lineTo(x - size*0.6, y);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// Event listeners
+document.getElementById('cbPos').addEventListener('input', function() {
+  state.cbPos = parseFloat(this.value);
+  updateCalc();
+});
+
+document.getElementById('target').addEventListener('input', function() {
+  state.targetDiamond = parseFloat(this.value);
+  updateCalc();
+});
+
+document.getElementById('cloth').addEventListener('change', function() {
+  state.clothOffset = parseFloat(this.value);
+  updateCalc();
+});
+
+function loadExample(pos, firstRail, thirdRail) {
+  state.cbPos = pos;
+  state.targetDiamond = thirdRail;
+  document.getElementById('cbPos').value = pos;
+  document.getElementById('target').value = thirdRail;
+  updateCalc();
+}
+
+// Init
+updateCalc();
+</script>
+</body>
+</html>
