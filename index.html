@@ -1,2536 +1,804 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Angga Fartiteur Setiawan — My Computer</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap");
-
-      /* ============================================================
-   WINDOWS XP LUNA THEME — LIGHT MODE
-   ============================================================ */
-      :root {
-        --xp-blue: #0a246a;
-        --xp-blue-mid: #2355c8;
-        --xp-blue-light: #3c81f3;
-        --xp-title-start: #0058e6;
-        --xp-title-end: #2f8fff;
-        --xp-title-stripe: #1166ee;
-        --xp-green: #3a7d1e;
-        --xp-green-mid: #5bb129;
-        --xp-green-light: #85c640;
-        --xp-taskbar: #1f3a8f;
-        --xp-taskbar-end: #3a6ed4;
-        --xp-btn-face: #ece9d8;
-        --xp-btn-hi: #ffffff;
-        --xp-btn-shadow: #aca899;
-        --xp-btn-dk: #716f64;
-        --xp-desktop: #3d6b35;
-        --xp-white: #ffffff;
-        --xp-text: #000000;
-        --xp-text-title: #ffffff;
-        --xp-select: #316ac5;
-        --xp-select-text: #ffffff;
-        --xp-border: #0054e3;
-        --xp-win-bg: #ece9d8;
-        --xp-content-bg: #ffffff;
-        --xp-menu-bg: #ffffff;
-        --xp-scrollbar: #c8c6ba;
-        --tahoma: "Tahoma", "MS Sans Serif", sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        user-select: none;
-      }
-
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        background: var(--xp-desktop);
-      }
-
-      /* ============================================================
-   DESKTOP / BLISS WALLPAPER
-   ============================================================ */
-      #desktop {
-        position: absolute;
-        inset: 0;
-        bottom: 30px;
-        background:
-          radial-gradient(ellipse at 30% 60%, rgba(255, 255, 255, 0.25) 0%, transparent 60%), radial-gradient(ellipse at 80% 40%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-          linear-gradient(180deg, #7ec8f0 0%, #a8d8f0 18%, #c8eafa 28%, #dff2ff 35%, #b8e068 36%, #72b832 45%, #5ba020 55%, #4a8c18 65%, #3d7814 100%);
-        overflow: hidden;
-      }
-
-      /* Clouds */
-      #desktop::before {
-        content: "";
-        position: absolute;
-        inset: 0 0 40% 0;
-        background:
-          radial-gradient(ellipse 180px 60px at 15% 30%, rgba(255, 255, 255, 0.85) 0%, transparent 70%), radial-gradient(ellipse 120px 40px at 22% 28%, rgba(255, 255, 255, 0.9) 0%, transparent 60%), radial-gradient(ellipse 200px 55px at 65% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 70%),
-          radial-gradient(ellipse 140px 45px at 72% 18%, rgba(255, 255, 255, 0.85) 0%, transparent 60%), radial-gradient(ellipse 90px 30px at 45% 35%, rgba(255, 255, 255, 0.6) 0%, transparent 70%), radial-gradient(ellipse 160px 50px at 88% 38%, rgba(255, 255, 255, 0.7) 0%, transparent 65%);
-        pointer-events: none;
-      }
-
-      /* Hill shine */
-      #desktop::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 45%;
-        background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(255, 255, 200, 0.18) 0%, transparent 70%);
-        pointer-events: none;
-      }
-
-      /* ============================================================
-   DESKTOP ICONS
-   ============================================================ */
-      .desktop-icons {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .d-icon {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 72px;
-        padding: 4px;
-        cursor: pointer;
-        border: 1px solid transparent;
-        gap: 3px;
-      }
-
-      .d-icon:hover {
-        background: rgba(49, 106, 197, 0.3);
-        border-color: rgba(49, 106, 197, 0.6);
-      }
-
-      .d-icon.selected {
-        background: rgba(49, 106, 197, 0.5);
-        border-color: rgba(255, 255, 255, 0.6);
-      }
-
-      .d-icon-img {
-        font-size: 32px;
-        line-height: 1;
-        filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-      }
-
-      .d-icon-label {
-        font-size: 11px;
-        color: white;
-        text-align: center;
-        text-shadow:
-          1px 1px 2px rgba(0, 0, 0, 0.8),
-          -1px -1px 2px rgba(0, 0, 0, 0.6);
-        line-height: 1.3;
-        word-break: break-word;
-        width: 100%;
-      }
-
-      /* ============================================================
-   TASKBAR
-   ============================================================ */
-      #taskbar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 30px;
-        background: linear-gradient(180deg, #1e49d0 0%, #1c3db8 3px, #2355d0 3px, #2458d8 8px, #1e4acc 8px, #1845c4 15px, #1640c0 15px, #173ec2 22px, #1a44c8 22px, #1640be 100%);
-        display: flex;
-        align-items: center;
-        z-index: 9000;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        border-top: 1px solid #0a246a;
-      }
-
-      /* Start button */
-      #start-btn {
-        height: 30px;
-        margin: 0;
-        padding: 0 12px 0 8px;
-        background: linear-gradient(180deg, #5bb129 0%, #3d8b1e 3px, #4e9e24 3px, #58ac28 8px, #3a8018 8px, #3a7a16 15px, #358012 15px, #317a10 22px, #357e12 22px, #2d7010 100%);
-        border: none;
-        border-radius: 0 12px 12px 0;
-        color: white;
-        font-family: var(--tahoma);
-        font-size: 13px;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.4),
-          2px 0 4px rgba(0, 0, 0, 0.4);
-        letter-spacing: 0.3px;
-        flex-shrink: 0;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-        position: relative;
-        z-index: 1;
-      }
-
-      #start-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 0 12px 12px 0;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%);
-        pointer-events: none;
-      }
-
-      #start-btn:hover {
-        filter: brightness(1.1);
-      }
-
-      #start-btn:active {
-        filter: brightness(0.95);
-        box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
-      }
-
-      .start-flag {
-        font-size: 18px;
-      }
-
-      /* Taskbar buttons */
-      .taskbar-area {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        padding: 0 4px;
-        overflow: hidden;
-      }
-
-      .taskbar-btn {
-        height: 22px;
-        padding: 0 8px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-bottom-color: rgba(0, 0, 0, 0.3);
-        color: white;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        max-width: 160px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-      }
-
-      .taskbar-btn.active {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-        border-color: rgba(0, 0, 0, 0.4);
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
-      }
-
-      .taskbar-btn:hover {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.1) 100%);
-      }
-
-      /* System tray */
-      .sys-tray {
-        height: 100%;
-        padding: 0 10px;
-        background: linear-gradient(180deg, #1234a8 0%, #0e2a96 100%);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border-left: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 11px;
-        color: white;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-        flex-shrink: 0;
-      }
-
-      /* ============================================================
-   START MENU
-   ============================================================ */
-      #start-menu {
-        position: fixed;
-        bottom: 30px;
-        left: 0;
-        width: 360px;
-        background: white;
-        border: 2px solid var(--xp-blue);
-        border-radius: 8px 8px 0 0;
-        box-shadow:
-          3px 0 8px rgba(0, 0, 0, 0.4),
-          0 -2px 6px rgba(0, 0, 0, 0.3);
-        z-index: 8999;
-        display: none;
-        overflow: hidden;
-        font-family: var(--tahoma);
-      }
-
-      #start-menu.open {
-        display: block;
-      }
-
-      .sm-header {
-        background: linear-gradient(90deg, #1a5cd8 0%, #3c90f8 100%);
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-height: 54px;
-      }
-
-      .sm-avatar {
-        width: 40px;
-        height: 40px;
-        background: var(--xp-btn-face);
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        flex-shrink: 0;
-      }
-
-      .sm-username {
-        color: white;
-        font-size: 13px;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-
-      .sm-body {
-        display: flex;
-        min-height: 240px;
-      }
-
-      .sm-left {
-        flex: 1;
-        border-right: 1px solid #d4d0c8;
-        padding: 8px 0;
-      }
-
-      .sm-right {
-        width: 140px;
-        background: #e8e4d8;
-        padding: 8px 0;
-      }
-
-      .sm-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 4px 12px;
-        cursor: pointer;
-        font-size: 11px;
-        color: var(--xp-text);
-      }
-
-      .sm-item:hover {
-        background: var(--xp-select);
-        color: white;
-      }
-
-      .sm-item-icon {
-        font-size: 20px;
-        flex-shrink: 0;
-      }
-
-      .sm-item-label {
-        font-size: 11px;
-      }
-
-      .sm-item-sub {
-        font-size: 10px;
-        color: #666;
-        line-height: 1.2;
-      }
-
-      .sm-item:hover .sm-item-sub {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      .sm-divider {
-        border: none;
-        border-top: 1px solid #d4d0c8;
-        margin: 4px 12px;
-      }
-
-      .sm-right-title {
-        font-size: 11px;
-        font-weight: bold;
-        color: var(--xp-blue);
-        padding: 2px 12px 4px;
-        border-bottom: 1px solid #c8c4b8;
-        margin-bottom: 4px;
-      }
-
-      .sm-footer {
-        background: linear-gradient(90deg, #1a5cd8 0%, #3c90f8 100%);
-        display: flex;
-        justify-content: flex-end;
-        gap: 4px;
-        padding: 6px 8px;
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
-      }
-
-      .sm-footer-btn {
-        background: linear-gradient(180deg, #5090f8 0%, #2060d0 100%);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-bottom-color: rgba(0, 0, 0, 0.3);
-        color: white;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        padding: 3px 10px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-        border-radius: 3px;
-      }
-
-      .sm-footer-btn:hover {
-        filter: brightness(1.15);
-      }
-
-      /* ============================================================
-   WINDOW BASE
-   ============================================================ */
-      .xp-window {
-        position: absolute;
-        min-width: 300px;
-        min-height: 200px;
-        background: var(--xp-win-bg);
-        border: 1px solid var(--xp-border);
-        box-shadow:
-          3px 3px 10px rgba(0, 0, 0, 0.45),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-        border-radius: 6px 6px 4px 4px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        z-index: 100;
-        font-family: var(--tahoma);
-      }
-
-      .xp-window.minimized {
-        display: none;
-      }
-
-      .xp-window.focused {
-        z-index: 500;
-      }
-
-      /* Titlebar */
-      .xp-titlebar {
-        height: 26px;
-        background: linear-gradient(180deg, #4494f8 0%, #2e7ef8 3px, #1e6cf8 3px, #1868f0 6px, #1060e8 6px, #0c58e0 12px, #0a54da 12px, #0850d8 18px, #0a54da 18px, #0c58e0 100%);
-        display: flex;
-        align-items: center;
-        padding: 0 4px 0 8px;
-        gap: 5px;
-        cursor: default;
-        flex-shrink: 0;
-        position: relative;
-      }
-
-      .xp-titlebar::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
-        pointer-events: none;
-      }
-
-      .xp-window.inactive .xp-titlebar {
-        background: linear-gradient(180deg, #a8b8c8 0%, #8898a8 100%);
-      }
-
-      .xp-titlebar-icon {
-        font-size: 14px;
-        flex-shrink: 0;
-      }
-
-      .xp-titlebar-text {
-        flex: 1;
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .xp-window.inactive .xp-titlebar-text {
-        color: #d0d8e0;
-        text-shadow: none;
-      }
-
-      /* Title buttons */
-      .xp-title-btns {
-        display: flex;
-        gap: 2px;
-        flex-shrink: 0;
-      }
-
-      .xp-tbtn {
-        width: 21px;
-        height: 18px;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        border-top-color: rgba(255, 255, 255, 0.6);
-        border-left-color: rgba(255, 255, 255, 0.4);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        font-weight: bold;
-        color: white;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-        position: relative;
-        border-radius: 3px;
-      }
-
-      .xp-tbtn-min {
-        background: linear-gradient(180deg, #6aabff 0%, #3580e8 100%);
-      }
-
-      .xp-tbtn-max {
-        background: linear-gradient(180deg, #6aabff 0%, #3580e8 100%);
-      }
-
-      .xp-tbtn-cls {
-        background: linear-gradient(180deg, #f86060 0%, #d83030 100%);
-        width: 23px;
-      }
-
-      .xp-tbtn:hover {
-        filter: brightness(1.2);
-      }
-
-      .xp-tbtn:active {
-        filter: brightness(0.9);
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.4);
-      }
-
-      .xp-window.inactive .xp-tbtn {
-        background: linear-gradient(180deg, #c0c8d0 0%, #a0a8b0 100%);
-      }
-
-      /* Toolbar / address bar */
-      .xp-toolbar {
-        background: var(--xp-btn-face);
-        border-bottom: 1px solid #b0ada0;
-        padding: 2px 6px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        flex-shrink: 0;
-      }
-
-      .xp-toolbar-btn {
-        height: 22px;
-        padding: 0 6px;
-        background: linear-gradient(180deg, #f8f8f0 0%, #e0ddd0 100%);
-        border: 1px solid #a8a898;
-        border-bottom-color: #888878;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        cursor: pointer;
-        color: var(--xp-text);
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        white-space: nowrap;
-      }
-
-      .xp-toolbar-btn:hover {
-        background: linear-gradient(180deg, #fff 0%, #ece9d8 100%);
-        border-color: #316ac5;
-      }
-
-      .xp-toolbar-btn:active {
-        background: linear-gradient(180deg, #ddd 0%, #eee 100%);
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
-      }
-
-      .xp-toolbar-sep {
-        width: 1px;
-        height: 18px;
-        background: #b0ada0;
-        border-right: 1px solid white;
-        margin: 0 2px;
-      }
-
-      .xp-address-bar {
-        flex: 1;
-        height: 20px;
-        background: white;
-        border: 1px solid #7f9db9;
-        border-bottom-color: #b0cde8;
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
-        padding: 0 4px;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        color: var(--xp-text);
-        outline: none;
-      }
-
-      /* Sidebar + content */
-      .xp-body {
-        display: flex;
-        flex: 1;
-        overflow: hidden;
-      }
-
-      .xp-sidebar {
-        width: 150px;
-        background: linear-gradient(180deg, #d9e8ff 0%, #c8d8f8 100%);
-        border-right: 1px solid #a8b8d8;
-        overflow-y: auto;
-        flex-shrink: 0;
-        padding-bottom: 8px;
-      }
-
-      .xp-sidebar-section {
-        margin-bottom: 2px;
-      }
-
-      .xp-sidebar-title {
-        background: linear-gradient(180deg, #2060c8 0%, #1848a8 100%);
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
-        padding: 3px 8px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        cursor: pointer;
-      }
-
-      .xp-sidebar-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 3px 8px 3px 12px;
-        cursor: pointer;
-        font-size: 11px;
-        color: var(--xp-blue);
-        text-decoration: underline;
-        line-height: 1.4;
-      }
-
-      .xp-sidebar-item:hover {
-        background: rgba(49, 106, 197, 0.15);
-      }
-
-      .xp-sidebar-item-icon {
-        font-size: 14px;
-        flex-shrink: 0;
-      }
-
-      /* Content pane */
-      .xp-content {
-        flex: 1;
-        background: white;
-        overflow-y: auto;
-        padding: 0;
-      }
-
-      /* Status bar */
-      .xp-statusbar {
-        height: 18px;
-        background: var(--xp-btn-face);
-        border-top: 1px solid #b0ada0;
-        display: flex;
-        align-items: center;
-        padding: 0 4px;
-        font-size: 11px;
-        color: #444;
-        flex-shrink: 0;
-        gap: 1px;
-      }
-
-      .xp-status-pane {
-        padding: 0 8px;
-        border-right: 1px solid #b0ada0;
-        border-left: 1px solid white;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        font-size: 10px;
-      }
-
-      /* Scrollbar XP style */
-      .xp-content::-webkit-scrollbar {
-        width: 16px;
-      }
-
-      .xp-content::-webkit-scrollbar-track {
-        background: var(--xp-scrollbar);
-        border-left: 1px solid #a8a898;
-      }
-
-      .xp-content::-webkit-scrollbar-thumb {
-        background: linear-gradient(90deg, #f0ede0 0%, #c8c4b4 40%, #b8b4a4 100%);
-        border: 1px solid #a8a898;
-        border-right-color: #e8e4d4;
-      }
-
-      .xp-sidebar::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      .xp-sidebar::-webkit-scrollbar-track {
-        background: #c8d8f8;
-      }
-
-      .xp-sidebar::-webkit-scrollbar-thumb {
-        background: linear-gradient(90deg, #a8b8d8 0%, #8898b8 100%);
-        border: 1px solid #8898b8;
-      }
-
-      /* ============================================================
-   WINDOW CONTENT STYLES
-   ============================================================ */
-      .win-content-pad {
-        padding: 16px 20px;
-      }
-
-      /* About / Hello content */
-      .xp-profile-header {
-        display: flex;
-        gap: 16px;
-        align-items: flex-start;
-        padding: 16px;
-        background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
-        border-bottom: 1px solid #c8d8f0;
-        margin-bottom: 0;
-      }
-
-      .xp-avatar-big {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #c8d8ff 0%, #a8b8f0 100%);
-        border: 2px solid #7898d8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-        flex-shrink: 0;
-        box-shadow:
-          inset 1px 1px 3px rgba(255, 255, 255, 0.8),
-          2px 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .xp-profile-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: var(--xp-blue);
-        margin-bottom: 2px;
-      }
-
-      .xp-profile-title {
-        font-size: 11px;
-        color: #666;
-        margin-bottom: 8px;
-        font-style: italic;
-      }
-
-      .xp-profile-body {
-        padding: 16px 20px;
-        font-size: 12px;
-        line-height: 1.7;
-        color: #333;
-      }
-
-      .xp-profile-body p {
-        margin-bottom: 10px;
-      }
-
-      .xp-profile-body b {
-        color: var(--xp-blue);
-      }
-
-      /* XP Info Panel (like the colored boxes in explorer) */
-      .xp-info-panel {
-        background: linear-gradient(180deg, #ddeeff 0%, #c8daff 100%);
-        border: 1px solid #a8c0e8;
-        margin: 12px 16px;
-        padding: 10px 12px;
-      }
-
-      .xp-info-panel-title {
-        font-size: 11px;
-        font-weight: bold;
-        color: var(--xp-blue);
-        margin-bottom: 6px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-
-      /* Link buttons XP style */
-      .xp-link-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        background: linear-gradient(180deg, #f8f8f0 0%, #dedad0 100%);
-        border: 1px solid #8e8a7c;
-        border-bottom-color: #6e6a5c;
-        border-right-color: #6e6a5c;
-        font-family: var(--tahoma);
-        font-size: 11px;
-        color: var(--xp-text);
-        cursor: pointer;
-        text-decoration: none;
-        margin: 3px;
-        box-shadow: 1px 1px 0 white inset;
-      }
-
-      .xp-link-btn:hover {
-        background: linear-gradient(180deg, #fff8d0 0%, #ece8a8 100%);
-        border-color: #316ac5;
-      }
-
-      .xp-link-btn:active {
-        background: linear-gradient(180deg, #dedad0 0%, #f0ede0 100%);
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
-        border-color: #316ac5;
-      }
-
-      /* ============================================================
-   PORTFOLIO GRID (icon view like WinExplorer)
-   ============================================================ */
-      .xp-icon-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 4px;
-        padding: 8px;
-      }
-
-      .xp-file-icon {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 6px 4px;
-        cursor: pointer;
-        border: 1px solid transparent;
-        text-align: center;
-        gap: 3px;
-        border-radius: 2px;
-      }
-
-      .xp-file-icon:hover {
-        background: rgba(49, 106, 197, 0.15);
-        border-color: rgba(49, 106, 197, 0.4);
-      }
-
-      .xp-file-icon.selected {
-        background: rgba(49, 106, 197, 0.25);
-        border-color: rgba(49, 106, 197, 0.6);
-      }
-
-      .xp-file-icon-img {
-        font-size: 36px;
-        line-height: 1;
-      }
-
-      .xp-file-icon-name {
-        font-size: 11px;
-        color: var(--xp-text);
-        word-break: break-word;
-        line-height: 1.3;
-        max-width: 100%;
-      }
-
-      /* Detail view */
-      .xp-list-view {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 11px;
-      }
-
-      .xp-list-view thead th {
-        background: linear-gradient(180deg, #f0ede0 0%, #dedad0 100%);
-        border-right: 1px solid #c0bdb0;
-        border-bottom: 1px solid #a0a090;
-        padding: 3px 8px;
-        text-align: left;
-        font-weight: bold;
-        color: var(--xp-text);
-        cursor: pointer;
-        white-space: nowrap;
-      }
-
-      .xp-list-view thead th:hover {
-        background: linear-gradient(180deg, #fff 0%, #ece9d8 100%);
-      }
-
-      .xp-list-view tbody tr {
-        cursor: pointer;
-      }
-
-      .xp-list-view tbody tr:hover td {
-        background: rgba(49, 106, 197, 0.1);
-      }
-
-      .xp-list-view tbody tr.selected td {
-        background: var(--xp-select);
-        color: var(--xp-select-text);
-      }
-
-      .xp-list-view tbody td {
-        border-bottom: 1px solid #f0ede0;
-        padding: 3px 8px;
-        color: var(--xp-text);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      /* Skills bars */
-      .skills-content {
-        padding: 16px;
-      }
-
-      .skill-group-title {
-        font-size: 12px;
-        font-weight: bold;
-        color: var(--xp-blue);
-        background: linear-gradient(90deg, #ddeeff 0%, transparent 100%);
-        padding: 4px 8px;
-        border-left: 3px solid var(--xp-blue-light);
-        margin-bottom: 8px;
-        margin-top: 12px;
-      }
-
-      .skill-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 6px;
-        padding: 3px 6px;
-      }
-
-      .skill-row:hover {
-        background: rgba(49, 106, 197, 0.08);
-      }
-
-      .skill-name {
-        width: 130px;
-        font-size: 11px;
-        color: #333;
-        flex-shrink: 0;
-      }
-
-      .skill-bar-outer {
-        flex: 1;
-        height: 14px;
-        background: white;
-        border: 1px solid #a8a898;
-        border-bottom-color: #c8c4b4;
-        border-right-color: #c8c4b4;
-        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .skill-bar-inner {
-        height: 100%;
-        background: linear-gradient(180deg, #68b8ff 0%, #2878e8 40%, #1060d0 60%, #2878e8 100%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        animation: xpbar 1.4s ease both;
-        position: relative;
-      }
-
-      .skill-bar-inner::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(90deg, transparent 0, transparent 10px, rgba(255, 255, 255, 0.15) 10px, rgba(255, 255, 255, 0.15) 14px);
-      }
-
-      @keyframes xpbar {
-        from {
-          width: 0 !important;
-        }
-      }
-
-      .skill-pct {
-        width: 34px;
-        font-size: 10px;
-        color: #666;
-        text-align: right;
-        flex-shrink: 0;
-      }
-
-      /* Notepad / about details window */
-      .xp-notepad {
-        background: white;
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-        padding: 8px;
-        color: #111;
-        line-height: 1.7;
-        white-space: pre-wrap;
-        overflow-y: auto;
-        height: 100%;
-      }
-
-      /* Properties dialog */
-      .xp-dialog-body {
-        padding: 16px;
-        font-size: 12px;
-      }
-
-      .xp-dialog-row {
-        display: flex;
-        gap: 12px;
-        margin-bottom: 8px;
-        border-bottom: 1px solid #f0ede0;
-        padding-bottom: 6px;
-      }
-
-      .xp-dialog-key {
-        width: 100px;
-        color: #666;
-        font-size: 11px;
-        flex-shrink: 0;
-      }
-
-      .xp-dialog-val {
-        color: var(--xp-text);
-        font-size: 11px;
-        font-weight: bold;
-      }
-
-      /* Tab control XP style */
-      .xp-tabs {
-        display: flex;
-        background: var(--xp-btn-face);
-        border-bottom: 2px solid #8e8a7c;
-        padding: 4px 6px 0;
-        gap: 2px;
-        flex-shrink: 0;
-      }
-
-      .xp-tab {
-        padding: 4px 12px 3px;
-        background: linear-gradient(180deg, #f0ede0 0%, #dedad0 100%);
-        border: 1px solid #8e8a7c;
-        border-bottom: none;
-        cursor: pointer;
-        font-size: 11px;
-        color: #333;
-        position: relative;
-        top: 1px;
-        border-radius: 3px 3px 0 0;
-      }
-
-      .xp-tab.active {
-        background: white;
-        border-color: #8e8a7c;
-        color: var(--xp-text);
-        font-weight: bold;
-        z-index: 1;
-        top: 2px;
-        padding-bottom: 4px;
-      }
-
-      .xp-tab:hover:not(.active) {
-        background: linear-gradient(180deg, #fff 0%, #ece9d8 100%);
-      }
-
-      .xp-tab-content {
-        display: none;
-        overflow-y: auto;
-        flex: 1;
-      }
-
-      .xp-tab-content.active {
-        display: block;
-      }
-
-      /* ============================================================
-   RESIZE HANDLE
-   ============================================================ */
-      .resize-handle {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 16px;
-        height: 16px;
-        cursor: se-resize;
-        background: linear-gradient(135deg, transparent 30%, #b0ada0 30%, #b0ada0 40%, transparent 40%, transparent 55%, #b0ada0 55%, #b0ada0 65%, transparent 65%, transparent 80%, #b0ada0 80%, #b0ada0 90%, transparent 90%);
-      }
-
-      /* ============================================================
-   CONTEXT MENU
-   ============================================================ */
-      .ctx-menu {
-        position: fixed;
-        background: white;
-        border: 1px solid #a8a898;
-        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-        z-index: 9990;
-        padding: 2px 0;
-        min-width: 160px;
-        font-size: 11px;
-        display: none;
-      }
-
-      .ctx-menu.open {
-        display: block;
-      }
-
-      .ctx-item {
-        padding: 4px 20px;
-        cursor: pointer;
-        color: var(--xp-text);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .ctx-item:hover {
-        background: var(--xp-select);
-        color: white;
-      }
-
-      .ctx-sep {
-        border: none;
-        border-top: 1px solid #d4d0c8;
-        margin: 3px 0;
-      }
-
-      /* ============================================================
-   TOOLTIP
-   ============================================================ */
-      .xp-tooltip {
-        position: fixed;
-        background: #ffffc0;
-        border: 1px solid #888;
-        padding: 3px 6px;
-        font-size: 11px;
-        color: #000;
-        pointer-events: none;
-        z-index: 9998;
-        display: none;
-        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-      }
-
-      /* ============================================================
-   MISC
-   ============================================================ */
-      .xp-link {
-        color: var(--xp-blue);
-        text-decoration: underline;
-        cursor: pointer;
-        font-size: 11px;
-      }
-
-      .xp-link:hover {
-        color: var(--xp-blue-light);
-      }
-
-      .hr-xp {
-        border: none;
-        border-top: 1px solid #c8c4b4;
-        border-bottom: 1px solid white;
-        margin: 8px 0;
-      }
-
-      .tag-xp {
-        display: inline-block;
-        background: linear-gradient(180deg, #e8f0ff 0%, #d0dff8 100%);
-        border: 1px solid #a8b8d8;
-        font-size: 10px;
-        padding: 1px 6px;
-        color: var(--xp-blue);
-        margin: 2px;
-      }
-
-      /* Scrollbar thin for lists */
-      .thin-scroll::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      .thin-scroll::-webkit-scrollbar-track {
-        background: #f0ede0;
-      }
-
-      .thin-scroll::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #c8c4b4 0%, #a8a498 100%);
-        border: 1px solid #a8a498;
-      }
-
-      /* ============================================================
-   TOUCH / MOBILE ADJUSTMENTS
-   Keeps full XP look — just makes it usable on touch screens
-   ============================================================ */
-      @media (max-width: 768px) {
-        /* Bigger tap targets on titlebar buttons */
-        .xp-tbtn {
-          width: 28px;
-          height: 24px;
-          font-size: 12px;
-        }
-
-        .xp-tbtn-cls {
-          width: 30px;
-        }
-
-        /* Windows: start smaller and centered so they fit the screen */
-        .xp-window {
-          min-width: 0 !important;
-          min-height: 0 !important;
-          touch-action: none;
-          /* let our JS handle all touch on windows */
-        }
-
-        /* Bigger resize handle — easier to grab with finger */
-        .resize-handle {
-          width: 28px;
-          height: 28px;
-        }
-
-        /* Taskbar: slightly taller for fat fingers */
-        #taskbar {
-          height: 36px;
-        }
-
-        #start-btn {
-          height: 36px;
-          font-size: 12px;
-        }
-
-        .taskbar-btn {
-          height: 28px;
-          font-size: 11px;
-          padding: 0 10px;
-        }
-
-        .sys-tray {
-          padding: 0 12px;
-          gap: 10px;
-        }
-
-        /* Start menu: full width on small screens */
-        #start-menu {
-          width: 100%;
-          border-radius: 8px 8px 0 0;
-        }
-
-        .sm-body {
-          min-height: 200px;
-        }
-
-        .sm-item {
-          padding: 8px 12px;
-        }
-
-        /* bigger tap target */
-        .sm-footer-btn {
-          padding: 6px 14px;
-        }
-
-        /* Desktop icons: bigger tap area */
-        .d-icon {
-          width: 80px;
-          padding: 6px;
-          gap: 5px;
-        }
-
-        .d-icon-img {
-          font-size: 36px;
-        }
-
-        .d-icon-label {
-          font-size: 12px;
-        }
-
-        /* Sidebar items: bigger tap area */
-        .xp-sidebar-item {
-          padding: 7px 8px 7px 12px;
-          font-size: 12px;
-        }
-
-        .xp-sidebar-title {
-          padding: 5px 8px;
-          font-size: 12px;
-        }
-
-        /* Content: allow scrolling inside windows */
-        .xp-content {
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .thin-scroll {
-          -webkit-overflow-scrolling: touch;
-        }
-
-        /* Toolbar buttons: bigger */
-        .xp-toolbar-btn {
-          height: 26px;
-          padding: 0 10px;
-          font-size: 12px;
-        }
-
-        /* XP Link buttons: easier to tap */
-        .xp-link-btn {
-          padding: 7px 14px;
-          font-size: 12px;
-        }
-
-        /* Skill rows: more breathing room */
-        .skill-row {
-          padding: 6px;
-        }
-
-        /* Context menu: bigger items */
-        .ctx-item {
-          padding: 10px 20px;
-          font-size: 12px;
-        }
-
-        /* Tab buttons in skills window */
-        .xp-tab {
-          padding: 7px 14px 6px;
-          font-size: 12px;
-        }
-
-        /* Desktop area above taskbar */
-        #desktop {
-          bottom: 36px;
-        }
-      }
-
-      /* Very small screens — make windows take more of the screen */
-      @media (max-width: 480px) {
-        .xp-sidebar {
-          width: 120px;
-        }
-
-        .xp-tabs {
-          flex-wrap: nowrap;
-          overflow-x: auto;
-        }
-
-        .xp-tab {
-          flex-shrink: 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- DESKTOP -->
-    <div id="desktop">
-      <div class="desktop-icons">
-        <div class="d-icon" ondblclick="openWindow('win-about')" title="My Profile">
-          <div class="d-icon-img">👤</div>
-          <div class="d-icon-label">Angga's Profile</div>
-        </div>
-        <div class="d-icon" ondblclick="openWindow('win-portfolio')" title="Portfolio">
-          <div class="d-icon-img"><img src="asset/ico/mycomputer.png" style="width: 30px; height: 30px" /></div>
-          <div class="d-icon-label">My Portfolio</div>
-        </div>
-        <div class="d-icon" ondblclick="openWindow('win-skills')" title="Skills">
-          <div class="d-icon-img">⚙️</div>
-          <div class="d-icon-label">Skills &amp; XP</div>
-        </div>
-        <div class="d-icon" ondblclick="openWindow('win-other')" title="Hobbies">
-          <div class="d-icon-img">🌟</div>
-          <div class="d-icon-label">The Enthusiasm</div>
-        </div>
-        <div class="d-icon" ondblclick="openWindow('win-contact')" title="Contact">
-          <div class="d-icon-img">📧</div>
-          <div class="d-icon-label">Contact Info</div>
-        </div>
-        <div class="d-icon" ondblclick="openWindow('win-notepad')" title="README">
-          <div class="d-icon-img">📝</div>
-          <div class="d-icon-label">README.txt</div>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Angga Fartiteur Setiawan - Full-Stack Web Developer. Portfolio showcasing 8 years of experience in HR, Property, Retail, and Startup sectors." />
+  <meta property="og:title" content="Angga Fartiteur Setiawan — My Computer" />
+  <meta property="og:description"
+    content="Angga Fartiteur Setiawan - Full-Stack Web Developer. Portfolio showcasing 8 years of experience in HR, Property, Retail, and Startup sectors." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anggafartiteur.github.io/" />
+  <meta property="og:image" content="https://anggafartiteur.github.io/asset/ico/mycomputer.png" />
+  <title>Angga Fartiteur Setiawan — My Computer</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="asset/style.css">
+
+</head>
+
+<body>
+  <!-- DESKTOP -->
+  <div id="desktop">
+    <div class="desktop-icons">
+      <div class="d-icon" ondblclick="openWindow('win-about')" title="My Profile">
+        <img class="d-icon-img" src="asset/ico/User Accounts.png" />
+        <div class="d-icon-label">Angga's Profile</div>
+      </div>
+      <div class="d-icon" ondblclick="openWindow('win-portfolio')" title="My Portfolio">
+        <img class="d-icon-img" src="asset/ico/Briefcase.png" />
+        <div class="d-icon-label">My Portfolio</div>
+      </div>
+      <div class="d-icon" ondblclick="openWindow('win-skills')" title="Skills">
+        <img class="d-icon-img" src="asset/ico/System Properties.png" />
+        <div class="d-icon-label">Skills &amp; XP</div>
+      </div>
+      <div class="d-icon" ondblclick="openWindow('win-other')" title="Enthusiasm">
+        <img class="d-icon-img" src="asset/ico/Favorites.png" />
+        <div class="d-icon-label">The Enthusiasm</div>
+      </div>
+      <div class="d-icon" ondblclick="openWindow('win-contact')" title="Contact">
+        <img class="d-icon-img" src="asset/ico/Outlook Express.png" />
+        <div class="d-icon-label">Contact Info</div>
+      </div>
+      <div class="d-icon" ondblclick="openWindow('win-notepad')" title="README">
+        <img class="d-icon-img" src="asset/ico/Notepad.png" />
+        <div class="d-icon-label">README.txt</div>
       </div>
     </div>
+  </div>
 
-    <!-- ============================================================
-     WINDOW: ABOUT / HELLO
-     ============================================================ -->
-    <div class="xp-window" id="win-about" style="width: 580px; height: 480px; top: 40px; left: 80px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-about')">
-        <span class="xp-titlebar-icon">👤</span>
-        <span class="xp-titlebar-text">Angga Fartiteur Setiawan — Profile</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-about')" title="Minimize">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-about')" title="Maximize">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-about')" title="Close">✕</div>
-        </div>
-      </div>
-
-      <div class="xp-toolbar">
-        <button class="xp-toolbar-btn">◀ Back</button>
-        <button class="xp-toolbar-btn">▶ Forward</button>
-        <div class="xp-toolbar-sep"></div>
-        <button class="xp-toolbar-btn">⬆ Up</button>
-        <div class="xp-toolbar-sep"></div>
-        <input class="xp-address-bar" value="C:\Users\Angga\Profile" readonly />
-        <button class="xp-toolbar-btn">Go ▶</button>
-      </div>
-
-      <div class="xp-body">
-        <div class="xp-sidebar thin-scroll">
-          <div class="xp-sidebar-section">
-            <div class="xp-sidebar-title">📁 Quick Links</div>
-            <div class="xp-sidebar-item" onclick="openWindow('win-portfolio')"><span class="xp-sidebar-item-icon">💼</span>Portfolio</div>
-            <div class="xp-sidebar-item" onclick="openWindow('win-skills')"><span class="xp-sidebar-item-icon">⚙️</span>Skills</div>
-            <div class="xp-sidebar-item" onclick="openWindow('win-contact')"><span class="xp-sidebar-item-icon">📧</span>Contact</div>
-          </div>
-          <div class="xp-sidebar-section" style="margin-top: 8px">
-            <div class="xp-sidebar-title">🔗 Details</div>
-            <div style="padding: 6px 8px; font-size: 10px; color: #336; line-height: 1.8">
-              <b>Full-Stack Dev</b><br />
-              8 Years Exp<br />
-              Tangerang, ID<br />
-              <span style="color: green; font-weight: bold">● Available</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="xp-content thin-scroll">
-          <div class="xp-profile-header">
-            <div class="xp-avatar-big">👨‍💻</div>
-            <div>
-              <div class="xp-profile-name">Angga Fartiteur Setiawan</div>
-              <div class="xp-profile-title">Full-Stack Web Developer &nbsp;|&nbsp; <s>Creative Director</s></div>
-              <div style="display: flex; flex-wrap: wrap; gap: 2px; margin-top: 6px">
-                <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="xp-link-btn">🔗 LinkedIn</a>
-                <a href="https://wa.link/ow0tvz" target="_blank" class="xp-link-btn">💬 WhatsApp</a>
-                <a href="mailto:anggafartiteur@gmail.com" class="xp-link-btn">📧 Email</a>
-                <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" class="xp-link-btn">📄 CV</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="xp-info-panel" style="margin-top: 12px">
-            <div class="xp-info-panel-title">ℹ About Me</div>
-            <p style="font-size: 11px; line-height: 1.7; color: #333">
-              I'm a <b>full-stack web developer</b> with a passion for design, capable of crafting visually stunning websites that seamlessly combine <b>functionality and aesthetics</b>. I have <b>eight years of experience</b> in web development — POS applications, company profiles, and payment
-              management systems.
-            </p>
-          </div>
-
-          <div class="xp-profile-body">
-            <p>Fast-forward to today, and I've had the privilege of building software for a <b>property company</b>, a <b>start-up</b>, and a <b>finance consulting firm</b>.</p>
-            <p>When I'm not immersed in web development, you can find me pursuing my passion for <b>photography</b> or dedicating time to my side hustle of creating my own fashion brand. I'm also a <b>full-time traveler</b>.</p>
-          </div>
-
-          <div style="padding: 0 16px 16px">
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Name</span><span class="xp-dialog-val">Angga Fartiteur Setiawan</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Occupation</span><span class="xp-dialog-val">Full-Stack Web Developer</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Experience</span><span class="xp-dialog-val">8 years</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Location</span><span class="xp-dialog-val">Tangerang, Indonesia</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Status</span><span class="xp-dialog-val" style="color: green">Available for hire ✓</span></div>
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">Email</span><span class="xp-dialog-val"><a href="mailto:anggafartiteur@gmail.com" class="xp-link">anggafartiteur@gmail.com</a></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="xp-statusbar">
-        <div class="xp-status-pane">1 object selected</div>
-        <div class="xp-status-pane">Full-Stack Developer</div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-about')"></div>
-    </div>
-
-    <!-- ============================================================
-     WINDOW: PORTFOLIO
-     ============================================================ -->
-    <div class="xp-window minimized" id="win-portfolio" style="width: 680px; height: 500px; top: 60px; left: 140px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-portfolio')">
-        <span class="xp-titlebar-icon">💼</span>
-        <span class="xp-titlebar-text">My Portfolio (7 items)</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-portfolio')">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-portfolio')">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-portfolio')">✕</div>
-        </div>
-      </div>
-
-      <div class="xp-toolbar">
-        <button class="xp-toolbar-btn" onclick="setView('portfolio', 'icons')">🔲 Icons</button>
-        <button class="xp-toolbar-btn" onclick="setView('portfolio', 'details')">☰ Details</button>
-        <div class="xp-toolbar-sep"></div>
-        <input class="xp-address-bar" value="C:\Users\Angga\Portfolio" readonly style="flex: 1" />
-      </div>
-
-      <div class="xp-body">
-        <div class="xp-sidebar thin-scroll">
-          <div class="xp-sidebar-section">
-            <div class="xp-sidebar-title">📂 Categories</div>
-            <div class="xp-sidebar-item">🧠 HR Tech (3)</div>
-            <div class="xp-sidebar-item">🏠 Property (2)</div>
-            <div class="xp-sidebar-item">🛒 Retail (1)</div>
-            <div class="xp-sidebar-item">📱 Mobile (1)</div>
-          </div>
-          <div class="xp-sidebar-section" style="margin-top: 8px">
-            <div class="xp-sidebar-title">📋 File Tasks</div>
-            <div class="xp-sidebar-item">🌐 Open Website</div>
-            <div class="xp-sidebar-item">ℹ View Details</div>
-          </div>
-        </div>
-
-        <div class="xp-content thin-scroll" id="portfolio-content">
-          <!-- ICON VIEW (default) -->
-          <div id="portfolio-icons" class="xp-icon-grid">
-            <div class="xp-file-icon" ondblclick="openProjectDetail('psikotes')" onclick="selectIcon(this, 'Psikotes Online Arifindo', '2024')">
-              <div class="xp-file-icon-img">🧠</div>
-              <div class="xp-file-icon-name">Psikotes Online Arifindo</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('hris')" onclick="selectIcon(this, 'HRIS Arifindo', '2024')">
-              <div class="xp-file-icon-img">👥</div>
-              <div class="xp-file-icon-name">HRIS Arifindo</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('career')" onclick="selectIcon(this, 'Career Arifindo', '2024')">
-              <div class="xp-file-icon-img">📋</div>
-              <div class="xp-file-icon-name">Career Arifindo</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('absensi')" onclick="selectIcon(this, 'Absensi Arifindo', '2025')">
-              <div class="xp-file-icon-img">📱</div>
-              <div class="xp-file-icon-name">Absensi Arifindo</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('payment')" onclick="selectIcon(this, 'Payment Daru Estates', '2022')">
-              <div class="xp-file-icon-img">💳</div>
-              <div class="xp-file-icon-name">Payment Daru Estates</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('daruestates')" onclick="selectIcon(this, 'Daru Estates Website', '2023')">
-              <div class="xp-file-icon-img">🏠</div>
-              <div class="xp-file-icon-name">Daru Estates</div>
-            </div>
-            <div class="xp-file-icon" ondblclick="openProjectDetail('folio')" onclick="selectIcon(this, 'Folio POS', '2018')">
-              <div class="xp-file-icon-img">🛒</div>
-              <div class="xp-file-icon-name">Folio POS</div>
-            </div>
-          </div>
-
-          <!-- DETAILS VIEW (hidden) -->
-          <div id="portfolio-details" style="display: none; padding: 4px">
-            <table class="xp-list-view">
-              <thead>
-                <tr>
-                  <th style="width: 32px"></th>
-                  <th>Name</th>
-                  <th style="width: 80px">Year</th>
-                  <th style="width: 100px">Category</th>
-                  <th>URL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://psikotes.arifindo.com', '_blank')">
-                  <td>🧠</td>
-                  <td>Psikotes Online Arifindo</td>
-                  <td>2024</td>
-                  <td>HR Tech</td>
-                  <td><a href="https://psikotes.arifindo.com" target="_blank" class="xp-link">psikotes.arifindo.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://hris.arifindo.com', '_blank')">
-                  <td>👥</td>
-                  <td>HRIS Arifindo</td>
-                  <td>2024</td>
-                  <td>HR Tech</td>
-                  <td><a href="https://hris.arifindo.com" target="_blank" class="xp-link">hris.arifindo.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://career.arifindo.com', '_blank')">
-                  <td>📋</td>
-                  <td>Career Arifindo</td>
-                  <td>2024</td>
-                  <td>HR Tech</td>
-                  <td><a href="https://career.arifindo.com" target="_blank" class="xp-link">career.arifindo.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://absensi.arifindo.com', '_blank')">
-                  <td>📱</td>
-                  <td>Absensi Arifindo</td>
-                  <td>2025</td>
-                  <td>Mobile/PWA</td>
-                  <td><a href="https://absensi.arifindo.com" target="_blank" class="xp-link">absensi.arifindo.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://staging.arifindo.com', '_blank')">
-                  <td>💳</td>
-                  <td>Payment Daru Estates</td>
-                  <td>2022</td>
-                  <td>Property</td>
-                  <td><a href="https://staging.arifindo.com/" target="_blank" class="xp-link">staging.arifindo.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://daruestates.com', '_blank')">
-                  <td>🏠</td>
-                  <td>Daru Estates Website</td>
-                  <td>2023</td>
-                  <td>Property</td>
-                  <td><a href="https://daruestates.com" target="_blank" class="xp-link">daruestates.com</a></td>
-                </tr>
-                <tr onclick="selectRow(this)" ondblclick="window.open('https://foliopos.com', '_blank')">
-                  <td>🛒</td>
-                  <td>Folio POS</td>
-                  <td>2018</td>
-                  <td>Retail Tech</td>
-                  <td><a href="https://foliopos.com" target="_blank" class="xp-link">foliopos.com</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="xp-statusbar" id="portfolio-statusbar">
-        <div class="xp-status-pane">7 objects</div>
-        <div class="xp-status-pane">Double-click to open</div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-portfolio')"></div>
-    </div>
-
-    <!-- ============================================================
-     WINDOW: SKILLS
-     ============================================================ -->
-    <div class="xp-window minimized" id="win-skills" style="width: 560px; height: 460px; top: 80px; left: 200px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-skills')">
-        <span class="xp-titlebar-icon">⚙️</span>
-        <span class="xp-titlebar-text">Skills &amp; Experience — System Properties</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-skills')">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-skills')">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-skills')">✕</div>
-        </div>
-      </div>
-
-      <div class="xp-tabs" id="skills-tabs">
-        <div class="xp-tab active" onclick="showTab('skills', 'general')">General</div>
-        <div class="xp-tab" onclick="showTab('skills', 'frontend')">Frontend</div>
-        <div class="xp-tab" onclick="showTab('skills', 'backend')">Backend</div>
-        <div class="xp-tab" onclick="showTab('skills', 'other')">Other</div>
-      </div>
-
-      <div class="xp-body" style="flex-direction: column">
-        <!-- General tab -->
-        <div class="xp-tab-content active thin-scroll" id="skills-tab-general">
-          <div class="skills-content">
-            <div style="display: flex; gap: 16px; align-items: center; padding: 10px; background: linear-gradient(135deg, #eef4ff, #dce8ff); border: 1px solid #c8d8f0; margin-bottom: 12px">
-              <div style="font-size: 48px">💻</div>
-              <div>
-                <div style="font-size: 14px; font-weight: bold; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
-                <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
-                <div style="font-size: 11px; color: #444; margin-top: 4px">Windows XP Portfolio Edition (Build 2613)</div>
-                <div style="font-size: 11px; color: #444">Registered to: Angga F.S. · Tangerang, ID</div>
-              </div>
-            </div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Experience</span><span class="xp-dialog-val">8 Years Professional</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Speciality</span><span class="xp-dialog-val">Full-Stack Web Development</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Sectors</span><span class="xp-dialog-val">HR, Property, Retail, Startup</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Projects</span><span class="xp-dialog-val">7+ shipped products</span></div>
-            <div class="xp-dialog-row"><span class="xp-dialog-key">Availability</span><span class="xp-dialog-val" style="color: green">Available — Full-time / Freelance</span></div>
-          </div>
-        </div>
-
-        <!-- Frontend tab -->
-        <div class="xp-tab-content thin-scroll" id="skills-tab-frontend">
-          <div class="skills-content">
-            <div class="skill-group-title">Frontend Technologies</div>
-            <div class="skill-row">
-              <span class="skill-name">HTML / CSS</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 94%"></div></div>
-              <span class="skill-pct">94%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">JavaScript</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 90%"></div></div>
-              <span class="skill-pct">90%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Bootstrap</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 92%"></div></div>
-              <span class="skill-pct">92%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">PWA / Mobile</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 75%"></div></div>
-              <span class="skill-pct">75%</span>
-            </div>
-            <div class="skill-group-title">UI/UX</div>
-            <div class="skill-row">
-              <span class="skill-name">UI/UX Design</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 82%"></div></div>
-              <span class="skill-pct">82%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Responsive Design</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 90%"></div></div>
-              <span class="skill-pct">90%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Backend tab -->
-        <div class="xp-tab-content thin-scroll" id="skills-tab-backend">
-          <div class="skills-content">
-            <div class="skill-group-title">Backend Technologies</div>
-            <div class="skill-row">
-              <span class="skill-name">PHP</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 95%"></div></div>
-              <span class="skill-pct">95%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Laravel</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 93%"></div></div>
-              <span class="skill-pct">93%</span>
-            </div>
-            <div class="skill-group-title">Database</div>
-            <div class="skill-row">
-              <span class="skill-name">MySQL</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 88%"></div></div>
-              <span class="skill-pct">88%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Database Design</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 85%"></div></div>
-              <span class="skill-pct">85%</span>
-            </div>
-            <div class="skill-group-title">Architecture</div>
-            <div class="skill-row">
-              <span class="skill-name">REST API</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 88%"></div></div>
-              <span class="skill-pct">88%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">MVC Pattern</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 92%"></div></div>
-              <span class="skill-pct">92%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Other tab -->
-        <div class="xp-tab-content thin-scroll" id="skills-tab-other">
-          <div class="skills-content">
-            <div class="skill-group-title">Creative Skills</div>
-            <div class="skill-row">
-              <span class="skill-name">Photography</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 85%; background: linear-gradient(180deg, #f8a840 0%, #d87010 40%, #c06008 60%, #d87010 100%)"></div></div>
-              <span class="skill-pct">85%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Fashion Design</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 78%; background: linear-gradient(180deg, #e060c0 0%, #c040a0 40%, #a03090 60%, #c040a0 100%)"></div></div>
-              <span class="skill-pct">78%</span>
-            </div>
-            <div class="skill-group-title">Soft Skills</div>
-            <div class="skill-row">
-              <span class="skill-name">Problem Solving</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 95%"></div></div>
-              <span class="skill-pct">95%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Communication</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 88%"></div></div>
-              <span class="skill-pct">88%</span>
-            </div>
-            <div class="skill-row">
-              <span class="skill-name">Adaptability</span>
-              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width: 92%"></div></div>
-              <span class="skill-pct">92%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="xp-statusbar">
-        <div class="xp-status-pane">System: Online</div>
-        <div class="xp-status-pane">8 Years Experience</div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-skills')"></div>
-    </div>
-
-    <!-- ============================================================
-     WINDOW: OTHER / ENTHUSIASM
-     ============================================================ -->
-    <div class="xp-window minimized" id="win-other" style="width: 540px; height: 420px; top: 100px; left: 250px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-other')">
-        <span class="xp-titlebar-icon">🌟</span>
-        <span class="xp-titlebar-text">The Enthusiasm — Hobbies &amp; Interests</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-other')">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-other')">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-other')">✕</div>
-        </div>
-      </div>
-      <div class="xp-toolbar">
-        <input class="xp-address-bar" value="C:\Users\Angga\Hobbies" readonly />
-      </div>
-      <div class="xp-body">
-        <div class="xp-content thin-scroll">
-          <div class="xp-info-panel" style="margin: 12px">
-            <div class="xp-info-panel-title">📷 Photography</div>
-            <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Photography is not just a hobby — it's a passion for capturing life's most precious moments. Weddings, birthdays, prewed sessions. Also a part-time profession offering photography services for events.</p>
-          </div>
-
-          <div class="xp-info-panel" style="margin: 12px">
-            <div class="xp-info-panel-title">👕 #WKTK Fashion Brand</div>
-            <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Creating my own fashion brand inspired by anime and Japanese aesthetics. Clothing and accessories that fuse art, cultural appreciation, and entrepreneurship.</p>
-            <div style="margin-top: 8px">
-              <a href="https://www.tokopedia.com/wakuteka" target="_blank" class="xp-link-btn">🛍 tokopedia.com/wakuteka</a>
-            </div>
-          </div>
-
-          <div class="xp-info-panel" style="margin: 12px">
-            <div class="xp-info-panel-title">✈️ Full-Time Traveler</div>
-            <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Life is too short to stay in one place. Web development enables working from anywhere — and that freedom is used to the fullest.</p>
-          </div>
-
-          <div style="padding: 8px 12px 16px">
-            <div style="font-size: 10px; color: #888; border-top: 1px solid #ddd; padding-top: 8px">Cheers to this wonderful world today — <a href="https://www.tokopedia.com/wakuteka" target="_blank" class="xp-link">#wktk</a></div>
-          </div>
-        </div>
-      </div>
-      <div class="xp-statusbar">
-        <div class="xp-status-pane">3 items</div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-other')"></div>
-    </div>
-
-    <!-- ============================================================
-     WINDOW: CONTACT
-     ============================================================ -->
-    <div class="xp-window minimized" id="win-contact" style="width: 400px; height: 360px; top: 120px; left: 300px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-contact')">
-        <span class="xp-titlebar-icon">📧</span>
-        <span class="xp-titlebar-text">Contact Information</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-contact')">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-contact')">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-contact')">✕</div>
-        </div>
-      </div>
-      <div class="xp-body">
-        <div class="xp-content thin-scroll">
-          <div style="padding: 16px">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #ddd">
-              <div style="font-size: 40px">👤</div>
-              <div>
-                <div style="font-weight: bold; font-size: 13px; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
-                <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
-              </div>
-            </div>
-
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">📧 Email</span>
-              <span class="xp-dialog-val"><a href="mailto:anggafartiteur@gmail.com" class="xp-link">anggafartiteur@gmail.com</a></span>
-            </div>
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">💼 LinkedIn</span>
-              <span class="xp-dialog-val"><a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="xp-link">angga-fartiteur-setiawan</a></span>
-            </div>
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">💬 WhatsApp</span>
-              <span class="xp-dialog-val"><a href="https://wa.link/ow0tvz" target="_blank" class="xp-link">wa.link/ow0tvz</a></span>
-            </div>
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">📄 CV</span>
-              <span class="xp-dialog-val"><a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" class="xp-link">Download PDF</a></span>
-            </div>
-            <div class="xp-dialog-row">
-              <span class="xp-dialog-key">🛍 Shop</span>
-              <span class="xp-dialog-val"><a href="https://www.tokopedia.com/wakuteka" target="_blank" class="xp-link">tokopedia.com/wakuteka</a></span>
-            </div>
-
-            <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 4px">
-              <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="xp-link-btn">🔗 LinkedIn</a>
-              <a href="https://wa.link/ow0tvz" target="_blank" class="xp-link-btn">💬 Say Hello!</a>
-              <a href="mailto:anggafartiteur@gmail.com" class="xp-link-btn">📧 Email</a>
-              <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank" class="xp-link-btn">📄 Download CV</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="xp-statusbar">
-        <div class="xp-status-pane">Ready</div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-contact')"></div>
-    </div>
-
-    <!-- ============================================================
-     WINDOW: NOTEPAD
-     ============================================================ -->
-    <div class="xp-window minimized" id="win-notepad" style="width: 480px; height: 340px; top: 140px; left: 350px">
-      <div class="xp-titlebar" onmousedown="startDrag(event, 'win-notepad')">
-        <span class="xp-titlebar-icon">📝</span>
-        <span class="xp-titlebar-text">README.txt — Notepad</span>
-        <div class="xp-title-btns">
-          <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-notepad')">_</div>
-          <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-notepad')">▭</div>
-          <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-notepad')">✕</div>
-        </div>
-      </div>
-      <div class="xp-toolbar" style="background: #fff; border-bottom: 1px solid #ccc; font-size: 11px; gap: 2px">
-        <span style="padding: 0 6px; cursor: pointer; color: #333">File</span>
-        <span style="padding: 0 6px; cursor: pointer; color: #333">Edit</span>
-        <span style="padding: 0 6px; cursor: pointer; color: #333">Format</span>
-        <span style="padding: 0 6px; cursor: pointer; color: #333">View</span>
-        <span style="padding: 0 6px; cursor: pointer; color: #333">Help</span>
-      </div>
-      <div class="xp-content" style="padding: 0">
-        <div class="xp-notepad">
-          ========================================= README.TXT — Angga Fartiteur Setiawan Full-Stack Web Developer Portfolio ========================================= ABOUT ----- Name : Angga Fartiteur Setiawan Title : Full-Stack Web Developer Exp : 8 Years Location: Tangerang, Indonesia Status :
-          Available for hire SKILLS ------ PHP / Laravel ████████████ 95% HTML / CSS ████████████ 94% JavaScript ███████████ 90% Bootstrap ████████████ 92% MySQL ███████████ 88% PWA / Android █████████ 75% UI/UX Design ██████████ 82% PROJECTS -------- [2025] Absensi Arifindo - PWA attendance app
-          [2024] Psikotes Online - HR psikotes system [2024] HRIS Arifindo - Full HR management [2024] Career Arifindo - Recruitment portal [2023] Daru Estates - Company profile [2022] Payment Daru - Transaction mgmt [2018] Folio POS - Kasir android + web CONTACT ------- Email :
-          anggafartiteur@gmail.com LinkedIn: angga-fartiteur-setiawan WhatsApp: wa.link/ow0tvz CV : drive.google.com (see links) OTHER ----- * Photography (weddings, prewed, events) * #WKTK Fashion Brand (anime-inspired) → tokopedia.com/wakuteka * Full-time traveler
-          ========================================= "Cheers to this wonderful world today" #wktk =========================================
-        </div>
-      </div>
-      <div class="resize-handle" onmousedown="startResize(event, 'win-notepad')"></div>
-    </div>
-
-    <!-- ============================================================
-     START MENU
-     ============================================================ -->
-    <div id="start-menu">
-      <div class="sm-header">
-        <div class="sm-avatar">👤</div>
-        <div class="sm-username">Angga Fartiteur</div>
-      </div>
-      <div class="sm-body">
-        <div class="sm-left">
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-about');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">👤</span>
-            <div>
-              <div class="sm-item-label"><b>My Profile</b></div>
-              <div class="sm-item-sub">About me & contact</div>
-            </div>
-          </div>
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-portfolio');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">💼</span>
-            <div>
-              <div class="sm-item-label"><b>Portfolio</b></div>
-              <div class="sm-item-sub">7 projects</div>
-            </div>
-          </div>
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-skills');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">⚙️</span>
-            <div>
-              <div class="sm-item-label"><b>Skills &amp; XP</b></div>
-              <div class="sm-item-sub">System Properties</div>
-            </div>
-          </div>
-          <hr class="sm-divider" />
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-other');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">🌟</span>
-            <div><div class="sm-item-label">The Enthusiasm</div></div>
-          </div>
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-notepad');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">📝</span>
-            <div><div class="sm-item-label">README.txt</div></div>
-          </div>
-        </div>
-        <div class="sm-right">
-          <div class="sm-right-title">My Places</div>
-          <div
-            class="sm-item"
-            onclick="
-              openWindow('win-contact');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">📧</span>
-            <span class="sm-item-label">Contact Info</span>
-          </div>
-          <div
-            class="sm-item"
-            onclick="
-              window.open('https://www.tokopedia.com/wakuteka', '_blank');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">🛍</span>
-            <span class="sm-item-label">#WKTK Shop</span>
-          </div>
-          <div
-            class="sm-item"
-            onclick="
-              window.open('https://www.linkedin.com/in/angga-fartiteur-setiawan/', '_blank');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">🔗</span>
-            <span class="sm-item-label">LinkedIn</span>
-          </div>
-          <hr class="sm-divider" />
-          <div class="sm-right-title">Links</div>
-          <div
-            class="sm-item"
-            onclick="
-              window.open('https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing', '_blank');
-              toggleStart();
-            "
-          >
-            <span class="sm-item-icon">📄</span>
-            <span class="sm-item-label">Download CV</span>
-          </div>
-        </div>
-      </div>
-      <div class="sm-footer">
-        <button class="sm-footer-btn" onclick="alert('Logging off...\n\nCheers to this wonderful world today! #wktk')">🔴 Log Off</button>
-        <button class="sm-footer-btn" onclick="alert('Shutting down...\n\nThanks for visiting!')">⭕ Shut Down</button>
-      </div>
-    </div>
-
-    <!-- TASKBAR -->
-    <div id="taskbar">
-      <button id="start-btn" onclick="toggleStart()">
-        <img src="asset/ico/starticon.png" style="width: 20px; height: 20px" />
-        <!-- <span class="start-flag"><img src="asset/ico/start.png" style="width:20px;height:20px"></span> -->
-        <span>start</span>
-      </button>
-      <div class="taskbar-area" id="taskbar-area"></div>
-      <div class="sys-tray">
-        <span>🔊</span>
-        <span>🌐</span>
-        <span id="clock">12:00</span>
-      </div>
-    </div>
-
-    <!-- CONTEXT MENU -->
-    <div class="ctx-menu" id="ctx-menu">
-      <div class="ctx-item" onclick="openAllWindows()">🗂 Open All Windows</div>
-      <div class="ctx-item" onclick="cascadeWindows()">🔲 Cascade Windows</div>
-      <hr class="ctx-sep" />
-      <div class="ctx-item" onclick="openWindow('win-about')">👤 Angga's Profile</div>
-      <div class="ctx-item" onclick="openWindow('win-portfolio')">💼 Portfolio</div>
-      <div class="ctx-item" onclick="openWindow('win-contact')">📧 Contact</div>
-      <hr class="ctx-sep" />
-      <div class="ctx-item" onclick="document.getElementById('ctx-menu').classList.remove('open')">✕ Close Menu</div>
-    </div>
-
-    <!-- TOOLTIP -->
-    <div class="xp-tooltip" id="tooltip"></div>
-
-    <script>
-      /* ============================================================
-   CLOCK
-   ============================================================ */
-      function updateClock() {
-        const now = new Date();
-        let h = now.getHours(),
-          m = now.getMinutes();
-        const ampm = h >= 12 ? "PM" : "AM";
-        h = h % 12 || 12;
-        document.getElementById("clock").textContent = h + ":" + String(m).padStart(2, "0") + " " + ampm;
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
-
-      /* ============================================================
-   WINDOW MANAGEMENT
-   ============================================================ */
-      let zTop = 100;
-      const windows = ["win-about", "win-portfolio", "win-skills", "win-other", "win-contact", "win-notepad"];
-      const winTitles = {
-        "win-about": { icon: "👤", label: "Angga's Profile" },
-        "win-portfolio": { icon: "💼", label: "My Portfolio" },
-        "win-skills": { icon: "⚙️", label: "Skills & XP" },
-        "win-other": { icon: "🌟", label: "The Enthusiasm" },
-        "win-contact": { icon: "📧", label: "Contact Info" },
-        "win-notepad": { icon: "📝", label: "README.txt" },
-      };
-
-      function openWindow(id) {
-        const win = document.getElementById(id);
-        win.classList.remove("minimized");
-        focusWindow(id);
-        updateTaskbar();
-        // close start menu
-        document.getElementById("start-menu").classList.remove("open");
-      }
-
-      function closeWindow(id) {
-        document.getElementById(id).classList.add("minimized");
-        updateTaskbar();
-      }
-
-      function minimizeWin(id) {
-        document.getElementById(id).classList.toggle("minimized");
-        updateTaskbar();
-      }
-
-      let maximizedStates = {};
-      function toggleMaximize(id) {
-        const win = document.getElementById(id);
-        if (maximizedStates[id]) {
-          const s = maximizedStates[id];
-          win.style.left = s.left;
-          win.style.top = s.top;
-          win.style.width = s.width;
-          win.style.height = s.height;
-          delete maximizedStates[id];
-        } else {
-          maximizedStates[id] = {
-            left: win.style.left,
-            top: win.style.top,
-            width: win.style.width,
-            height: win.style.height,
-          };
-          win.style.left = "0px";
-          win.style.top = "0px";
-          win.style.width = "100vw";
-          win.style.height = "calc(100vh - 30px)";
-        }
-      }
-
-      function focusWindow(id) {
-        windows.forEach((w) => {
-          const el = document.getElementById(w);
-          el.classList.remove("focused");
-          el.classList.add("inactive");
-        });
-        const win = document.getElementById(id);
-        win.classList.add("focused");
-        win.classList.remove("inactive");
-        win.style.zIndex = ++zTop;
-        updateTaskbar(id);
-      }
-
-      function updateTaskbar(activeId) {
-        const area = document.getElementById("taskbar-area");
-        area.innerHTML = "";
-        windows.forEach((id) => {
-          const win = document.getElementById(id);
-          if (!win.classList.contains("minimized")) {
-            const info = winTitles[id];
-            const btn = document.createElement("button");
-            btn.className = "taskbar-btn" + (id === activeId ? " active" : "");
-            btn.innerHTML = info.icon + " " + info.label;
-            btn.onclick = () => {
-              if (id === activeId) {
-                minimizeWin(id);
-                updateTaskbar();
-              } else {
-                focusWindow(id);
-              }
-            };
-            area.appendChild(btn);
-          }
-        });
-      }
-
-      /* ============================================================
-   DRAG
-   ============================================================ */
-      let drag = null;
-      function startDrag(e, id) {
-        if (e.target.closest(".xp-title-btns")) return;
-        focusWindow(id);
-        const win = document.getElementById(id);
-        const rect = win.getBoundingClientRect();
-        drag = { id, ox: e.clientX - rect.left, oy: e.clientY - rect.top };
-        e.preventDefault();
-      }
-
-      document.addEventListener("mousemove", (e) => {
-        if (!drag) return;
-        const win = document.getElementById(drag.id);
-        let x = e.clientX - drag.ox;
-        let y = e.clientY - drag.oy;
-        y = Math.max(0, Math.min(y, window.innerHeight - 56));
-        x = Math.max(-win.offsetWidth + 60, x);
-        win.style.left = x + "px";
-        win.style.top = y + "px";
-      });
-
-      document.addEventListener("mouseup", () => (drag = null));
-
-      /* ============================================================
-   RESIZE
-   ============================================================ */
-      let resz = null;
-      function startResize(e, id) {
-        const win = document.getElementById(id);
-        const rect = win.getBoundingClientRect();
-        resz = { id, sw: rect.width, sh: rect.height, sx: e.clientX, sy: e.clientY };
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      document.addEventListener("mousemove", (e) => {
-        if (!resz) return;
-        const win = document.getElementById(resz.id);
-        const w = Math.max(280, resz.sw + e.clientX - resz.sx);
-        const h = Math.max(180, resz.sh + e.clientY - resz.sy);
-        win.style.width = w + "px";
-        win.style.height = h + "px";
-      });
-
-      document.addEventListener("mouseup", () => (resz = null));
-
-      /* ============================================================
-   START MENU
-   ============================================================ */
-      function toggleStart() {
-        const sm = document.getElementById("start-menu");
-        sm.classList.toggle("open");
-      }
-
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest("#start-menu") && !e.target.closest("#start-btn")) {
-          document.getElementById("start-menu").classList.remove("open");
-        }
-      });
-
-      /* ============================================================
-   TABS (skills window)
-   ============================================================ */
-      function showTab(winId, tabName) {
-        const tabs = document.querySelectorAll(`#${winId}-tabs .xp-tab`);
-        const contents = document.querySelectorAll(`[id^="${winId}-tab-"]`);
-        tabs.forEach((t) => t.classList.remove("active"));
-        contents.forEach((c) => c.classList.remove("active"));
-        document.getElementById(`${winId}-tab-${tabName}`).classList.add("active");
-        const tabIdx = { general: 0, frontend: 1, backend: 2, other: 3 }[tabName];
-        if (tabs[tabIdx]) tabs[tabIdx].classList.add("active");
-      }
-
-      /* ============================================================
-   PORTFOLIO VIEW TOGGLE
-   ============================================================ */
-      function setView(winId, view) {
-        document.getElementById("portfolio-icons").style.display = view === "icons" ? "grid" : "none";
-        document.getElementById("portfolio-details").style.display = view === "details" ? "block" : "none";
-      }
-
-      function selectIcon(el, name, year) {
-        document.querySelectorAll(".xp-file-icon").forEach((i) => i.classList.remove("selected"));
-        el.classList.add("selected");
-        document.getElementById("portfolio-statusbar").innerHTML = `<div class="xp-status-pane">1 object selected: ${name}</div><div class="xp-status-pane">Year: ${year}</div>`;
-      }
-
-      function selectRow(row) {
-        document.querySelectorAll("#portfolio-details tr").forEach((r) => r.classList.remove("selected"));
-        row.classList.add("selected");
-      }
-
-      /* Project detail mini-windows */
-      const projectData = {
-        psikotes: { name: "Psikotes Online Arifindo", url: "https://psikotes.arifindo.com", year: "2024", cat: "HR Technology", desc: "Psikotes online untuk mempermudah proses rekrutmen di PT Arifindo. Meningkatkan efisiensi waktu, penilaian objektif, dan mengurangi kertas." },
-        hris: { name: "HRIS Arifindo", url: "https://hris.arifindo.com", year: "2024", cat: "Enterprise Software", desc: "Aplikasi komprehensif untuk kelola SDM: data karyawan, pelamar karier, hasil psikotes, dan sistem absensi terintegrasi." },
-        career: { name: "Career Arifindo", url: "https://career.arifindo.com", year: "2024", cat: "Recruitment Portal", desc: "Portal rekrutmen resmi PT Arifindo. Employer branding + seleksi kandidat secara efisien." },
-        absensi: { name: "Absensi Arifindo", url: "https://absensi.arifindo.com", year: "2025", cat: "Mobile / PWA", desc: "Aplikasi absensi PWA, support Android dan iOS. Terintegrasi dengan HRIS." },
-        payment: { name: "Payment Daru Estates", url: "https://staging.arifindo.com/", year: "2022", cat: "Property Tech", desc: "Aplikasi manajemen transaksi perumahan subsidi Daru Estate Tangerang." },
-        daruestates: { name: "Daru Estates", url: "https://daruestates.com", year: "2023", cat: "Company Profile", desc: "Situs company profile perumahan subsidi terbesar di Tangerang." },
-        folio: { name: "Folio POS", url: "https://foliopos.com", year: "2018", cat: "Retail Technology", desc: "Aplikasi kasir Android dan web, online dan offline, untuk retail, restoran, dan salon." },
-      };
-
-      function openProjectDetail(key) {
-        const p = projectData[key];
-        if (!p) return;
-        const existing = document.getElementById("win-proj-" + key);
-        if (existing) {
-          existing.classList.remove("minimized");
-          focusWindow("win-proj-" + key);
-          return;
-        }
-
-        const win = document.createElement("div");
-        win.className = "xp-window";
-        win.id = "win-proj-" + key;
-        win.style.cssText = `width:380px;height:260px;top:${100 + Math.random() * 80}px;left:${200 + Math.random() * 100}px;z-index:${++zTop}`;
-        win.innerHTML = `
-    <div class="xp-titlebar" onmousedown="startDrag(event,'win-proj-${key}')">
-      <span class="xp-titlebar-icon">🌐</span>
-      <span class="xp-titlebar-text">${p.name} — Properties</span>
+  <!-- WINDOW: ABOUT / HELLO -->
+  <div class="xp-window" id="win-about" style="width: 580px; height: 480px; top: 40px; left: 80px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-about')">
+      <span class="xp-titlebar-icon">👤</span>
+      <span class="xp-titlebar-text">Angga Fartiteur Setiawan — Profile</span>
       <div class="xp-title-btns">
-        <div class="xp-tbtn xp-tbtn-cls" onclick="this.closest('.xp-window').remove()">✕</div>
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-about')" title="Minimize">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-about')" title="Maximize">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-about')" title="Close">✕</div>
+      </div>
+    </div>
+
+    <div class="xp-toolbar">
+      <button class="xp-toolbar-btn">◀ Back</button>
+      <button class="xp-toolbar-btn">▶ Forward</button>
+      <div class="xp-toolbar-sep"></div>
+      <button class="xp-toolbar-btn">⬆ Up</button>
+      <div class="xp-toolbar-sep"></div>
+      <input class="xp-address-bar" value="C:\Users\Angga\Profile" readonly />
+      <button class="xp-toolbar-btn">Go ▶</button>
+    </div>
+
+    <div class="xp-body">
+      <div class="xp-sidebar thin-scroll">
+        <div class="xp-sidebar-section">
+          <div class="xp-sidebar-title">📁 Quick Links</div>
+          <div class="xp-sidebar-item" onclick="openWindow('win-portfolio')"><span
+              class="xp-sidebar-item-icon">💼</span>Portfolio</div>
+          <div class="xp-sidebar-item" onclick="openWindow('win-skills')"><span
+              class="xp-sidebar-item-icon">⚙️</span>Skills</div>
+          <div class="xp-sidebar-item" onclick="openWindow('win-contact')"><span
+              class="xp-sidebar-item-icon">📧</span>Contact</div>
+        </div>
+        <div class="xp-sidebar-section" style="margin-top: 8px">
+          <div class="xp-sidebar-title">🔗 Details</div>
+          <div style="padding: 6px 8px; font-size: 10px; color: #336; line-height: 1.8">
+            <b>Full-Stack Dev</b><br />
+            8 Years Exp<br />
+            Tangerang, ID<br />
+            <span style="color: green; font-weight: bold">● Available</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-content thin-scroll">
+        <div class="xp-profile-header">
+          <div class="xp-avatar-big">👨‍💻</div>
+          <div>
+            <div class="xp-profile-name">Angga Fartiteur Setiawan</div>
+            <div class="xp-profile-title">Full-Stack Web Developer &nbsp;|&nbsp; <s>Creative Director</s></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 2px; margin-top: 6px">
+              <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="xp-link-btn">🔗
+                LinkedIn</a>
+              <a href="https://wa.link/ow0tvz" target="_blank" class="xp-link-btn">💬 WhatsApp</a>
+              <a href="mailto:anggafartiteur@gmail.com" class="xp-link-btn">📧 Email</a>
+              <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing"
+                target="_blank" class="xp-link-btn">📄 CV</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="xp-info-panel" style="margin-top: 12px">
+          <div class="xp-info-panel-title">ℹ About Me</div>
+          <p style="font-size: 11px; line-height: 1.7; color: #333">
+            I'm a <b>full-stack web developer</b> with a passion for design, capable of crafting visually stunning
+            websites that seamlessly combine <b>functionality and aesthetics</b>. I have <b>eight years of
+              experience</b> in web development — POS applications, company profiles, and payment
+            management systems.
+          </p>
+        </div>
+
+        <div class="xp-profile-body">
+          <p>Fast-forward to today, and I've had the privilege of building software for a <b>property company</b>, a
+            <b>start-up</b>, and a <b>finance consulting firm</b>.
+          </p>
+          <p>When I'm not immersed in web development, you can find me pursuing my passion for <b>photography</b> or
+            dedicating time to my side hustle of creating my own fashion brand. I'm also a <b>full-time traveler</b>.
+          </p>
+        </div>
+
+        <div style="padding: 0 16px 16px">
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Name</span><span class="xp-dialog-val">Angga Fartiteur
+              Setiawan</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Occupation</span><span class="xp-dialog-val">Full-Stack
+              Web Developer</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Experience</span><span class="xp-dialog-val">8
+              years</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Location</span><span class="xp-dialog-val">Tangerang,
+              Indonesia</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Status</span><span class="xp-dialog-val"
+              style="color: green">Available for hire ✓</span></div>
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">Email</span><span class="xp-dialog-val"><a
+                href="mailto:anggafartiteur@gmail.com" class="xp-link">anggafartiteur@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-statusbar">
+      <div class="xp-status-pane">1 object selected</div>
+      <div class="xp-status-pane">Full-Stack Developer</div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-about')"></div>
+  </div>
+
+  <!-- WINDOW: PORTFOLIO -->
+  <div class="xp-window closed" id="win-portfolio" style="width: 680px; height: 500px; top: 60px; left: 140px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-portfolio')">
+      <span class="xp-titlebar-icon">💼</span>
+      <span class="xp-titlebar-text">My Portfolio (7 items)</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-portfolio')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-portfolio')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-portfolio')">✕</div>
+      </div>
+    </div>
+
+    <div class="xp-toolbar">
+      <button class="xp-toolbar-btn" onclick="setView('portfolio', 'icons')">🔲 Icons</button>
+      <button class="xp-toolbar-btn" onclick="setView('portfolio', 'details')">☰ Details</button>
+      <div class="xp-toolbar-sep"></div>
+      <input class="xp-address-bar" value="C:\Users\Angga\Portfolio" readonly style="flex: 1" />
+    </div>
+
+    <div class="xp-body">
+      <div class="xp-sidebar thin-scroll">
+        <div class="xp-sidebar-section">
+          <div class="xp-sidebar-title">📂 Categories</div>
+          <div class="xp-sidebar-item">🧠 HR Tech (3)</div>
+          <div class="xp-sidebar-item">🏠 Property (2)</div>
+          <div class="xp-sidebar-item">🛒 Retail (1)</div>
+          <div class="xp-sidebar-item">📱 Mobile (1)</div>
+        </div>
+        <div class="xp-sidebar-section" style="margin-top: 8px">
+          <div class="xp-sidebar-title">📋 File Tasks</div>
+          <div class="xp-sidebar-item">🌐 Open Website</div>
+          <div class="xp-sidebar-item">ℹ View Details</div>
+        </div>
+      </div>
+
+      <div class="xp-content thin-scroll" id="portfolio-content">
+        <!-- ICON VIEW (default) -->
+        <div id="portfolio-icons" class="xp-icon-grid">
+          <div class="xp-file-icon" ondblclick="openProjectDetail('psikotes')"
+            onclick="selectIcon(this, 'Psikotes Online Arifindo', '2024')">
+            <div class="xp-file-icon-img">🧠</div>
+            <div class="xp-file-icon-name">Psikotes Online Arifindo</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('hris')"
+            onclick="selectIcon(this, 'HRIS Arifindo', '2024')">
+            <div class="xp-file-icon-img">👥</div>
+            <div class="xp-file-icon-name">HRIS Arifindo</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('career')"
+            onclick="selectIcon(this, 'Career Arifindo', '2024')">
+            <div class="xp-file-icon-img">📋</div>
+            <div class="xp-file-icon-name">Career Arifindo</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('absensi')"
+            onclick="selectIcon(this, 'Absensi Arifindo', '2025')">
+            <div class="xp-file-icon-img">📱</div>
+            <div class="xp-file-icon-name">Absensi Arifindo</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('payment')"
+            onclick="selectIcon(this, 'Payment Daru Estates', '2022')">
+            <div class="xp-file-icon-img">💳</div>
+            <div class="xp-file-icon-name">Payment Daru Estates</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('daruestates')"
+            onclick="selectIcon(this, 'Daru Estates Website', '2023')">
+            <div class="xp-file-icon-img">🏠</div>
+            <div class="xp-file-icon-name">Daru Estates</div>
+          </div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('folio')"
+            onclick="selectIcon(this, 'Folio POS', '2018')">
+            <div class="xp-file-icon-img">🛒</div>
+            <div class="xp-file-icon-name">Folio POS</div>
+          </div>
+        </div>
+
+        <!-- DETAILS VIEW (hidden) -->
+        <div id="portfolio-details" style="display: none; padding: 4px">
+          <table class="xp-list-view">
+            <thead>
+              <tr>
+                <th style="width: 32px"></th>
+                <th>Name</th>
+                <th style="width: 80px">Year</th>
+                <th style="width: 100px">Category</th>
+                <th>URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://psikotes.arifindo.com', '_blank')">
+                <td>🧠</td>
+                <td>Psikotes Online Arifindo</td>
+                <td>2024</td>
+                <td>HR Tech</td>
+                <td><a href="https://psikotes.arifindo.com" target="_blank" class="xp-link">psikotes.arifindo.com</a>
+                </td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://hris.arifindo.com', '_blank')">
+                <td>👥</td>
+                <td>HRIS Arifindo</td>
+                <td>2024</td>
+                <td>HR Tech</td>
+                <td><a href="https://hris.arifindo.com" target="_blank" class="xp-link">hris.arifindo.com</a></td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://career.arifindo.com', '_blank')">
+                <td>📋</td>
+                <td>Career Arifindo</td>
+                <td>2024</td>
+                <td>HR Tech</td>
+                <td><a href="https://career.arifindo.com" target="_blank" class="xp-link">career.arifindo.com</a></td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://absensi.arifindo.com', '_blank')">
+                <td>📱</td>
+                <td>Absensi Arifindo</td>
+                <td>2025</td>
+                <td>Mobile/PWA</td>
+                <td><a href="https://absensi.arifindo.com" target="_blank" class="xp-link">absensi.arifindo.com</a></td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://staging.arifindo.com', '_blank')">
+                <td>💳</td>
+                <td>Payment Daru Estates</td>
+                <td>2022</td>
+                <td>Property</td>
+                <td><a href="https://staging.arifindo.com/" target="_blank" class="xp-link">staging.arifindo.com</a>
+                </td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://daruestates.com', '_blank')">
+                <td>🏠</td>
+                <td>Daru Estates Website</td>
+                <td>2023</td>
+                <td>Property</td>
+                <td><a href="https://daruestates.com" target="_blank" class="xp-link">daruestates.com</a></td>
+              </tr>
+              <tr onclick="selectRow(this)" ondblclick="window.open('https://foliopos.com', '_blank')">
+                <td>🛒</td>
+                <td>Folio POS</td>
+                <td>2018</td>
+                <td>Retail Tech</td>
+                <td><a href="https://foliopos.com" target="_blank" class="xp-link">foliopos.com</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-statusbar" id="portfolio-statusbar">
+      <div class="xp-status-pane">7 objects</div>
+      <div class="xp-status-pane">Double-click to open</div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-portfolio')"></div>
+  </div>
+
+  <!-- WINDOW: SKILLS -->
+  <div class="xp-window closed" id="win-skills" style="width: 560px; height: 460px; top: 80px; left: 200px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-skills')">
+      <span class="xp-titlebar-icon">⚙️</span>
+      <span class="xp-titlebar-text">Skills &amp; Experience — System Properties</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-skills')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-skills')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-skills')">✕</div>
+      </div>
+    </div>
+
+    <div class="xp-tabs" id="skills-tabs">
+      <div class="xp-tab active" onclick="showTab('skills', 'general')">General</div>
+      <div class="xp-tab" onclick="showTab('skills', 'frontend')">Frontend</div>
+      <div class="xp-tab" onclick="showTab('skills', 'backend')">Backend</div>
+      <div class="xp-tab" onclick="showTab('skills', 'other')">Other</div>
+    </div>
+
+    <div class="xp-body" style="flex-direction: column">
+      <!-- General tab -->
+      <div class="xp-tab-content active thin-scroll" id="skills-tab-general">
+        <div class="skills-content">
+          <div
+            style="display: flex; gap: 16px; align-items: center; padding: 10px; background: linear-gradient(135deg, #eef4ff, #dce8ff); border: 1px solid #c8d8f0; margin-bottom: 12px">
+            <div style="font-size: 48px">💻</div>
+            <div>
+              <div style="font-size: 14px; font-weight: bold; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
+              <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
+              <div style="font-size: 11px; color: #444; margin-top: 4px">Windows XP Portfolio Edition (Build 2613)</div>
+              <div style="font-size: 11px; color: #444">Registered to: Angga F.S. · Tangerang, ID</div>
+            </div>
+          </div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Experience</span><span class="xp-dialog-val">8 Years
+              Professional</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Speciality</span><span class="xp-dialog-val">Full-Stack
+              Web Development</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Sectors</span><span class="xp-dialog-val">HR, Property,
+              Retail, Startup</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Projects</span><span class="xp-dialog-val">7+ shipped
+              products</span></div>
+          <div class="xp-dialog-row"><span class="xp-dialog-key">Availability</span><span class="xp-dialog-val"
+              style="color: green">Available — Full-time / Freelance</span></div>
+        </div>
+      </div>
+
+      <!-- Frontend tab -->
+      <div class="xp-tab-content thin-scroll" id="skills-tab-frontend">
+        <div class="skills-content">
+          <div class="skill-group-title">Frontend Technologies</div>
+          <div class="skill-row">
+            <span class="skill-name">HTML / CSS</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 94%"></div>
+            </div>
+            <span class="skill-pct">94%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">JavaScript</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 90%"></div>
+            </div>
+            <span class="skill-pct">90%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Bootstrap</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 92%"></div>
+            </div>
+            <span class="skill-pct">92%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">PWA / Mobile</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 75%"></div>
+            </div>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-group-title">UI/UX</div>
+          <div class="skill-row">
+            <span class="skill-name">UI/UX Design</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 82%"></div>
+            </div>
+            <span class="skill-pct">82%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Responsive Design</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 90%"></div>
+            </div>
+            <span class="skill-pct">90%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backend tab -->
+      <div class="xp-tab-content thin-scroll" id="skills-tab-backend">
+        <div class="skills-content">
+          <div class="skill-group-title">Backend Technologies</div>
+          <div class="skill-row">
+            <span class="skill-name">PHP</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 95%"></div>
+            </div>
+            <span class="skill-pct">95%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Laravel</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 93%"></div>
+            </div>
+            <span class="skill-pct">93%</span>
+          </div>
+          <div class="skill-group-title">Database</div>
+          <div class="skill-row">
+            <span class="skill-name">MySQL</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 88%"></div>
+            </div>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Database Design</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 85%"></div>
+            </div>
+            <span class="skill-pct">85%</span>
+          </div>
+          <div class="skill-group-title">Architecture</div>
+          <div class="skill-row">
+            <span class="skill-name">REST API</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 88%"></div>
+            </div>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">MVC Pattern</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 92%"></div>
+            </div>
+            <span class="skill-pct">92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other tab -->
+      <div class="xp-tab-content thin-scroll" id="skills-tab-other">
+        <div class="skills-content">
+          <div class="skill-group-title">Creative Skills</div>
+          <div class="skill-row">
+            <span class="skill-name">Photography</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner"
+                style="width: 85%; background: linear-gradient(180deg, #f8a840 0%, #d87010 40%, #c06008 60%, #d87010 100%)">
+              </div>
+            </div>
+            <span class="skill-pct">85%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Fashion Design</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner"
+                style="width: 78%; background: linear-gradient(180deg, #e060c0 0%, #c040a0 40%, #a03090 60%, #c040a0 100%)">
+              </div>
+            </div>
+            <span class="skill-pct">78%</span>
+          </div>
+          <div class="skill-group-title">Soft Skills</div>
+          <div class="skill-row">
+            <span class="skill-name">Problem Solving</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 95%"></div>
+            </div>
+            <span class="skill-pct">95%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Communication</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 88%"></div>
+            </div>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Adaptability</span>
+            <div class="skill-bar-outer">
+              <div class="skill-bar-inner" style="width: 92%"></div>
+            </div>
+            <span class="skill-pct">92%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xp-statusbar">
+      <div class="xp-status-pane">System: Online</div>
+      <div class="xp-status-pane">8 Years Experience</div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-skills')"></div>
+  </div>
+
+  <!-- WINDOW: OTHER / ENTHUSIASM -->
+  <div class="xp-window closed" id="win-other" style="width: 540px; height: 420px; top: 100px; left: 250px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-other')">
+      <span class="xp-titlebar-icon">🌟</span>
+      <span class="xp-titlebar-text">The Enthusiasm — Hobbies &amp; Interests</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-other')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-other')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-other')">✕</div>
+      </div>
+    </div>
+    <div class="xp-toolbar">
+      <input class="xp-address-bar" value="C:\Users\Angga\Hobbies" readonly />
+    </div>
+    <div class="xp-body">
+      <div class="xp-content thin-scroll">
+        <div class="xp-info-panel" style="margin: 12px">
+          <div class="xp-info-panel-title">📷 Photography</div>
+          <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Photography is not just a hobby —
+            it's a passion for capturing life's most precious moments. Weddings, birthdays, prewed sessions. Also a
+            part-time profession offering photography services for events.</p>
+        </div>
+
+        <div class="xp-info-panel" style="margin: 12px">
+          <div class="xp-info-panel-title">👕 #WKTK Fashion Brand</div>
+          <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Creating my own fashion brand
+            inspired by anime and Japanese aesthetics. Clothing and accessories that fuse art, cultural appreciation,
+            and entrepreneurship.</p>
+          <div style="margin-top: 8px">
+            <a href="https://www.tokopedia.com/wakuteka" target="_blank" class="xp-link-btn">🛍
+              tokopedia.com/wakuteka</a>
+          </div>
+        </div>
+
+        <div class="xp-info-panel" style="margin: 12px">
+          <div class="xp-info-panel-title">✈️ Full-Time Traveler</div>
+          <p style="font-size: 11px; line-height: 1.7; color: #333; margin-top: 4px">Life is too short to stay in one
+            place. Web development enables working from anywhere — and that freedom is used to the fullest.</p>
+        </div>
+
+        <div style="padding: 8px 12px 16px">
+          <div style="font-size: 10px; color: #888; border-top: 1px solid #ddd; padding-top: 8px">Cheers to this
+            wonderful world today — <a href="https://www.tokopedia.com/wakuteka" target="_blank"
+              class="xp-link">#wktk</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="xp-statusbar">
+      <div class="xp-status-pane">3 items</div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-other')"></div>
+  </div>
+
+  <!-- WINDOW: CONTACT -->
+  <div class="xp-window closed" id="win-contact" style="width: 400px; height: 360px; top: 120px; left: 300px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-contact')">
+      <span class="xp-titlebar-icon">📧</span>
+      <span class="xp-titlebar-text">Contact Information</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-contact')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-contact')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-contact')">✕</div>
       </div>
     </div>
     <div class="xp-body">
       <div class="xp-content thin-scroll">
-        <div style="padding:14px">
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #eee">
-            <div style="font-size:36px">🌐</div>
+        <div style="padding: 16px">
+          <div
+            style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #ddd">
+            <div style="font-size: 40px">👤</div>
             <div>
-              <div style="font-weight:bold;font-size:12px;color:var(--xp-blue)">${p.name}</div>
-              <div style="font-size:10px;color:#888">${p.cat} · ${p.year}</div>
+              <div style="font-weight: bold; font-size: 13px; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
+              <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
             </div>
           </div>
-          <div style="font-size:11px;color:#333;line-height:1.7;margin-bottom:12px">${p.desc}</div>
-          <div style="font-size:11px;margin-bottom:4px"><b>URL:</b> <a href="${p.url}" target="_blank" class="xp-link">${p.url}</a></div>
-          <div style="font-size:11px"><b>Year:</b> ${p.year}</div>
-          <div style="margin-top:14px">
-            <a href="${p.url}" target="_blank" class="xp-link-btn">🌐 Open Website</a>
+
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">📧 Email</span>
+            <span class="xp-dialog-val"><a href="mailto:anggafartiteur@gmail.com"
+                class="xp-link">anggafartiteur@gmail.com</a></span>
+          </div>
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">💼 LinkedIn</span>
+            <span class="xp-dialog-val"><a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank"
+                class="xp-link">angga-fartiteur-setiawan</a></span>
+          </div>
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">💬 WhatsApp</span>
+            <span class="xp-dialog-val"><a href="https://wa.link/ow0tvz" target="_blank"
+                class="xp-link">wa.link/ow0tvz</a></span>
+          </div>
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">📄 CV</span>
+            <span class="xp-dialog-val"><a
+                href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing"
+                target="_blank" class="xp-link">Download PDF</a></span>
+          </div>
+          <div class="xp-dialog-row">
+            <span class="xp-dialog-key">🛍 Shop</span>
+            <span class="xp-dialog-val"><a href="https://www.tokopedia.com/wakuteka" target="_blank"
+                class="xp-link">tokopedia.com/wakuteka</a></span>
+          </div>
+
+          <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 4px">
+            <a href="https://www.linkedin.com/in/angga-fartiteur-setiawan/" target="_blank" class="xp-link-btn">🔗
+              LinkedIn</a>
+            <a href="https://wa.link/ow0tvz" target="_blank" class="xp-link-btn">💬 Say Hello!</a>
+            <a href="mailto:anggafartiteur@gmail.com" class="xp-link-btn">📧 Email</a>
+            <a href="https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing" target="_blank"
+              class="xp-link-btn">📄 Download CV</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="xp-statusbar"><div class="xp-status-pane">Ready</div></div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-proj-${key}')"></div>
-  `;
-        document.body.appendChild(win);
-      }
+    <div class="xp-statusbar">
+      <div class="xp-status-pane">Ready</div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-contact')"></div>
+  </div>
 
-      /* ============================================================
-   CONTEXT MENU
-   ============================================================ */
-      document.getElementById("desktop").addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        const menu = document.getElementById("ctx-menu");
-        menu.style.left = Math.min(e.clientX, window.innerWidth - 180) + "px";
-        menu.style.top = Math.min(e.clientY, window.innerHeight - 160) + "px";
-        menu.classList.add("open");
-      });
+  <!-- WINDOW: NOTEPAD -->
+  <div class="xp-window closed" id="win-notepad" style="width: 480px; height: 340px; top: 140px; left: 350px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-notepad')">
+      <span class="xp-titlebar-icon">📝</span>
+      <span class="xp-titlebar-text">README.txt — Notepad</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-notepad')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-notepad')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-notepad')">✕</div>
+      </div>
+    </div>
+    <div class="xp-toolbar" style="background: #fff; border-bottom: 1px solid #ccc; font-size: 11px; gap: 2px">
+      <span style="padding: 0 6px; cursor: pointer; color: #333">File</span>
+      <span style="padding: 0 6px; cursor: pointer; color: #333">Edit</span>
+      <span style="padding: 0 6px; cursor: pointer; color: #333">Format</span>
+      <span style="padding: 0 6px; cursor: pointer; color: #333">View</span>
+      <span style="padding: 0 6px; cursor: pointer; color: #333">Help</span>
+    </div>
+    <div class="xp-content" style="padding: 0">
+      <div class="xp-notepad">
+        ========================================= README.TXT — Angga Fartiteur Setiawan Full-Stack Web Developer
+        Portfolio ========================================= ABOUT ----- Name : Angga Fartiteur Setiawan Title :
+        Full-Stack Web Developer Exp : 8 Years Location: Tangerang, Indonesia Status :
+        Available for hire SKILLS ------ PHP / Laravel ████████████ 95% HTML / CSS ████████████ 94% JavaScript
+        ███████████ 90% Bootstrap ████████████ 92% MySQL ███████████ 88% PWA / Android █████████ 75% UI/UX Design
+        ██████████ 82% PROJECTS -------- [2025] Absensi Arifindo - PWA attendance app
+        [2024] Psikotes Online - HR psikotes system [2024] HRIS Arifindo - Full HR management [2024] Career Arifindo -
+        Recruitment portal [2023] Daru Estates - Company profile [2022] Payment Daru - Transaction mgmt [2018] Folio POS
+        - Kasir android + web CONTACT ------- Email :
+        anggafartiteur@gmail.com LinkedIn: angga-fartiteur-setiawan WhatsApp: wa.link/ow0tvz CV : drive.google.com (see
+        links) OTHER ----- * Photography (weddings, prewed, events) * #WKTK Fashion Brand (anime-inspired) →
+        tokopedia.com/wakuteka * Full-time traveler
+        ========================================= "Cheers to this wonderful world today" #wktk
+        =========================================
+      </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-notepad')"></div>
+  </div>
 
-      document.addEventListener("click", () => {
-        document.getElementById("ctx-menu").classList.remove("open");
-      });
+  <!-- START MENU -->
+  <div id="start-menu">
+    <div class="sm-header">
+      <div class="sm-avatar">👤</div>
+      <div class="sm-username">Angga Fartiteur</div>
+    </div>
+    <div class="sm-body">
+      <div class="sm-left">
+        <div class="sm-item" onclick="
+              openWindow('win-about');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">👤</span>
+          <div>
+            <div class="sm-item-label"><b>My Profile</b></div>
+            <div class="sm-item-sub">About me & contact</div>
+          </div>
+        </div>
+        <div class="sm-item" onclick="
+              openWindow('win-portfolio');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">💼</span>
+          <div>
+            <div class="sm-item-label"><b>Portfolio</b></div>
+            <div class="sm-item-sub">7 projects</div>
+          </div>
+        </div>
+        <div class="sm-item" onclick="
+              openWindow('win-skills');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">⚙️</span>
+          <div>
+            <div class="sm-item-label"><b>Skills &amp; XP</b></div>
+            <div class="sm-item-sub">System Properties</div>
+          </div>
+        </div>
+        <hr class="sm-divider" />
+        <div class="sm-item" onclick="
+              openWindow('win-other');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">🌟</span>
+          <div>
+            <div class="sm-item-label">The Enthusiasm</div>
+          </div>
+        </div>
+        <div class="sm-item" onclick="
+              openWindow('win-notepad');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">📝</span>
+          <div>
+            <div class="sm-item-label">README.txt</div>
+          </div>
+        </div>
+      </div>
+      <div class="sm-right">
+        <div class="sm-right-title">My Places</div>
+        <div class="sm-item" onclick="
+              openWindow('win-contact');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">📧</span>
+          <span class="sm-item-label">Contact Info</span>
+        </div>
+        <div class="sm-item" onclick="
+              window.open('https://www.tokopedia.com/wakuteka', '_blank');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">🛍</span>
+          <span class="sm-item-label">#WKTK Shop</span>
+        </div>
+        <div class="sm-item" onclick="
+              window.open('https://www.linkedin.com/in/angga-fartiteur-setiawan/', '_blank');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">🔗</span>
+          <span class="sm-item-label">LinkedIn</span>
+        </div>
+        <hr class="sm-divider" />
+        <div class="sm-right-title">Links</div>
+        <div class="sm-item" onclick="
+              window.open('https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing', '_blank');
+              toggleStart();
+            ">
+          <span class="sm-item-icon">📄</span>
+          <span class="sm-item-label">Download CV</span>
+        </div>
+      </div>
+    </div>
+    <div class="sm-footer">
+      <button class="sm-footer-btn" onclick="alert('Logging off...\n\nCheers to this wonderful world today! #wktk')">🔴
+        Log Off</button>
+      <button class="sm-footer-btn" onclick="alert('Shutting down...\n\nThanks for visiting!')">⭕ Shut Down</button>
+    </div>
+  </div>
 
-      function openAllWindows() {
-        windows.forEach((id) => openWindow(id));
-      }
+  <!-- TASKBAR -->
+  <div id="taskbar">
+    <button id="start-btn" onclick="toggleStart()">
+      <img src="asset/ico/starticon.png" style="width: 20px; height: 20px" />
+      <!-- <span class="start-flag"><img src="asset/ico/start.png" style="width:20px;height:20px"></span> -->
+      <span>start</span>
+    </button>
+    <div class="taskbar-area" id="taskbar-area"></div>
+    <div class="sys-tray">
+      <span>🔊</span>
+      <span>🌐</span>
+      <span id="clock">12:00</span>
+    </div>
+  </div>
 
-      function cascadeWindows() {
-        let x = 30,
-          y = 30;
-        windows.forEach((id) => {
-          const win = document.getElementById(id);
-          if (!win.classList.contains("minimized")) {
-            win.style.left = x + "px";
-            win.style.top = y + "px";
-            x += 28;
-            y += 28;
-            focusWindow(id);
-          }
-        });
-      }
+  <!-- CONTEXT MENU -->
+  <div class="ctx-menu" id="ctx-menu">
+    <div class="ctx-item" onclick="openAllWindows()">🗂 Open All Windows</div>
+    <div class="ctx-item" onclick="cascadeWindows()">🔲 Cascade Windows</div>
+    <hr class="ctx-sep" />
+    <div class="ctx-item" onclick="openWindow('win-about')">👤 Angga's Profile</div>
+    <div class="ctx-item" onclick="openWindow('win-portfolio')">💼 Portfolio</div>
+    <div class="ctx-item" onclick="openWindow('win-contact')">📧 Contact</div>
+    <hr class="ctx-sep" />
+    <div class="ctx-item" onclick="document.getElementById('ctx-menu').classList.remove('open')">✕ Close Menu</div>
+  </div>
 
-      /* ============================================================
-   DESKTOP ICON CLICK
-   ============================================================ */
-      document.querySelectorAll(".d-icon").forEach((icon) => {
-        icon.addEventListener("click", () => {
-          document.querySelectorAll(".d-icon").forEach((i) => i.classList.remove("selected"));
-          icon.classList.add("selected");
-        });
-      });
+  <!-- TOOLTIP -->
+  <div class="xp-tooltip" id="tooltip"></div>
 
-      document.getElementById("desktop").addEventListener("click", (e) => {
-        if (!e.target.closest(".d-icon")) {
-          document.querySelectorAll(".d-icon").forEach((i) => i.classList.remove("selected"));
-        }
-      });
+  <script src="asset/script.js"></script>
+</body>
 
-      /* ============================================================
-   INITIAL LAYOUT
-   ============================================================ */
-      setTimeout(() => {
-        openWindow("win-about");
-        updateTaskbar("win-about");
-
-        if (window.innerWidth <= 768) {
-          const win = document.getElementById("win-about");
-          const vw = window.innerWidth;
-          const vh = window.innerHeight - 36;
-          const w = Math.min(vw - 16, 480);
-          const h = Math.min(vh - 16, 520);
-          win.style.width = w + "px";
-          win.style.height = h + "px";
-          win.style.left = Math.round((vw - w) / 2) + "px";
-          win.style.top = "8px";
-        }
-      }, 300);
-
-      /* TOUCH DRAG */
-      document.addEventListener(
-        "touchstart",
-        (e) => {
-          const titlebar = e.target.closest(".xp-titlebar");
-          if (!titlebar || e.target.closest(".xp-title-btns")) return;
-          const winEl = titlebar.closest(".xp-window");
-          if (!winEl) return;
-          focusWindow(winEl.id);
-          const touch = e.touches[0];
-          const rect = winEl.getBoundingClientRect();
-          drag = { id: winEl.id, ox: touch.clientX - rect.left, oy: touch.clientY - rect.top };
-          e.preventDefault();
-        },
-        { passive: false },
-      );
-
-      document.addEventListener(
-        "touchmove",
-        (e) => {
-          if (!drag) return;
-          const touch = e.touches[0];
-          const win = document.getElementById(drag.id);
-          const maxY = window.innerHeight - 36 - 26;
-          let x = touch.clientX - drag.ox;
-          let y = Math.max(0, Math.min(touch.clientY - drag.oy, maxY));
-          x = Math.max(-win.offsetWidth + 60, x);
-          win.style.left = x + "px";
-          win.style.top = y + "px";
-          e.preventDefault();
-        },
-        { passive: false },
-      );
-
-      document.addEventListener("touchend", () => {
-        drag = null;
-      });
-
-      /* TOUCH RESIZE */
-      document.querySelectorAll(".resize-handle").forEach((handle) => {
-        handle.addEventListener(
-          "touchstart",
-          (e) => {
-            const winEl = handle.closest(".xp-window");
-            if (!winEl) return;
-            const rect = winEl.getBoundingClientRect();
-            const touch = e.touches[0];
-            resz = { id: winEl.id, sw: rect.width, sh: rect.height, sx: touch.clientX, sy: touch.clientY };
-            e.preventDefault();
-            e.stopPropagation();
-          },
-          { passive: false },
-        );
-      });
-
-      document.addEventListener(
-        "touchmove",
-        (e) => {
-          if (!resz) return;
-          const touch = e.touches[0];
-          const win = document.getElementById(resz.id);
-          const w = Math.max(280, resz.sw + touch.clientX - resz.sx);
-          const h = Math.max(180, resz.sh + touch.clientY - resz.sy);
-          win.style.width = w + "px";
-          win.style.height = h + "px";
-          e.preventDefault();
-        },
-        { passive: false },
-      );
-
-      document.addEventListener("touchend", () => {
-        resz = null;
-      });
-
-      /* DOUBLE TAP ICON TO OPEN */
-      let lastTap = {};
-      document.querySelectorAll(".d-icon").forEach((icon) => {
-        icon.addEventListener("touchend", (e) => {
-          const id = icon.getAttribute("ondblclick")?.match(/'([^']+)'/)?.[1];
-          if (!id) return;
-          const now = Date.now();
-          if (lastTap[id] && now - lastTap[id] < 400) {
-            openWindow(id);
-            if (window.innerWidth <= 768) {
-              const win = document.getElementById(id);
-              const vw = window.innerWidth;
-              const vh = window.innerHeight - 36;
-              const w = Math.min(vw - 16, 500);
-              const h = Math.min(vh - 16, 520);
-              win.style.width = w + "px";
-              win.style.height = h + "px";
-              win.style.left = Math.round((vw - w) / 2) + "px";
-              win.style.top = "8px";
-            }
-            lastTap[id] = 0;
-          } else {
-            lastTap[id] = now;
-          }
-        });
-      });
-
-      /* LONG PRESS FOR CONTEXT MENU */
-      let longPressTimer = null;
-      document.getElementById("desktop").addEventListener(
-        "touchstart",
-        (e) => {
-          longPressTimer = setTimeout(() => {
-            const touch = e.touches[0];
-            const menu = document.getElementById("ctx-menu");
-            menu.style.left = Math.min(touch.clientX, window.innerWidth - 180) + "px";
-            menu.style.top = Math.min(touch.clientY, window.innerHeight - 180) + "px";
-            menu.classList.add("open");
-          }, 600);
-        },
-        { passive: true },
-      );
-      document.getElementById("desktop").addEventListener("touchend", () => clearTimeout(longPressTimer));
-      document.getElementById("desktop").addEventListener("touchmove", () => clearTimeout(longPressTimer));
-
-      /* DOUBLE TAP TITLEBAR TO MAXIMIZE */
-      let titleTap = {};
-      document.addEventListener("touchend", (e) => {
-        const titlebar = e.target.closest(".xp-titlebar");
-        if (!titlebar || e.target.closest(".xp-title-btns")) return;
-        const winEl = titlebar.closest(".xp-window");
-        if (!winEl) return;
-        const now = Date.now();
-        const id = winEl.id;
-        if (titleTap[id] && now - titleTap[id] < 400) {
-          toggleMaximize(id);
-          titleTap[id] = 0;
-        } else {
-          titleTap[id] = now;
-        }
-      });
-    </script>
-  </body>
 </html>
