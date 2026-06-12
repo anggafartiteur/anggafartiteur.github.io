@@ -18,12 +18,12 @@ WINDOW MANAGEMENT
 let zTop = 100;
 const windows = ["win-about", "win-portfolio", "win-skills", "win-other", "win-contact", "win-notepad"];
 const winTitles = {
-    "win-about": { icon: "👤", label: "Angga's Profile" },
-    "win-portfolio": { icon: "💼", label: "My Portfolio" },
-    "win-skills": { icon: "⚙️", label: "Skills & XP" },
-    "win-other": { icon: "🌟", label: "The Enthusiasm" },
-    "win-contact": { icon: "📧", label: "Contact Info" },
-    "win-notepad": { icon: "📝", label: "README.txt" },
+    "win-about": { icon: "<img src='asset/ico/User Accounts.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Angga's Profile" },
+    "win-portfolio": { icon: "<img src='asset/ico/Briefcase.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "My Portfolio" },
+    "win-skills": { icon: "<img src='asset/ico/System Properties.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Skills & XP" },
+    "win-other": { icon: "<img src='asset/ico/Favorites.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "The Enthusiasm" },
+    "win-contact": { icon: "<img src='asset/ico/Outlook Express.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Contact Info" },
+    "win-notepad": { icon: "<img src='asset/ico/Notepad.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "README.txt" },
 };
 
 function openWindow(id) {
@@ -228,7 +228,7 @@ function openProjectDetail(key) {
     win.style.cssText = `width:380px;height:260px;top:${100 + Math.random() * 80}px;left:${200 + Math.random() * 100}px;z-index:${++zTop}`;
     win.innerHTML = `
     <div class="xp-titlebar" onmousedown="startDrag(event,'win-proj-${key}')">
-      <span class="xp-titlebar-icon">🌐</span>
+      <img class="xp-titlebar-icon" src="asset/ico/Internet Explorer 6.png" />
       <span class="xp-titlebar-text">${p.name} — Properties</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-cls" onclick="this.closest('.xp-window').remove()">✕</div>
@@ -238,7 +238,7 @@ function openProjectDetail(key) {
       <div class="xp-content thin-scroll">
         <div style="padding:14px">
           <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #eee">
-            <div style="font-size:36px">🌐</div>
+            <img src="asset/ico/Internet Explorer 6.png" style="width: 36px; height: 36px" />
             <div>
               <div style="font-weight:bold;font-size:12px;color:var(--xp-blue)">${p.name}</div>
               <div style="font-size:10px;color:#888">${p.cat} · ${p.year}</div>
@@ -315,18 +315,6 @@ INITIAL LAYOUT
 setTimeout(() => {
     openWindow("win-about");
     updateTaskbar("win-about");
-
-    if (window.innerWidth <= 768) {
-        const win = document.getElementById("win-about");
-        const vw = window.innerWidth;
-        const vh = window.innerHeight - 36;
-        const w = Math.min(vw - 16, 480);
-        const h = Math.min(vh - 16, 520);
-        win.style.width = w + "px";
-        win.style.height = h + "px";
-        win.style.left = Math.round((vw - w) / 2) + "px";
-        win.style.top = "8px";
-    }
 }, 300);
 
 /* TOUCH DRAG */
@@ -412,17 +400,6 @@ document.querySelectorAll(".d-icon").forEach((icon) => {
         const now = Date.now();
         if (lastTap[id] && now - lastTap[id] < 400) {
             openWindow(id);
-            if (window.innerWidth <= 768) {
-                const win = document.getElementById(id);
-                const vw = window.innerWidth;
-                const vh = window.innerHeight - 36;
-                const w = Math.min(vw - 16, 500);
-                const h = Math.min(vh - 16, 520);
-                win.style.width = w + "px";
-                win.style.height = h + "px";
-                win.style.left = Math.round((vw - w) / 2) + "px";
-                win.style.top = "8px";
-            }
             lastTap[id] = 0;
         } else {
             lastTap[id] = now;

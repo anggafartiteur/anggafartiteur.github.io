@@ -53,7 +53,7 @@
   <!-- WINDOW: ABOUT / HELLO -->
   <div class="xp-window" id="win-about" style="width: 580px; height: 480px; top: 40px; left: 80px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-about')">
-      <span class="xp-titlebar-icon">👤</span>
+      <img class="xp-titlebar-icon" src="asset/ico/User Accounts.png" />
       <span class="xp-titlebar-text">Angga Fartiteur Setiawan — Profile</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-about')" title="Minimize">_</div>
@@ -159,7 +159,7 @@
   <!-- WINDOW: PORTFOLIO -->
   <div class="xp-window closed" id="win-portfolio" style="width: 680px; height: 500px; top: 60px; left: 140px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-portfolio')">
-      <span class="xp-titlebar-icon">💼</span>
+      <img class="xp-titlebar-icon" src="asset/ico/Briefcase.png" />
       <span class="xp-titlebar-text">My Portfolio (7 items)</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-portfolio')">_</div>
@@ -311,7 +311,7 @@
   <!-- WINDOW: SKILLS -->
   <div class="xp-window closed" id="win-skills" style="width: 560px; height: 460px; top: 80px; left: 200px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-skills')">
-      <span class="xp-titlebar-icon">⚙️</span>
+      <img class="xp-titlebar-icon" src="asset/ico/System Properties.png" />
       <span class="xp-titlebar-text">Skills &amp; Experience — System Properties</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-skills')">_</div>
@@ -513,7 +513,7 @@
   <!-- WINDOW: OTHER / ENTHUSIASM -->
   <div class="xp-window closed" id="win-other" style="width: 540px; height: 420px; top: 100px; left: 250px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-other')">
-      <span class="xp-titlebar-icon">🌟</span>
+      <img class="xp-titlebar-icon" src="asset/ico/Favorites.png" />
       <span class="xp-titlebar-text">The Enthusiasm — Hobbies &amp; Interests</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-other')">_</div>
@@ -566,7 +566,7 @@
   <!-- WINDOW: CONTACT -->
   <div class="xp-window closed" id="win-contact" style="width: 400px; height: 360px; top: 120px; left: 300px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-contact')">
-      <span class="xp-titlebar-icon">📧</span>
+      <img class="xp-titlebar-icon" src="asset/ico/Outlook Express.png" />
       <span class="xp-titlebar-text">Contact Information</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-contact')">_</div>
@@ -633,7 +633,7 @@
   <!-- WINDOW: NOTEPAD -->
   <div class="xp-window closed" id="win-notepad" style="width: 480px; height: 340px; top: 140px; left: 350px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-notepad')">
-      <span class="xp-titlebar-icon">📝</span>
+      <img class="xp-titlebar-icon" src="asset/ico/Notepad.png" />
       <span class="xp-titlebar-text">README.txt — Notepad</span>
       <div class="xp-title-btns">
         <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-notepad')">_</div>
@@ -672,7 +672,7 @@
   <!-- START MENU -->
   <div id="start-menu">
     <div class="sm-header">
-      <div class="sm-avatar">👤</div>
+      <div class="sm-avatar"><img src="asset/ico/User Accounts.png" style="width: 32px; height: 32px" /></div>
       <div class="sm-username">Angga Fartiteur</div>
     </div>
     <div class="sm-body">
@@ -681,7 +681,7 @@
               openWindow('win-about');
               toggleStart();
             ">
-          <span class="sm-item-icon">👤</span>
+          <img class="sm-item-icon" src="asset/ico/User Accounts.png" />
           <div>
             <div class="sm-item-label"><b>My Profile</b></div>
             <div class="sm-item-sub">About me & contact</div>
@@ -691,7 +691,7 @@
               openWindow('win-portfolio');
               toggleStart();
             ">
-          <span class="sm-item-icon">💼</span>
+          <img class="sm-item-icon" src="asset/ico/Briefcase.png" />
           <div>
             <div class="sm-item-label"><b>Portfolio</b></div>
             <div class="sm-item-sub">7 projects</div>
@@ -701,7 +701,7 @@
               openWindow('win-skills');
               toggleStart();
             ">
-          <span class="sm-item-icon">⚙️</span>
+          <img class="sm-item-icon" src="asset/ico/System Properties.png" />
           <div>
             <div class="sm-item-label"><b>Skills &amp; XP</b></div>
             <div class="sm-item-sub">System Properties</div>
@@ -712,7 +712,7 @@
               openWindow('win-other');
               toggleStart();
             ">
-          <span class="sm-item-icon">🌟</span>
+          <img class="sm-item-icon" src="asset/ico/Favorites.png" />
           <div>
             <div class="sm-item-label">The Enthusiasm</div>
           </div>
@@ -721,7 +721,7 @@
               openWindow('win-notepad');
               toggleStart();
             ">
-          <span class="sm-item-icon">📝</span>
+          <img class="sm-item-icon" src="asset/ico/Notepad.png" />
           <div>
             <div class="sm-item-label">README.txt</div>
           </div>
@@ -733,21 +733,21 @@
               openWindow('win-contact');
               toggleStart();
             ">
-          <span class="sm-item-icon">📧</span>
+          <img class="sm-item-icon" src="asset/ico/Outlook Express.png" />
           <span class="sm-item-label">Contact Info</span>
         </div>
         <div class="sm-item" onclick="
               window.open('https://www.tokopedia.com/wakuteka', '_blank');
               toggleStart();
             ">
-          <span class="sm-item-icon">🛍</span>
+          <img class="sm-item-icon" src="asset/ico/Internet Explorer 6.png" />
           <span class="sm-item-label">#WKTK Shop</span>
         </div>
         <div class="sm-item" onclick="
               window.open('https://www.linkedin.com/in/angga-fartiteur-setiawan/', '_blank');
               toggleStart();
             ">
-          <span class="sm-item-icon">🔗</span>
+          <img class="sm-item-icon" src="asset/ico/Internet Explorer 6.png" />
           <span class="sm-item-label">LinkedIn</span>
         </div>
         <hr class="sm-divider" />
@@ -756,15 +756,14 @@
               window.open('https://drive.google.com/file/d/1-11PwrbonKaLhToHKPnOu_oXsohkDqJX/view?usp=sharing', '_blank');
               toggleStart();
             ">
-          <span class="sm-item-icon">📄</span>
+          <img class="sm-item-icon" src="asset/ico/Notepad.png" />
           <span class="sm-item-label">Download CV</span>
         </div>
       </div>
     </div>
     <div class="sm-footer">
-      <button class="sm-footer-btn" onclick="alert('Logging off...\n\nCheers to this wonderful world today! #wktk')">🔴
-        Log Off</button>
-      <button class="sm-footer-btn" onclick="alert('Shutting down...\n\nThanks for visiting!')">⭕ Shut Down</button>
+      <button class="sm-footer-btn" onclick="alert('Logging off...\n\nCheers to this wonderful world today! #wktk')"><img src="asset/ico/Logout.png" style="width: 14px; height: 14px" /> Log Off</button>
+      <button class="sm-footer-btn" onclick="alert('Shutting down...\n\nThanks for visiting!')"><img src="asset/ico/Power.png" style="width: 14px; height: 14px" /> Shut Down</button>
     </div>
   </div>
 
@@ -777,8 +776,8 @@
     </button>
     <div class="taskbar-area" id="taskbar-area"></div>
     <div class="sys-tray">
-      <span>🔊</span>
-      <span>🌐</span>
+      <img src="asset/ico/Volume.png" style="width: 14px; height: 14px" />
+      <img src="asset/ico/Network Connection.png" style="width: 14px; height: 14px" />
       <span id="clock">12:00</span>
     </div>
   </div>
@@ -788,9 +787,9 @@
     <div class="ctx-item" onclick="openAllWindows()">🗂 Open All Windows</div>
     <div class="ctx-item" onclick="cascadeWindows()">🔲 Cascade Windows</div>
     <hr class="ctx-sep" />
-    <div class="ctx-item" onclick="openWindow('win-about')">👤 Angga's Profile</div>
-    <div class="ctx-item" onclick="openWindow('win-portfolio')">💼 Portfolio</div>
-    <div class="ctx-item" onclick="openWindow('win-contact')">📧 Contact</div>
+    <div class="ctx-item" onclick="openWindow('win-about')"><img src="asset/ico/User Accounts.png" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;" /> Angga's Profile</div>
+    <div class="ctx-item" onclick="openWindow('win-portfolio')"><img src="asset/ico/Briefcase.png" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;" /> Portfolio</div>
+    <div class="ctx-item" onclick="openWindow('win-contact')"><img src="asset/ico/Outlook Express.png" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;" /> Contact</div>
     <hr class="ctx-sep" />
     <div class="ctx-item" onclick="document.getElementById('ctx-menu').classList.remove('open')">✕ Close Menu</div>
   </div>
