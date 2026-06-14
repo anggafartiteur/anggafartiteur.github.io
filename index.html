@@ -189,44 +189,79 @@
           <div class="xp-sidebar-item">🌐 Open Website</div>
           <div class="xp-sidebar-item">ℹ View Details</div>
         </div>
+        <div class="xp-sidebar-section" style="margin-top: 8px;" id="portfolio-sidebar-details">
+          <div class="xp-sidebar-title">ℹ Details</div>
+          <div id="portfolio-sidebar-detail-content" style="padding: 8px; font-size: 10px; color: #336; line-height: 1.4;">
+            <div style="font-weight: bold; margin-bottom: 4px;">My Portfolio</div>
+            Select an item to view its details and screenshot preview.
+          </div>
+        </div>
       </div>
 
       <div class="xp-content thin-scroll" id="portfolio-content">
         <!-- ICON VIEW (default) -->
         <div id="portfolio-icons" class="xp-icon-grid">
+          <!-- Group 2025 -->
+          <div class="xp-grid-group-header">2025</div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('absensi')"
+            onclick="selectIcon(this, 'absensi')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/absensi4-3.jpg" alt="Absensi" />
+            </div>
+            <div class="xp-file-icon-name">Absensi Arifindo</div>
+          </div>
+
+          <!-- Group 2024 -->
+          <div class="xp-grid-group-header">2024</div>
           <div class="xp-file-icon" ondblclick="openProjectDetail('psikotes')"
-            onclick="selectIcon(this, 'Psikotes Online Arifindo', '2024')">
-            <div class="xp-file-icon-img">🧠</div>
+            onclick="selectIcon(this, 'psikotes')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/psikotes4-3.jpg.png" alt="Psikotes Online" />
+            </div>
             <div class="xp-file-icon-name">Psikotes Online Arifindo</div>
           </div>
           <div class="xp-file-icon" ondblclick="openProjectDetail('hris')"
-            onclick="selectIcon(this, 'HRIS Arifindo', '2024')">
-            <div class="xp-file-icon-img">👥</div>
+            onclick="selectIcon(this, 'hris')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/hris-arifindo4-3.png" alt="HRIS" />
+            </div>
             <div class="xp-file-icon-name">HRIS Arifindo</div>
           </div>
           <div class="xp-file-icon" ondblclick="openProjectDetail('career')"
-            onclick="selectIcon(this, 'Career Arifindo', '2024')">
-            <div class="xp-file-icon-img">📋</div>
+            onclick="selectIcon(this, 'career')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/career4-3.png" alt="Career" />
+            </div>
             <div class="xp-file-icon-name">Career Arifindo</div>
           </div>
-          <div class="xp-file-icon" ondblclick="openProjectDetail('absensi')"
-            onclick="selectIcon(this, 'Absensi Arifindo', '2025')">
-            <div class="xp-file-icon-img">📱</div>
-            <div class="xp-file-icon-name">Absensi Arifindo</div>
-          </div>
-          <div class="xp-file-icon" ondblclick="openProjectDetail('payment')"
-            onclick="selectIcon(this, 'Payment Daru Estates', '2022')">
-            <div class="xp-file-icon-img">💳</div>
-            <div class="xp-file-icon-name">Payment Daru Estates</div>
-          </div>
+
+          <!-- Group 2023 -->
+          <div class="xp-grid-group-header">2023</div>
           <div class="xp-file-icon" ondblclick="openProjectDetail('daruestates')"
-            onclick="selectIcon(this, 'Daru Estates Website', '2023')">
-            <div class="xp-file-icon-img">🏠</div>
+            onclick="selectIcon(this, 'daruestates')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/daruestates.jpg" alt="Daru Estates" />
+            </div>
             <div class="xp-file-icon-name">Daru Estates</div>
           </div>
+
+          <!-- Group 2022 -->
+          <div class="xp-grid-group-header">2022</div>
+          <div class="xp-file-icon" ondblclick="openProjectDetail('payment')"
+            onclick="selectIcon(this, 'payment')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/payment4-3.png" alt="Payment" />
+            </div>
+            <div class="xp-file-icon-name">Payment Daru Estates</div>
+          </div>
+
+          <!-- Group 2018 -->
+          <div class="xp-grid-group-header">2018</div>
           <div class="xp-file-icon" ondblclick="openProjectDetail('folio')"
-            onclick="selectIcon(this, 'Folio POS', '2018')">
-            <div class="xp-file-icon-img">🛒</div>
+            onclick="selectIcon(this, 'folio')">
+            <div class="xp-file-icon-img">
+              <img class="xp-file-icon-thumb" src="asset/img/foliopos4-3.png" alt="Folio POS" />
+            </div>
             <div class="xp-file-icon-name">Folio POS</div>
           </div>
         </div>
@@ -244,52 +279,50 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://psikotes.arifindo.com', '_blank')">
-                <td>🧠</td>
+              <tr onclick="selectRow(this, 'psikotes')" ondblclick="openProjectDetail('psikotes')">
+                <td><i class="bi bi-patch-check" style="color: #1a5cd8;"></i></td>
                 <td>Psikotes Online Arifindo</td>
                 <td>2024</td>
                 <td>HR Tech</td>
-                <td><a href="https://psikotes.arifindo.com" target="_blank" class="xp-link">psikotes.arifindo.com</a>
-                </td>
+                <td><a href="https://psikotes.arifindo.com" target="_blank" class="xp-link">psikotes.arifindo.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://hris.arifindo.com', '_blank')">
-                <td>👥</td>
+              <tr onclick="selectRow(this, 'hris')" ondblclick="openProjectDetail('hris')">
+                <td><i class="bi bi-people" style="color: #1a5cd8;"></i></td>
                 <td>HRIS Arifindo</td>
                 <td>2024</td>
                 <td>HR Tech</td>
                 <td><a href="https://hris.arifindo.com" target="_blank" class="xp-link">hris.arifindo.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://career.arifindo.com', '_blank')">
-                <td>📋</td>
+              <tr onclick="selectRow(this, 'career')" ondblclick="openProjectDetail('career')">
+                <td><i class="bi bi-file-earmark-person" style="color: #1a5cd8;"></i></td>
                 <td>Career Arifindo</td>
                 <td>2024</td>
                 <td>HR Tech</td>
                 <td><a href="https://career.arifindo.com" target="_blank" class="xp-link">career.arifindo.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://absensi.arifindo.com', '_blank')">
-                <td>📱</td>
+              <tr onclick="selectRow(this, 'absensi')" ondblclick="openProjectDetail('absensi')">
+                <td><i class="bi bi-phone" style="color: #28a745;"></i></td>
                 <td>Absensi Arifindo</td>
                 <td>2025</td>
                 <td>Mobile/PWA</td>
                 <td><a href="https://absensi.arifindo.com" target="_blank" class="xp-link">absensi.arifindo.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://staging.arifindo.com', '_blank')">
-                <td>💳</td>
+              <tr onclick="selectRow(this, 'payment')" ondblclick="openProjectDetail('payment')">
+                <td><i class="bi bi-credit-card" style="color: #dc3545;"></i></td>
                 <td>Payment Daru Estates</td>
                 <td>2022</td>
                 <td>Property</td>
-                <td><a href="https://staging.arifindo.com/" target="_blank" class="xp-link">staging.arifindo.com</a>
-                </td>
+                <td><a href="https://staging.arifindo.com/" target="_blank" class="xp-link">staging.arifindo.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://daruestates.com', '_blank')">
-                <td>🏠</td>
+              <tr onclick="selectRow(this, 'daruestates')" ondblclick="openProjectDetail('daruestates')">
+                <td><i class="bi bi-house" style="color: #d39e00;"></i></td>
                 <td>Daru Estates Website</td>
                 <td>2023</td>
                 <td>Property</td>
                 <td><a href="https://daruestates.com" target="_blank" class="xp-link">daruestates.com</a></td>
               </tr>
-              <tr onclick="selectRow(this)" ondblclick="window.open('https://foliopos.com', '_blank')">
-                <td>🛒</td>
+              <tr onclick="selectRow(this, 'folio')" ondblclick="openProjectDetail('folio')">
+                <td><i class="bi bi-cart" style="color: #fd7e14;"></i></td>
                 <td>Folio POS</td>
                 <td>2018</td>
                 <td>Retail Tech</td>
@@ -309,7 +342,7 @@
   </div>
 
   <!-- WINDOW: SKILLS -->
-  <div class="xp-window closed" id="win-skills" style="width: 560px; height: 460px; top: 80px; left: 200px">
+  <div class="xp-window closed" id="win-skills" style="width: 580px; height: 480px; top: 80px; left: 200px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-skills')">
       <img class="xp-titlebar-icon" src="asset/ico/System Properties.png" />
       <span class="xp-titlebar-text">Skills &amp; Experience — System Properties</span>
@@ -320,186 +353,159 @@
       </div>
     </div>
 
-    <div class="xp-tabs" id="skills-tabs">
-      <div class="xp-tab active" onclick="showTab('skills', 'general')">General</div>
-      <div class="xp-tab" onclick="showTab('skills', 'frontend')">Frontend</div>
-      <div class="xp-tab" onclick="showTab('skills', 'backend')">Backend</div>
-      <div class="xp-tab" onclick="showTab('skills', 'other')">Other</div>
-    </div>
-
     <div class="xp-body" style="flex-direction: column">
-      <!-- General tab -->
-      <div class="xp-tab-content active thin-scroll" id="skills-tab-general">
-        <div class="skills-content">
-          <div
-            style="display: flex; gap: 16px; align-items: center; padding: 10px; background: linear-gradient(135deg, #eef4ff, #dce8ff); border: 1px solid #c8d8f0; margin-bottom: 12px">
-            <div style="font-size: 48px">💻</div>
-            <div>
-              <div style="font-size: 14px; font-weight: bold; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
-              <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
-              <div style="font-size: 11px; color: #444; margin-top: 4px">Windows XP Portfolio Edition (Build 2613)</div>
-              <div style="font-size: 11px; color: #444">Registered to: Angga F.S. · Tangerang, ID</div>
-            </div>
+      <div class="xp-content thin-scroll" style="padding: 12px; background: white;">
+        
+        <!-- General / Profile section -->
+        <div style="display: flex; gap: 16px; align-items: center; padding: 10px; background: linear-gradient(135deg, #eef4ff, #dce8ff); border: 1px solid #c8d8f0; margin-bottom: 16px">
+          <div style="font-size: 48px">💻</div>
+          <div>
+            <div style="font-size: 14px; font-weight: bold; color: var(--xp-blue)">Angga Fartiteur Setiawan</div>
+            <div style="font-size: 11px; color: #666">Full-Stack Web Developer</div>
+            <div style="font-size: 11px; color: #444; margin-top: 4px">Windows XP Portfolio Edition (Build 2613)</div>
+            <div style="font-size: 11px; color: #444">Registered to: Angga F.S. · Tangerang, ID</div>
           </div>
-          <div class="xp-dialog-row"><span class="xp-dialog-key">Experience</span><span class="xp-dialog-val">8 Years
-              Professional</span></div>
-          <div class="xp-dialog-row"><span class="xp-dialog-key">Speciality</span><span class="xp-dialog-val">Full-Stack
-              Web Development</span></div>
-          <div class="xp-dialog-row"><span class="xp-dialog-key">Sectors</span><span class="xp-dialog-val">HR, Property,
-              Retail, Startup</span></div>
-          <div class="xp-dialog-row"><span class="xp-dialog-key">Projects</span><span class="xp-dialog-val">7+ shipped
-              products</span></div>
-          <div class="xp-dialog-row"><span class="xp-dialog-key">Availability</span><span class="xp-dialog-val"
-              style="color: green">Available — Full-time / Freelance</span></div>
         </div>
-      </div>
 
-      <!-- Frontend tab -->
-      <div class="xp-tab-content thin-scroll" id="skills-tab-frontend">
-        <div class="skills-content">
-          <div class="skill-group-title">Frontend Technologies</div>
-          <div class="skill-row">
-            <span class="skill-name">HTML / CSS</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 94%"></div>
-            </div>
-            <span class="skill-pct">94%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">JavaScript</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 90%"></div>
-            </div>
-            <span class="skill-pct">90%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Bootstrap</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 92%"></div>
-            </div>
-            <span class="skill-pct">92%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">PWA / Mobile</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 75%"></div>
-            </div>
-            <span class="skill-pct">75%</span>
-          </div>
-          <div class="skill-group-title">UI/UX</div>
-          <div class="skill-row">
-            <span class="skill-name">UI/UX Design</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 82%"></div>
-            </div>
-            <span class="skill-pct">82%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Responsive Design</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 90%"></div>
-            </div>
-            <span class="skill-pct">90%</span>
-          </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+          <div class="xp-dialog-row" style="margin-bottom:0; padding-bottom: 4px;"><span class="xp-dialog-key" style="width:70px;">Experience</span><span class="xp-dialog-val">8 Years</span></div>
+          <div class="xp-dialog-row" style="margin-bottom:0; padding-bottom: 4px;"><span class="xp-dialog-key" style="width:70px;">Speciality</span><span class="xp-dialog-val">Full-Stack Web</span></div>
+          <div class="xp-dialog-row" style="margin-bottom:0; padding-bottom: 4px;"><span class="xp-dialog-key" style="width:70px;">Sectors</span><span class="xp-dialog-val">HR, Property, Retail</span></div>
+          <div class="xp-dialog-row" style="margin-bottom:0; padding-bottom: 4px;"><span class="xp-dialog-key" style="width:70px;">Availability</span><span class="xp-dialog-val" style="color: green">Available</span></div>
         </div>
-      </div>
 
-      <!-- Backend tab -->
-      <div class="xp-tab-content thin-scroll" id="skills-tab-backend">
-        <div class="skills-content">
-          <div class="skill-group-title">Backend Technologies</div>
-          <div class="skill-row">
-            <span class="skill-name">PHP</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 95%"></div>
-            </div>
-            <span class="skill-pct">95%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Laravel</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 93%"></div>
-            </div>
-            <span class="skill-pct">93%</span>
-          </div>
-          <div class="skill-group-title">Database</div>
-          <div class="skill-row">
-            <span class="skill-name">MySQL</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 88%"></div>
-            </div>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Database Design</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 85%"></div>
-            </div>
-            <span class="skill-pct">85%</span>
-          </div>
-          <div class="skill-group-title">Architecture</div>
-          <div class="skill-row">
-            <span class="skill-name">REST API</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 88%"></div>
-            </div>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">MVC Pattern</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 92%"></div>
-            </div>
-            <span class="skill-pct">92%</span>
-          </div>
-        </div>
-      </div>
+        <!-- Section 1: Languages -->
+        <div class="skill-group-title">Languages</div>
+        <table class="xp-list-view xp-skills-table" style="margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;"></th>
+              <th>Language</th>
+              <th style="width: 110px;">Proficiency</th>
+              <th>Key Applications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🐘</td>
+              <td><b>PHP</b></td>
+              <td>Daily Use</td>
+              <td>Arifindo HR Suite, Folio POS backend</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">📜</td>
+              <td><b>JavaScript (ES6+)</b></td>
+              <td>Daily Use</td>
+              <td>Absensi Arifindo, Psikotes Online, script.js logic</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🎨</td>
+              <td><b>HTML5 & CSS3</b></td>
+              <td>Daily Use</td>
+              <td>All projects (responsive layout, layout styling)</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🗄️</td>
+              <td><b>SQL</b></td>
+              <td>Daily Use</td>
+              <td>Relational schemas design, custom queries, migrations</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <!-- Other tab -->
-      <div class="xp-tab-content thin-scroll" id="skills-tab-other">
-        <div class="skills-content">
-          <div class="skill-group-title">Creative Skills</div>
-          <div class="skill-row">
-            <span class="skill-name">Photography</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner"
-                style="width: 85%; background: linear-gradient(180deg, #f8a840 0%, #d87010 40%, #c06008 60%, #d87010 100%)">
-              </div>
-            </div>
-            <span class="skill-pct">85%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Fashion Design</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner"
-                style="width: 78%; background: linear-gradient(180deg, #e060c0 0%, #c040a0 40%, #a03090 60%, #c040a0 100%)">
-              </div>
-            </div>
-            <span class="skill-pct">78%</span>
-          </div>
-          <div class="skill-group-title">Soft Skills</div>
-          <div class="skill-row">
-            <span class="skill-name">Problem Solving</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 95%"></div>
-            </div>
-            <span class="skill-pct">95%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Communication</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 88%"></div>
-            </div>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-name">Adaptability</span>
-            <div class="skill-bar-outer">
-              <div class="skill-bar-inner" style="width: 92%"></div>
-            </div>
-            <span class="skill-pct">92%</span>
-          </div>
-        </div>
+        <!-- Section 2: Frameworks & Libraries -->
+        <div class="skill-group-title">Frameworks &amp; Libraries</div>
+        <table class="xp-list-view xp-skills-table" style="margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;"></th>
+              <th>Framework / Library</th>
+              <th style="width: 110px;">Proficiency</th>
+              <th>Key Applications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🔴</td>
+              <td><b>Laravel</b></td>
+              <td>Daily Use</td>
+              <td>HRIS, Career, Psikotes Online, Payment Daru</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">⚡</td>
+              <td><b>Bootstrap</b></td>
+              <td>Daily Use</td>
+              <td>HRIS Arifindo, Career Arifindo, Daru Estates profile</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">📱</td>
+              <td><b>PWA / Mobile Web</b></td>
+              <td>Production Ready</td>
+              <td>Absensi Arifindo (PWA-based attendance portal)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Section 3: Tools & Databases -->
+        <div class="skill-group-title">Tools &amp; Databases</div>
+        <table class="xp-list-view xp-skills-table" style="margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;"></th>
+              <th>Tool / Tech</th>
+              <th style="width: 110px;">Proficiency</th>
+              <th>Key Applications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🗄️</td>
+              <td><b>MySQL Database</b></td>
+              <td>Daily Use</td>
+              <td>Relational schema indexing, migrations, querying</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🔌</td>
+              <td><b>REST APIs</b></td>
+              <td>Daily Use</td>
+              <td>Mobile client sync, POS offline data synchronization</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">🐙</td>
+              <td><b>Git / GitHub</b></td>
+              <td>Daily Use</td>
+              <td>Version control, repository management, deployment</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Section 4: Activities & Interests -->
+        <div class="skill-group-title">Activities &amp; Interests</div>
+        <table class="xp-list-view xp-skills-table" style="margin-bottom: 8px;">
+          <thead>
+            <tr>
+              <th style="width: 24px; text-align: center;"></th>
+              <th>Activity / Interest</th>
+              <th style="width: 110px;">Familiarity</th>
+              <th>Description / Context</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">📷</td>
+              <td><b>Photography</b></td>
+              <td>Professional</td>
+              <td>Visual content creation, event preweds & weddings</td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-size: 14px;">👕</td>
+              <td><b>Fashion Design</b></td>
+              <td>Entrepreneurial</td>
+              <td>Side hustle design of anime fashion brand (#WKTK)</td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
 
@@ -649,22 +655,55 @@
       <span style="padding: 0 6px; cursor: pointer; color: #333">Help</span>
     </div>
     <div class="xp-content" style="padding: 0">
-      <div class="xp-notepad">
-        ========================================= README.TXT — Angga Fartiteur Setiawan Full-Stack Web Developer
-        Portfolio ========================================= ABOUT ----- Name : Angga Fartiteur Setiawan Title :
-        Full-Stack Web Developer Exp : 8 Years Location: Tangerang, Indonesia Status :
-        Available for hire SKILLS ------ PHP / Laravel ████████████ 95% HTML / CSS ████████████ 94% JavaScript
-        ███████████ 90% Bootstrap ████████████ 92% MySQL ███████████ 88% PWA / Android █████████ 75% UI/UX Design
-        ██████████ 82% PROJECTS -------- [2025] Absensi Arifindo - PWA attendance app
-        [2024] Psikotes Online - HR psikotes system [2024] HRIS Arifindo - Full HR management [2024] Career Arifindo -
-        Recruitment portal [2023] Daru Estates - Company profile [2022] Payment Daru - Transaction mgmt [2018] Folio POS
-        - Kasir android + web CONTACT ------- Email :
-        anggafartiteur@gmail.com LinkedIn: angga-fartiteur-setiawan WhatsApp: wa.link/ow0tvz CV : drive.google.com (see
-        links) OTHER ----- * Photography (weddings, prewed, events) * #WKTK Fashion Brand (anime-inspired) →
-        tokopedia.com/wakuteka * Full-time traveler
-        ========================================= "Cheers to this wonderful world today" #wktk
-        =========================================
-      </div>
+      <div class="xp-notepad">=========================================
+README.TXT — Angga Fartiteur Setiawan
+Full-Stack Web Developer Portfolio
+=========================================
+
+ABOUT
+-----
+Name     : Angga Fartiteur Setiawan
+Title    : Full-Stack Web Developer
+Exp      : 8 Years
+Location : Tangerang, Indonesia
+Status   : Available for hire
+
+SKILLS
+------
+* PHP / Laravel      (Daily Use)
+* HTML / CSS         (Daily Use)
+* JavaScript (ES6+)  (Daily Use)
+* Bootstrap          (Daily Use)
+* MySQL / Database   (Daily Use)
+* PWA / Mobile Web   (Production Ready)
+* UI/UX Design       (Production Ready)
+
+PROJECTS
+--------
+[2025] Absensi Arifindo - PWA attendance app
+[2024] Psikotes Online  - HR psikotes system
+[2024] HRIS Arifindo    - Full HR management
+[2024] Career Arifindo  - Recruitment portal
+[2023] Daru Estates     - Company profile
+[2022] Payment Daru     - Transaction mgmt
+[2018] Folio POS        - Kasir android + web
+
+CONTACT
+-------
+Email    : anggafartiteur@gmail.com
+LinkedIn : angga-fartiteur-setiawan
+WhatsApp : wa.link/ow0tvz
+CV       : drive.google.com (see links)
+
+OTHER
+-----
+* Photography (weddings, prewed, events)
+* #WKTK Fashion Brand (anime-inspired) → tokopedia.com/wakuteka
+* Full-time traveler
+
+=========================================
+"Cheers to this wonderful world today" #wktk
+=========================================</div>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-notepad')"></div>
   </div>
@@ -771,7 +810,6 @@
   <div id="taskbar">
     <button id="start-btn" onclick="toggleStart()">
       <img src="asset/ico/starticon.png" style="width: 20px; height: 20px" />
-      <!-- <span class="start-flag"><img src="asset/ico/start.png" style="width:20px;height:20px"></span> -->
       <span>start</span>
     </button>
     <div class="taskbar-area" id="taskbar-area"></div>
