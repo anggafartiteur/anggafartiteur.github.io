@@ -51,6 +51,10 @@
         <img class="d-icon-img" src="asset/ico/Run.png" />
         <div class="d-icon-label">Snake Game</div>
       </div>
+      <div class="d-icon" ondblclick="openWindow('win-pong')" title="Pong Game">
+        <img class="d-icon-img" src="asset/ico/Run.png" />
+        <div class="d-icon-label">Pong Game</div>
+      </div>
     </div>
   </div>
 
@@ -727,6 +731,23 @@ OTHER
       <iframe src="snake.html" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-snake')"></div>
+  </div>
+
+  <!-- WINDOW: PONG GAME -->
+  <div class="xp-window closed" id="win-pong" style="width: 500px; height: 400px; top: 170px; left: 320px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-pong')">
+      <img class="xp-titlebar-icon" src="asset/ico/Run.png" />
+      <span class="xp-titlebar-text">Pong Game</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-pong')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-pong')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-pong')">✕</div>
+      </div>
+    </div>
+    <div class="xp-body" style="padding: 0; background: #000; overflow: hidden;">
+      <iframe src="pong.html" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-pong')"></div>
   </div>
 
   <!-- START MENU -->
