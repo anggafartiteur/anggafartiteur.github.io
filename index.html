@@ -47,6 +47,10 @@
         <img class="d-icon-img" src="asset/ico/Notepad.png" />
         <div class="d-icon-label">README.txt</div>
       </div>
+      <div class="d-icon" ondblclick="openWindow('win-snake')" title="Snake Game">
+        <img class="d-icon-img" src="asset/ico/Run.png" />
+        <div class="d-icon-label">Snake Game</div>
+      </div>
     </div>
   </div>
 
@@ -706,6 +710,23 @@ OTHER
 =========================================</div>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-notepad')"></div>
+  </div>
+
+  <!-- WINDOW: SNAKE GAME -->
+  <div class="xp-window closed" id="win-snake" style="width: 420px; height: 470px; top: 150px; left: 300px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-snake')">
+      <img class="xp-titlebar-icon" src="asset/ico/Run.png" />
+      <span class="xp-titlebar-text">Snake Game</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-snake')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-snake')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-snake')">✕</div>
+      </div>
+    </div>
+    <div class="xp-body" style="padding: 0; background: #000; overflow: hidden;">
+      <iframe src="snake.html" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-snake')"></div>
   </div>
 
   <!-- START MENU -->
