@@ -717,7 +717,7 @@ OTHER
   </div>
 
   <!-- WINDOW: SNAKE GAME -->
-  <div class="xp-window closed" id="win-snake" style="width: 420px; height: 470px; top: 150px; left: 300px">
+  <div class="xp-window closed" id="win-snake" style="width: 420px; height: 500px; top: 150px; left: 300px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-snake')">
       <img class="xp-titlebar-icon" src="asset/ico/Run.png" />
       <span class="xp-titlebar-text">Snake Game</span>
@@ -727,14 +727,33 @@ OTHER
         <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-snake')">✕</div>
       </div>
     </div>
+    <div class="xp-toolbar menu-bar-container">
+      <div class="xp-menu-item">
+        Game
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="resetSnakeGame()">New Game</div>
+          <div class="xp-menu-dropdown-separator"></div>
+          <div class="xp-menu-dropdown-item" onclick="closeWindow('win-snake')">Exit</div>
+        </div>
+      </div>
+      <div class="xp-menu-item">
+        Speed
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="setSnakeSpeed(150)">Slow</div>
+          <div class="xp-menu-dropdown-item" onclick="setSnakeSpeed(100)">Normal</div>
+          <div class="xp-menu-dropdown-item" onclick="setSnakeSpeed(60)">Fast</div>
+          <div class="xp-menu-dropdown-item" onclick="setSnakeSpeed(40)">Insane</div>
+        </div>
+      </div>
+    </div>
     <div class="xp-body" style="padding: 0; background: #000; overflow: hidden;">
-      <iframe src="snake.html" style="width: 100%; height: 100%; border: none;"></iframe>
+      <iframe src="snake.html" id="frame-snake" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-snake')"></div>
   </div>
 
   <!-- WINDOW: PONG GAME -->
-  <div class="xp-window closed" id="win-pong" style="width: 500px; height: 400px; top: 170px; left: 320px">
+  <div class="xp-window closed" id="win-pong" style="width: 500px; height: 430px; top: 170px; left: 320px">
     <div class="xp-titlebar" onmousedown="startDrag(event, 'win-pong')">
       <img class="xp-titlebar-icon" src="asset/ico/Run.png" />
       <span class="xp-titlebar-text">Pong Game</span>
@@ -744,8 +763,36 @@ OTHER
         <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-pong')">✕</div>
       </div>
     </div>
+    <div class="xp-toolbar menu-bar-container">
+      <div class="xp-menu-item">
+        Game
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="resetPongGame()">New Game</div>
+          <div class="xp-menu-dropdown-separator"></div>
+          <div class="xp-menu-dropdown-item" onclick="closeWindow('win-pong')">Exit</div>
+        </div>
+      </div>
+      <div class="xp-menu-item">
+        Difficulty
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="setPongDifficulty(2)">Easy</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongDifficulty(4)">Normal</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongDifficulty(6)">Hard</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongDifficulty(8)">Impossible</div>
+        </div>
+      </div>
+      <div class="xp-menu-item">
+        Ball Speed
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="setPongBallSpeed(3)">Slow</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongBallSpeed(4)">Normal</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongBallSpeed(6)">Fast</div>
+          <div class="xp-menu-dropdown-item" onclick="setPongBallSpeed(8)">Insane</div>
+        </div>
+      </div>
+    </div>
     <div class="xp-body" style="padding: 0; background: #000; overflow: hidden;">
-      <iframe src="pong.html" style="width: 100%; height: 100%; border: none;"></iframe>
+      <iframe src="pong.html" id="frame-pong" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-pong')"></div>
   </div>

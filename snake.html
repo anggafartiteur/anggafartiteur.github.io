@@ -82,7 +82,7 @@
     <div id="game-over">
       <h2 style="color: #ff3333; margin-top: 0;">Game Over!</h2>
       <p>Final Score: <span id="final-score">0</span></p>
-      <button class="btn" onclick="resetGame()">Play Again</button>
+      <button class="btn" onclick="resetGameBtn()">Play Again</button>
     </div>
   </div>
 
@@ -106,8 +106,24 @@
     let highScore = localStorage.getItem("snakeHighScore") || 0;
     let gameLoop;
     let isGameOver = false;
+    let gameSpeed = 100;
 
     highScoreElement.textContent = highScore;
+
+    window.setGameSpeed = function(speed) {
+      gameSpeed = speed;
+      initGame(); // Reset game when speed changes
+    };
+
+    window.addEventListener("message", function(event) {
+      if (event.data && event.data.action) {
+        if (event.data.action === 'resetGame') {
+          window.resetGame();
+        } else if (event.data.action === 'setGameSpeed') {
+          window.setGameSpeed(event.data.value);
+        }
+      }
+    });
 
     function initGame() {
       snake = [
@@ -122,7 +138,7 @@
       placeFood();
       
       if (gameLoop) clearInterval(gameLoop);
-      gameLoop = setInterval(update, 100);
+      gameLoop = setInterval(update, gameSpeed);
     }
 
     function update() {
@@ -235,7 +251,11 @@
       gameOverScreen.style.display = "block";
     }
 
-    function resetGame() {
+    window.resetGame = function() {
+      initGame();
+    };
+
+    function resetGameBtn() {
       initGame();
     }
 
@@ -247,7 +267,7 @@
       }
 
       if (isGameOver && e.key === "Enter") {
-        resetGame();
+        resetGameBtn();
         return;
       }
 

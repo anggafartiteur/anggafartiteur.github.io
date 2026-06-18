@@ -1427,3 +1427,63 @@ Keeps full XP look — just makes it usable on touch screens
     flex-shrink: 0;
   }
 }
+
+/* ============================================================
+XP NATIVE MENU BAR (File, Edit, View style)
+============================================================ */
+.menu-bar-container {
+  background: #ece9d8;
+  border-bottom: 1px solid #ccc;
+  font-size: 11px;
+  gap: 2px;
+  padding: 0;
+  overflow: visible; /* Ensure dropdowns show up */
+}
+
+.xp-menu-item {
+  position: relative;
+  display: inline-block;
+  padding: 2px 6px;
+  cursor: pointer;
+  color: #000;
+}
+
+.xp-menu-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  z-index: 9999;
+  min-width: 120px;
+  padding: 2px 0;
+}
+
+.xp-menu-item:hover .xp-menu-dropdown {
+  display: block;
+}
+
+.xp-menu-dropdown-item {
+  padding: 4px 16px;
+  color: #000;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.xp-menu-dropdown-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-menu-dropdown-separator {
+  height: 1px;
+  background: #ccc;
+  margin: 2px 0;
+}

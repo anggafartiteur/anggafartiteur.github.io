@@ -108,6 +108,38 @@
       S: false
     };
 
+    let initialBallSpeed = 4;
+
+    window.setDifficulty = function(level) {
+      ai.speed = level;
+      window.resetGame();
+    };
+
+    window.setBallSpeed = function(speed) {
+      initialBallSpeed = speed;
+      window.resetGame();
+    };
+
+    window.resetGame = function() {
+      player.score = 0;
+      ai.score = 0;
+      playerScoreEl.textContent = player.score;
+      aiScoreEl.textContent = ai.score;
+      resetBall();
+    };
+
+    window.addEventListener("message", function(event) {
+      if (event.data && event.data.action) {
+        if (event.data.action === 'resetGame') {
+          window.resetGame();
+        } else if (event.data.action === 'setDifficulty') {
+          window.setDifficulty(event.data.value);
+        } else if (event.data.action === 'setBallSpeed') {
+          window.setBallSpeed(event.data.value);
+        }
+      }
+    });
+
     function drawRect(x, y, w, h, color) {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
@@ -151,8 +183,9 @@
     function resetBall() {
       ball.x = canvas.width / 2;
       ball.y = canvas.height / 2;
-      ball.speed = 4;
-      ball.dx = -ball.dx; // Serve to the other player
+      ball.speed = initialBallSpeed;
+      ball.dx = (ball.dx > 0 ? -1 : 1) * initialBallSpeed; // Serve to the other player
+      ball.dy = (Math.random() > 0.5 ? 1 : -1) * initialBallSpeed;
     }
 
     function update() {

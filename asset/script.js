@@ -263,7 +263,7 @@ function showProjTab(key, tabName) {
     const tabPrev = document.getElementById(`proj-tab-preview-${key}`);
     const tabs = document.querySelectorAll(`#win-proj-${key} .xp-tab`);
     if (!tabs || tabs.length < 2) return;
-    
+
     if (tabName === 'general') {
         if (tabGen) tabGen.style.display = 'block';
         if (tabPrev) tabPrev.style.display = 'none';
@@ -344,7 +344,7 @@ function openProjectDetail(key) {
     <div class="xp-statusbar"><div class="xp-status-pane">Ready</div></div>
     <div class="resize-handle" onmousedown="startResize(event,'win-proj-${key}')"></div>
   `;
-  document.body.appendChild(win);
+    document.body.appendChild(win);
 }
 
 /* ============================================================
@@ -529,3 +529,41 @@ document.addEventListener("touchend", (e) => {
         titleTap[id] = now;
     }
 });
+
+/* ============================================================
+GAME BRIDGE FUNCTIONS
+============================================================ */
+function resetSnakeGame() {
+    const frame = document.getElementById("frame-snake");
+    if (frame && frame.contentWindow && frame.contentWindow.resetGame) {
+        frame.contentWindow.resetGame();
+    }
+}
+
+function setSnakeSpeed(speed) {
+    const frame = document.getElementById("frame-snake");
+    if (frame && frame.contentWindow && frame.contentWindow.setGameSpeed) {
+        frame.contentWindow.setGameSpeed(speed);
+    }
+}
+
+function resetPongGame() {
+    const frame = document.getElementById("frame-pong");
+    if (frame && frame.contentWindow && frame.contentWindow.resetGame) {
+        frame.contentWindow.resetGame();
+    }
+}
+
+function setPongDifficulty(level) {
+    const frame = document.getElementById("frame-pong");
+    if (frame && frame.contentWindow && frame.contentWindow.setDifficulty) {
+        frame.contentWindow.setDifficulty(level);
+    }
+}
+
+function setPongBallSpeed(speed) {
+    const frame = document.getElementById("frame-pong");
+    if (frame && frame.contentWindow && frame.contentWindow.setBallSpeed) {
+        frame.contentWindow.setBallSpeed(speed);
+    }
+}
