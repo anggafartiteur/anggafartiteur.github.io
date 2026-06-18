@@ -69,8 +69,11 @@ DESKTOP ICONS
   position: absolute;
   top: 10px;
   left: 10px;
+  bottom: 10px;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
   gap: 6px;
 }
 

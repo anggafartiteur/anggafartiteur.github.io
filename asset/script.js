@@ -535,35 +535,35 @@ GAME BRIDGE FUNCTIONS
 ============================================================ */
 function resetSnakeGame() {
     const frame = document.getElementById("frame-snake");
-    if (frame && frame.contentWindow && frame.contentWindow.resetGame) {
-        frame.contentWindow.resetGame();
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'resetGame' }, '*');
     }
 }
 
 function setSnakeSpeed(speed) {
     const frame = document.getElementById("frame-snake");
-    if (frame && frame.contentWindow && frame.contentWindow.setGameSpeed) {
-        frame.contentWindow.setGameSpeed(speed);
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'setGameSpeed', value: speed }, '*');
     }
 }
 
 function resetPongGame() {
     const frame = document.getElementById("frame-pong");
-    if (frame && frame.contentWindow && frame.contentWindow.resetGame) {
-        frame.contentWindow.resetGame();
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'resetGame' }, '*');
     }
 }
 
 function setPongDifficulty(level) {
     const frame = document.getElementById("frame-pong");
-    if (frame && frame.contentWindow && frame.contentWindow.setDifficulty) {
-        frame.contentWindow.setDifficulty(level);
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'setDifficulty', value: level }, '*');
     }
 }
 
 function setPongBallSpeed(speed) {
     const frame = document.getElementById("frame-pong");
-    if (frame && frame.contentWindow && frame.contentWindow.setBallSpeed) {
-        frame.contentWindow.setBallSpeed(speed);
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'setBallSpeed', value: speed }, '*');
     }
 }
