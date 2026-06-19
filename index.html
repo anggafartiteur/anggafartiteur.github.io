@@ -55,6 +55,10 @@
         <img class="d-icon-img" src="asset/ico/Run.png" />
         <div class="d-icon-label">Pong Game</div>
       </div>
+      <div class="d-icon" ondblclick="openWindow('win-solitaire')" title="Solitaire Game">
+        <img class="d-icon-img" src="asset/ico/Run.png" />
+        <div class="d-icon-label">Solitaire</div>
+      </div>
     </div>
   </div>
 
@@ -795,6 +799,33 @@ OTHER
       <iframe src="pong.html" id="frame-pong" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
     <div class="resize-handle" onmousedown="startResize(event, 'win-pong')"></div>
+  </div>
+
+  <!-- WINDOW: SOLITAIRE GAME -->
+  <div class="xp-window closed" id="win-solitaire" style="width: 580px; height: 500px; top: 100px; left: 250px">
+    <div class="xp-titlebar" onmousedown="startDrag(event, 'win-solitaire')">
+      <img class="xp-titlebar-icon" src="asset/ico/Run.png" />
+      <span class="xp-titlebar-text">Solitaire</span>
+      <div class="xp-title-btns">
+        <div class="xp-tbtn xp-tbtn-min" onclick="minimizeWin('win-solitaire')">_</div>
+        <div class="xp-tbtn xp-tbtn-max" onclick="toggleMaximize('win-solitaire')">▭</div>
+        <div class="xp-tbtn xp-tbtn-cls" onclick="closeWindow('win-solitaire')">✕</div>
+      </div>
+    </div>
+    <div class="xp-toolbar menu-bar-container">
+      <div class="xp-menu-item">
+        Game
+        <div class="xp-menu-dropdown">
+          <div class="xp-menu-dropdown-item" onclick="resetSolitaireGame()">Deal</div>
+          <div class="xp-menu-dropdown-separator"></div>
+          <div class="xp-menu-dropdown-item" onclick="closeWindow('win-solitaire')">Exit</div>
+        </div>
+      </div>
+    </div>
+    <div class="xp-body" style="padding: 0; background: #007f00; overflow: hidden;">
+      <iframe src="solitaire.html" id="frame-solitaire" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event, 'win-solitaire')"></div>
   </div>
 
   <!-- START MENU -->

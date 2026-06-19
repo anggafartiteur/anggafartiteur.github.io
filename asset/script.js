@@ -16,7 +16,7 @@ setInterval(updateClock, 1000);
 WINDOW MANAGEMENT
 ============================================================ */
 let zTop = 100;
-const windows = ["win-about", "win-portfolio", "win-skills", "win-other", "win-contact", "win-notepad"];
+const windows = ["win-about", "win-portfolio", "win-skills", "win-other", "win-contact", "win-notepad", "win-snake", "win-pong", "win-solitaire"];
 const winTitles = {
     "win-about": { icon: "<img src='asset/ico/User Accounts.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Angga's Profile" },
     "win-portfolio": { icon: "<img src='asset/ico/Briefcase.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "My Portfolio" },
@@ -24,6 +24,9 @@ const winTitles = {
     "win-other": { icon: "<img src='asset/ico/Favorites.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "The Enthusiasm" },
     "win-contact": { icon: "<img src='asset/ico/Outlook Express.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Contact Info" },
     "win-notepad": { icon: "<img src='asset/ico/Notepad.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "README.txt" },
+    "win-snake": { icon: "<img src='asset/ico/Run.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Snake Game" },
+    "win-pong": { icon: "<img src='asset/ico/Run.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Pong Game" },
+    "win-solitaire": { icon: "<img src='asset/ico/Run.png' style='width: 14px; height: 14px; vertical-align: sub' />", label: "Solitaire" },
 };
 
 function openWindow(id) {
@@ -565,5 +568,12 @@ function setPongBallSpeed(speed) {
     const frame = document.getElementById("frame-pong");
     if (frame && frame.contentWindow) {
         frame.contentWindow.postMessage({ action: 'setBallSpeed', value: speed }, '*');
+    }
+}
+
+function resetSolitaireGame() {
+    const frame = document.getElementById("frame-solitaire");
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage({ action: 'resetGame' }, '*');
     }
 }
