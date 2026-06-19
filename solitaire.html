@@ -286,15 +286,15 @@
       }
 
       // Waste
+      let visibleStartIdx = Math.max(0, state.waste.length - 3);
       state.waste.forEach((card, idx) => {
         let el = createCardDOM(card, 'waste');
-        // stagger waste cards slightly
-        if (idx > Math.max(0, state.waste.length - 3)) {
-          el.style.left = ((idx - (state.waste.length - 3)) * 12) + 'px';
-        } else if (idx === state.waste.length - 1 || state.waste.length <= 3) {
-           el.style.left = (Math.min(2, idx) * 12) + 'px';
+        
+        if (idx >= visibleStartIdx) {
+          let relativeIdx = idx - visibleStartIdx;
+          el.style.left = (relativeIdx * 15) + 'px'; // stagger by 15px
         } else {
-          el.style.display = 'none'; // only show top 3
+          el.style.display = 'none';
         }
         
         if (idx === state.waste.length - 1) {
