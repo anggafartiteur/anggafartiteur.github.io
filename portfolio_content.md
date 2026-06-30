@@ -1,87 +1,88 @@
-# Angga Fartiteur Setiawan - Portfolio Content
+# Angga Fartiteur Setiawan
 
-## 👤 Profile / About Me
-
-**Name:** Angga Fartiteur Setiawan
-**Occupation:** Full-Stack Web Developer | Creative Director
-**Experience:** 8 Years
-**Location:** Tangerang, Indonesia
-**Status:** Available for hire
-
-**About Me:**
-I'm a full-stack web developer with a passion for design, capable of crafting visually stunning websites that seamlessly combine functionality and aesthetics. I have eight years of experience in web development — POS applications, company profiles, and payment management systems.
-
-Fast-forward to today, and I've had the privilege of building software for a property company, a start-up, and a finance consulting firm.
-
-When I'm not immersed in web development, you can find me pursuing my passion for photography or dedicating time to my side hustle of creating my own fashion brand. I'm also a full-time traveler.
+**Bogor, Indonesia** | Email: anggafartiteur@gmail.com | Linkedin: https://linkedin.com/in/angga-fartiteur-setiawan | Phone: +62 898 9597 867 | Website: anggafartiteur.github.io | 
 
 ---
 
-## 💼 Portfolio Projects
+## PROFESSIONAL SUMMARY
 
-*   **Absensi Arifindo** (2025)
-    *   **Category:** Mobile/PWA
-    *   **URL:** absensi.arifindo.com
-*   **Psikotes Online Arifindo** (2024)
-    *   **Category:** HR Tech
-    *   **URL:** psikotes.arifindo.com
-*   **HRIS Arifindo** (2024)
-    *   **Category:** HR Tech
-    *   **URL:** hris.arifindo.com
-*   **Career Arifindo** (2024)
-    *   **Category:** HR Tech
-    *   **URL:** career.arifindo.com
-*   **Daru Estates Website** (2023)
-    *   **Category:** Property
-    *   **URL:** daruestates.com
-*   **Payment Daru Estates** (2022)
-    *   **Category:** Property
-    *   **URL:** staging.arifindo.com
-*   **Folio POS** (2018)
-    *   **Category:** Retail Tech
-    *   **URL:** foliopos.com
+Full-Stack Web Developer with 8 years of experience building POS applications, company websites, and payment systems. Passionate about creating visually appealing websites with solid backend functionality. Experienced in delivering software solutions for property companies, startups, and financial consulting firms. Always focused on writing clean, maintainable, and scalable code.
 
 ---
 
-## ⚙️ Skills & Experience
+## TECHNICAL SKILLS
 
-### Languages
-*   **PHP** (Daily Use) - Arifindo HR Suite, Folio POS backend
-*   **JavaScript (ES6+)** (Daily Use) - Absensi Arifindo, Psikotes Online, script.js logic
-*   **HTML5 & CSS3** (Daily Use) - All projects (responsive layout, layout styling)
-*   **SQL** (Daily Use) - Relational schemas design, custom queries, migrations
-
-### Frameworks & Libraries
-*   **Laravel** (Daily Use) - HRIS, Career, Psikotes Online, Payment Daru
-*   **Bootstrap** (Daily Use) - HRIS Arifindo, Career Arifindo, Daru Estates profile
-*   **PWA / Mobile Web** (Production Ready) - Absensi Arifindo (PWA-based attendance portal)
-
-### Tools & Databases
-*   **MySQL Database** (Daily Use) - Relational schema indexing, migrations, querying
-*   **REST APIs** (Daily Use) - Mobile client sync, POS offline data synchronization
-*   **Git / GitHub** (Daily Use) - Version control, repository management, deployment
-
-### Activities & Interests
-*   **Photography** (Professional) - Visual content creation, event preweds & weddings
-*   **Fashion Design** (Entrepreneurial) - Side hustle design of anime fashion brand (#WKTK)
+*   **Languages:** PHP, JavaScript (ES6+), HTML5, CSS3, SQL
+*   **Frameworks & Libraries:** Laravel, Bootstrap, Progressive Web Apps (PWA)
+*   **Databases & Tools:** MySQL, RESTful APIs, Git/GitHub Version Control
+*   **Core Competencies:** Full-Stack Development, Relational Database Design, UI/UX Implementation, API Integration
 
 ---
 
-## 🌟 The Enthusiasm (Hobbies & Interests)
+## EXPERIENCE
 
-*   **📷 Photography**
-    Photography is not just a hobby — it's a passion for capturing life's most precious moments. Weddings, birthdays, prewed sessions. Also a part-time profession offering photography services for events.
-*   **👕 #WKTK Fashion Brand**
-    Creating my own fashion brand inspired by anime and Japanese aesthetics. Clothing and accessories that fuse art, cultural appreciation, and entrepreneurship. (tokopedia.com/wakuteka)
-*   **✈️ Full-Time Traveler**
-    Life is too short to stay in one place. Web development enables working from anywhere — and that freedom is used to the fullest.
+**KEMINDO INTERNATIONAL** 
+*   *Position:* Senior IT Staff
+*   *Duration:* Nov 2026 - Present
+*   *Responsibility:* 
+    -   Maintain and develop the website and HRIS system, and other IT-related tasks.
+    -   
+
+**ARIFINDO GROUP** 
+*   *Position:* IT Support & Developer
+*   *Duration:* Oct 2022 - Oct 2025
+*   *Responsibility:* 
+    -   Handle and develop a variety of company-related systems.  
+    -   Manage HRIS and employee data for approximately 700+ employees, ensuring data security and accessibility.
+    -   Develop and maintain a comprehensive HR Management System, including employee profiles, attendance tracking, recruitment, and payroll integration.  
+    
+
+**DEPTECH DIGITAL** 
+*   *Position:* Web Developer
+*   *Duration:* Feb 2018 - Feb 2019
+*   *Responsibility:* 
+    - 
 
 ---
 
-## 📧 Contact Information
+## EDUCATION
+**UNIVERSITAS TERBUKA** 2022 - 2026
+*   *Major:* System Information
 
-*   **Email:** anggafartiteur@gmail.com
-*   **LinkedIn:** angga-fartiteur-setiawan
-*   **WhatsApp:** wa.link/ow0tvz
-*   **Shop:** tokopedia.com/wakuteka
-*   **CV:** Available via Google Drive link on the website
+**SMKN 1 CIBINONG**  2015 - 2018
+*   *Major:* Software Engineering
+
+---
+
+## PROJECTS
+
+**Absensi Arifindo** (2025)
+*   *Category:* Mobile / Progressive Web App (PWA)
+*   *Platform:* absensi.arifindo.com
+*   *Focus:* Engineered a responsive, PWA-based attendance portal optimized for mobile client synchronization.
+
+**Psikotes Online Arifindo** (2024)
+*   *Category:* HR Technology
+*   *Platform:* psikotes.arifindo.com
+*   *Focus:* Developed a secure, online psychological testing platform leveraging Laravel and JavaScript for seamless assessment delivery.
+
+**HRIS Arifindo & Career Arifindo** (2024)
+*   *Category:* HR Technology
+*   *Platforms:* hris.arifindo.com | career.arifindo.com
+*   *Focus:* Architected and deployed comprehensive Human Resources Information Systems, streamlining recruitment and employee management.
+
+**Daru Estates Website & Payment System** (2022 – 2023)
+*   *Category:* Property Technology
+*   *Platforms:* daruestates.com | payment.daruestates.com
+*   *Focus:* Delivered a corporate profile website and integrated a robust payment management system to facilitate real estate transactions.
+
+**Folio POS** (2018)
+*   *Category:* Retail Technology
+*   *Platform:* foliopos.com
+*   *Focus:* Designed the backend architecture for a Point-of-Sale (POS) system, incorporating reliable offline data synchronization capabilities.
+
+---
+
+## AVAILABILITY
+
+*   Currently available for hire. (Detailed CV available via website portal).
